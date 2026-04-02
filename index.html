@@ -438,7 +438,7 @@ function renderInput(q) {
 
 function updateBtn(q) {
   const btn = document.getElementById('btn-next');
-  const has = answers[q.key] !== undefined;
+  const has = answers[q.key] !== undefined || q.type === 'notes';
   btn.classList.toggle('on', has);
   const willFollowup = !inFollowup && questions[qIdx] && questions[qIdx].followup && answers[questions[qIdx].key] === 'Yes';
   const isLast = !inFollowup && qIdx === questions.length - 1;
@@ -526,7 +526,9 @@ async function saveCheckin() {
   const status = document.getElementById('save-status');
   status.innerHTML = '<span class="spinner"></span> Saving...';
   status.className = 'status-msg';
-  const payload = { type:'checkin', checkin_type:checkinType, session_id:genSessionId(), metrics:answers };
+  const notes = answers.notes || '';
+  const metrics = Object.fromEntries(Object.entries(answers).filter(([k]) => k !== 'notes'));
+  const payload = { type:'checkin', checkin_type:checkinType, session_id:genSessionId(), metrics, notes };
   try {
     await fetch(ENDPOINT, { method:'POST', body:JSON.stringify(payload) });
     updateStreak();
