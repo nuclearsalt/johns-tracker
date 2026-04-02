@@ -275,7 +275,7 @@ const Q_QUICK   = [...MOOD_BLOCK, NOTES_Q];
 const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q, FLUOX_Q, RITALIN_Q, NOTES_Q];
 const Q_MIDDAY  = [...MOOD_BLOCK, FOCUS_Q, EXERCISE_AM_Q, RITALIN_TOPUP, NOTES_Q];
 const Q_EVENING = [
-  ...MOOD_BLOCK, FOCUS_Q, NOTES_Q
+  ...MOOD_BLOCK, FOCUS_Q,
   { label:'Drums',       q:'Did you practice drums today?',      sub:'Structured practice',         type:'yesno', polarity:'good',    key:'drums_practice',
     followup: { label:'Drums', q:'How long?', type:'stepper', unit:'min', step:5, min:5, max:240, def:30, key:'drums_practice_min' } },
   { label:'Drums',       q:'Did you play drums for fun?',        sub:'Casual playing or jamming',   type:'yesno', polarity:'good',    key:'drums_fun',
@@ -293,7 +293,7 @@ const Q_EVENING = [
     followup: { label:'Habits', q:'Why?', type:'multichoice', options:['Low energy','Depression','Just a craving','No particular reason'], key:'sweets_reason' } },
   { label:'Screen time', q:'Hours of video games today?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
   { label:'Screen time', q:'Hours on social media today?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
-
+  NOTES_Q,
 ];
 
 let questions=[], qIdx=0, answers={}, stepVals={}, checkinType='quick', inFollowup=false, followupQ=null;
