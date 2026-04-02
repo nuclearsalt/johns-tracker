@@ -63,30 +63,18 @@ function formatDate() {
 }
 document.getElementById('date-display').textContent = formatDate();
 
-function splitIntoParagraphs(text) {
-  if (!text) return [];
-  return text
-    .split(/\n{1,}/)
-    .map(p => p.trim())
-    .filter(p => p.length > 20);
-}
-
-function renderInsight(data) {
+function handleInsightResponse(data) {
   const content = document.getElementById('content');
-  if (!data.heading && !data.content) {
+  if (!data.heading && (!data.content || data.content.length === 0)) {
     content.innerHTML = `<div class="empty-card"><div class="empty-text">No insight yet this week.<br><br>Your first automated insight will appear here on Sunday at 11am once you have a week of check-in data.</div></div>`;
     return;
   }
-  const paragraphs = splitIntoParagraphs(data.content);
+  const paragraphs = Array.isArray(data.content) ? data.content : [data.content];
   let paraHTML = '';
-  if (paragraphs.length > 0) {
-    paragraphs.forEach((p, i) => {
-      const label = PARA_LABELS[i] !== undefined ? PARA_LABELS[i] : `Note`;
-      paraHTML += `<div class="insight-paragraph"><div class="paragraph-number">${label}</div>${p}</div>`;
-    });
-  } else {
-    paraHTML = `<div class="insight-paragraph">${data.content}</div>`;
-  }
+  paragraphs.forEach((p, i) => {
+    const label = PARA_LABELS[i] !== undefined ? PARA_LABELS[i] : 'Note';
+    paraHTML += `<div class="insight-paragraph"><div class="paragraph-number">${label}</div>${p}</div>`;
+  });
   content.innerHTML = `
     <div class="status-row"><span class="dot"></span><span class="status-text">Latest insight loaded</span></div>
     <div class="week-label">${data.heading || 'This week'}</div>
@@ -94,20 +82,17 @@ function renderInsight(data) {
     <button class="refresh-btn" onclick="loadInsight()">Refresh</button>`;
 }
 
-function renderError(msg) {
-  document.getElementById('content').innerHTML = `<div class="error-card"><div class="error-text">${msg}</div></div><button class="refresh-btn" onclick="loadInsight()">Try again</button>`;
-}
-
-async function loadInsight() {
+function loadInsight() {
   document.getElementById('content').innerHTML = `<div class="loading"><div class="spinner"></div><div class="loading-text">Loading your insight...</div></div>`;
-  try {
-    const res = await fetch(`${ENDPOINT}?action=getLatestInsight`);
-    if (!res.ok) throw new Error('Network error');
-    const data = await res.json();
-    renderInsight(data);
-  } catch(err) {
-    renderError('Could not load insight. Check your connection and try again.');
-  }
+  const existing = document.getElementById('jsonp-script');
+  if (existing) existing.remove();
+  const script = document.createElement('script');
+  script.id = 'jsonp-script';
+  script.src = `${ENDPOINT}?action=getLatestInsight&callback=handleInsightResponse&t=${Date.now()}`;
+  script.onerror = () => {
+    document.getElementById('content').innerHTML = `<div class="error-card"><div class="error-text">Could not load insight. Check your connection and try again.</div></div><button class="refresh-btn" onclick="loadInsight()">Try again</button>`;
+  };
+  document.body.appendChild(script);
 }
 
 loadInsight();
