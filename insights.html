@@ -12,37 +12,26 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f2f2f7; min-height: 100vh; }
   #app { max-width: 390px; margin: 0 auto; padding: 1.25rem; }
-
   .header { margin-bottom: 1.5rem; }
   .title { font-size: 26px; font-weight: 600; color: #1c1c1e; margin-bottom: 2px; }
   .subtitle { font-size: 15px; color: #8e8e93; }
-
-  .card { background: #fff; border-radius: 16px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 1rem; }
-
-  .week-label { font-size: 11px; font-weight: 600; color: #8e8e93; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
-  .insight-text { font-size: 16px; color: #1c1c1e; line-height: 1.7; }
-  .insight-text p { margin-bottom: 1rem; }
-  .insight-text p:last-child { margin-bottom: 0; }
-
+  .week-label { font-size: 12px; font-weight: 600; color: #8e8e93; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e5ea; }
+  .insight-paragraph { background: #fff; border-radius: 14px; padding: 1.1rem 1.25rem; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); font-size: 16px; color: #1c1c1e; line-height: 1.75; }
+  .paragraph-number { font-size: 11px; font-weight: 600; color: #007aff; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
   .loading { text-align: center; padding: 3rem 1rem; }
   .spinner { display: inline-block; width: 28px; height: 28px; border: 2.5px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 1rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-text { font-size: 15px; color: #8e8e93; }
-
   .error-card { background: #fff0ef; border: 1px solid #ffc5c0; border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem; }
   .error-text { font-size: 15px; color: #c0392b; line-height: 1.6; }
-
   .empty-card { background: #f0f6ff; border: 1px solid #c5d9f7; border-radius: 16px; padding: 1.5rem; text-align: center; }
   .empty-text { font-size: 15px; color: #185fa5; line-height: 1.6; }
-
-  .footer { text-align: center; margin-top: 1.5rem; }
+  .footer { text-align: center; margin-top: 1.5rem; margin-bottom: 2rem; }
   .footer-link { font-size: 13px; color: #8e8e93; text-decoration: none; display: inline-block; padding: 8px 16px; border: 1px solid #e5e5ea; border-radius: 999px; background: #fff; }
-
-  .refresh-btn { width: 100%; height: 44px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #007aff; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }
+  .refresh-btn { width: 100%; height: 44px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #007aff; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; margin-bottom: 1rem; }
   .refresh-btn:active { background: #f0f6ff; }
-
-  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34c759; margin-right: 6px; vertical-align: middle; }
   .status-row { display: flex; align-items: center; margin-bottom: 1rem; }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34c759; margin-right: 6px; flex-shrink: 0; }
   .status-text { font-size: 13px; color: #8e8e93; }
 </style>
 </head>
@@ -62,9 +51,9 @@
     <a href="https://nuclearsalt.github.io/johns-tracker" class="footer-link">Open John's Tracker</a>
   </div>
 </div>
-
 <script>
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyy4oizV3fTYbaj4OKGWRZVI6c6xDTyO2jp3WsE377bZSPJPemf_e6zLZ6CoYecBIJA/exec';
+const PARA_LABELS = ['Trends', 'Correlations', 'Focus'];
 
 function formatDate() {
   const now = new Date();
@@ -72,52 +61,48 @@ function formatDate() {
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   return `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
 }
-
 document.getElementById('date-display').textContent = formatDate();
+
+function splitIntoParagraphs(text) {
+  if (!text) return [];
+  return text
+    .split(/\n{1,}/)
+    .map(p => p.trim())
+    .filter(p => p.length > 20);
+}
 
 function renderInsight(data) {
   const content = document.getElementById('content');
   if (!data.heading && !data.content) {
-    content.innerHTML = `
-      <div class="empty-card">
-        <div class="empty-text">No insight yet this week.<br><br>Your first automated insight will appear here on Sunday at 11am once you have a week of check-in data.</div>
-      </div>`;
+    content.innerHTML = `<div class="empty-card"><div class="empty-text">No insight yet this week.<br><br>Your first automated insight will appear here on Sunday at 11am once you have a week of check-in data.</div></div>`;
     return;
   }
-  const paragraphs = data.content
-    .split('\n\n')
-    .filter(p => p.trim())
-    .map(p => `<p>${p.trim()}</p>`)
-    .join('');
+  const paragraphs = splitIntoParagraphs(data.content);
+  let paraHTML = '';
+  if (paragraphs.length > 0) {
+    paragraphs.forEach((p, i) => {
+      const label = PARA_LABELS[i] !== undefined ? PARA_LABELS[i] : `Note`;
+      paraHTML += `<div class="insight-paragraph"><div class="paragraph-number">${label}</div>${p}</div>`;
+    });
+  } else {
+    paraHTML = `<div class="insight-paragraph">${data.content}</div>`;
+  }
   content.innerHTML = `
-    <div class="status-row">
-      <span class="dot"></span>
-      <span class="status-text">Latest insight loaded</span>
-    </div>
-    <div class="card">
-      <div class="week-label">${data.heading || 'This week'}</div>
-      <div class="insight-text">${paragraphs}</div>
-    </div>
+    <div class="status-row"><span class="dot"></span><span class="status-text">Latest insight loaded</span></div>
+    <div class="week-label">${data.heading || 'This week'}</div>
+    ${paraHTML}
     <button class="refresh-btn" onclick="loadInsight()">Refresh</button>`;
 }
 
 function renderError(msg) {
-  document.getElementById('content').innerHTML = `
-    <div class="error-card">
-      <div class="error-text">${msg}</div>
-    </div>
-    <button class="refresh-btn" onclick="loadInsight()">Try again</button>`;
+  document.getElementById('content').innerHTML = `<div class="error-card"><div class="error-text">${msg}</div></div><button class="refresh-btn" onclick="loadInsight()">Try again</button>`;
 }
 
 async function loadInsight() {
-  document.getElementById('content').innerHTML = `
-    <div class="loading">
-      <div class="spinner"></div>
-      <div class="loading-text">Loading your insight...</div>
-    </div>`;
+  document.getElementById('content').innerHTML = `<div class="loading"><div class="spinner"></div><div class="loading-text">Loading your insight...</div></div>`;
   try {
     const res = await fetch(`${ENDPOINT}?action=getLatestInsight`);
-    if (!res.ok) throw new Error('Network response was not ok');
+    if (!res.ok) throw new Error('Network error');
     const data = await res.json();
     renderInsight(data);
   } catch(err) {
