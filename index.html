@@ -292,6 +292,7 @@ const Q_EVENING = [
     followup: { label:'Habits', q:'Why?', type:'multichoice', options:['Low energy','Depression','Just a craving','No particular reason'], key:'sweets_reason' } },
   { label:'Screen time', q:'Hours of video games today?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
   { label:'Screen time', q:'Hours on social media today?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
+  { label:'Notes', q:'Anything else worth noting today?', sub:'Optional — mood context, events, how you\'re feeling overall', type:'notes', key:'notes' },
 ];
 
 let questions=[], qIdx=0, answers={}, stepVals={}, checkinType='quick', inFollowup=false, followupQ=null;
@@ -413,6 +414,16 @@ function renderInput(q) {
     row.appendChild(minus); row.appendChild(val); row.appendChild(plus); row.appendChild(unit);
     el.appendChild(row);
     answers[q.key] = stepVals[q.key];
+   } else if (q.type === 'notes') {
+    const wrap = document.createElement('div');
+    const ta = document.createElement('textarea');
+    ta.placeholder = 'Write anything here...';
+    ta.style.cssText = 'width:100%;height:100px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;';
+    if (answers[q.key]) ta.value = answers[q.key];
+    ta.oninput = () => { answers[q.key] = ta.value; updateBtn(q); };
+    wrap.appendChild(ta);
+    el.appendChild(wrap);
+    answers[q.key] = answers[q.key] || '';
   } else if (q.type === 'multichoice') {
     const wrap = document.createElement('div'); wrap.className = 'mc-wrap';
     q.options.forEach(opt => {
