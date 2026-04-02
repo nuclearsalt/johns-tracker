@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Weekly Insight">
+<title>Weekly Insight</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f2f2f7; min-height: 100vh; }
+  #app { max-width: 390px; margin: 0 auto; padding: 1.25rem; }
+
+  .header { margin-bottom: 1.5rem; }
+  .title { font-size: 26px; font-weight: 600; color: #1c1c1e; margin-bottom: 2px; }
+  .subtitle { font-size: 15px; color: #8e8e93; }
+
+  .card { background: #fff; border-radius: 16px; padding: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); margin-bottom: 1rem; }
+
+  .week-label { font-size: 11px; font-weight: 600; color: #8e8e93; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .insight-text { font-size: 16px; color: #1c1c1e; line-height: 1.7; }
+  .insight-text p { margin-bottom: 1rem; }
+  .insight-text p:last-child { margin-bottom: 0; }
+
+  .loading { text-align: center; padding: 3rem 1rem; }
+  .spinner { display: inline-block; width: 28px; height: 28px; border: 2.5px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 15px; color: #8e8e93; }
+
+  .error-card { background: #fff0ef; border: 1px solid #ffc5c0; border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem; }
+  .error-text { font-size: 15px; color: #c0392b; line-height: 1.6; }
+
+  .empty-card { background: #f0f6ff; border: 1px solid #c5d9f7; border-radius: 16px; padding: 1.5rem; text-align: center; }
+  .empty-text { font-size: 15px; color: #185fa5; line-height: 1.6; }
+
+  .footer { text-align: center; margin-top: 1.5rem; }
+  .footer-link { font-size: 13px; color: #8e8e93; text-decoration: none; display: inline-block; padding: 8px 16px; border: 1px solid #e5e5ea; border-radius: 999px; background: #fff; }
+
+  .refresh-btn { width: 100%; height: 44px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #007aff; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }
+  .refresh-btn:active { background: #f0f6ff; }
+
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34c759; margin-right: 6px; vertical-align: middle; }
+  .status-row { display: flex; align-items: center; margin-bottom: 1rem; }
+  .status-text { font-size: 13px; color: #8e8e93; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="header">
+    <div class="title">Weekly insight</div>
+    <div class="subtitle" id="date-display"></div>
+  </div>
+  <div id="content">
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading your insight...</div>
+    </div>
+  </div>
+  <div class="footer">
+    <a href="https://nuclearsalt.github.io/johns-tracker" class="footer-link">Open John's Tracker</a>
+  </div>
+</div>
+
+<script>
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyy4oizV3fTYbaj4OKGWRZVI6c6xDTyO2jp3WsE377bZSPJPemf_e6zLZ6CoYecBIJA/exec';
+
+function formatDate() {
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+}
+
+document.getElementById('date-display').textContent = formatDate();
+
+function renderInsight(data) {
+  const content = document.getElementById('content');
+  if (!data.heading && !data.content) {
+    content.innerHTML = `
+      <div class="empty-card">
+        <div class="empty-text">No insight yet this week.<br><br>Your first automated insight will appear here on Sunday at 11am once you have a week of check-in data.</div>
+      </div>`;
+    return;
+  }
+  const paragraphs = data.content
+    .split('\n\n')
+    .filter(p => p.trim())
+    .map(p => `<p>${p.trim()}</p>`)
+    .join('');
+  content.innerHTML = `
+    <div class="status-row">
+      <span class="dot"></span>
+      <span class="status-text">Latest insight loaded</span>
+    </div>
+    <div class="card">
+      <div class="week-label">${data.heading || 'This week'}</div>
+      <div class="insight-text">${paragraphs}</div>
+    </div>
+    <button class="refresh-btn" onclick="loadInsight()">Refresh</button>`;
+}
+
+function renderError(msg) {
+  document.getElementById('content').innerHTML = `
+    <div class="error-card">
+      <div class="error-text">${msg}</div>
+    </div>
+    <button class="refresh-btn" onclick="loadInsight()">Try again</button>`;
+}
+
+async function loadInsight() {
+  document.getElementById('content').innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading your insight...</div>
+    </div>`;
+  try {
+    const res = await fetch(`${ENDPOINT}?action=getLatestInsight`);
+    if (!res.ok) throw new Error('Network response was not ok');
+    const data = await res.json();
+    renderInsight(data);
+  } catch(err) {
+    renderError('Could not load insight. Check your connection and try again.');
+  }
+}
+
+loadInsight();
+</script>
+</body>
+</html>
