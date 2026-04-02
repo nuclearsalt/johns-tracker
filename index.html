@@ -1,0 +1,646 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="John's Tracker">
+<title>John's Tracker</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f2f2f7; min-height: 100vh; }
+  #app { max-width: 390px; margin: 0 auto; padding: 1rem; min-height: 100vh; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .greeting { font-size: 26px; font-weight: 600; color: #1c1c1e; margin-bottom: 2px; }
+  .greeting-sub { font-size: 15px; color: #8e8e93; margin-bottom: 1.25rem; }
+  .streak-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff3cd; border: 1px solid #ffc107; color: #856404; border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 600; margin-bottom: 1.25rem; }
+  .insight-card { background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
+  .insight-text { font-size: 14px; color: #0a3622; line-height: 1.6; }
+  .type-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-bottom: 0.6rem; }
+  .type-pill { padding: 9px 4px; border: 1px solid #c7c7cc; border-radius: 999px; background: #fff; color: #8e8e93; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.15s; }
+  .type-pill.selected { background: #1c1c1e; color: #fff; border-color: #1c1c1e; }
+  .type-desc { font-size: 12px; color: #8e8e93; margin-bottom: 1rem; min-height: 2em; line-height: 1.5; }
+  .craving-btn { width: 100%; padding: 14px; border: 1px solid #ff3b30; border-radius: 14px; background: #fff; color: #ff3b30; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 0.75rem; transition: all 0.15s; }
+  .craving-btn:active { background: #fff0ef; }
+
+  .progress-bar { height: 3px; background: #e5e5ea; border-radius: 2px; margin-bottom: 1.5rem; }
+  .progress-fill { height: 100%; background: #007aff; border-radius: 2px; transition: width 0.3s ease; }
+  .section-label { font-size: 11px; font-weight: 600; color: #8e8e93; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.5rem; }
+  .card { background: #fff; border-radius: 14px; padding: 1.25rem; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .question { font-size: 20px; font-weight: 600; color: #1c1c1e; margin-bottom: 1.25rem; line-height: 1.35; }
+  .subtext { font-size: 13px; color: #8e8e93; margin-top: -0.75rem; margin-bottom: 1.25rem; line-height: 1.5; }
+  .hint-box { font-size: 12px; color: #8e8e93; background: #f2f2f7; border-radius: 8px; padding: 8px 12px; margin-bottom: 1rem; line-height: 1.5; }
+
+  .scale-row { display: flex; gap: 5px; }
+  .scale-btn { flex: 1; height: 48px; border: 1px solid #e5e5ea; border-radius: 10px; background: #fff; color: #8e8e93; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .scale-btn:active { transform: scale(0.94); }
+  .scale-btn.selected { background: #007aff; border-color: #007aff; color: #fff; }
+  .scale-labels { display: flex; justify-content: space-between; margin-top: 6px; }
+  .scale-labels span { font-size: 10px; color: #8e8e93; }
+
+  .yesno-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .yn-btn { height: 56px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #8e8e93; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .yn-btn:active { transform: scale(0.97); }
+  .yn-good-yes { background: #d1e7dd; border-color: #a3cfbb; color: #0a3622; }
+  .yn-good-no  { background: #f8d7da; border-color: #f1aeb5; color: #58151c; }
+  .yn-neu-yes  { background: #e9ecef; border-color: #ced4da; color: #1c1c1e; }
+  .yn-neu-no   { background: #e9ecef; border-color: #ced4da; color: #8e8e93; }
+
+  .number-input-row { display: flex; align-items: center; gap: 16px; }
+  .stepper-btn { width: 52px; height: 52px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #1c1c1e; font-size: 26px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+  .stepper-btn:active { background: #f2f2f7; transform: scale(0.94); }
+  .stepper-val { flex: 1; text-align: center; font-size: 32px; font-weight: 600; color: #1c1c1e; }
+  .stepper-unit { font-size: 14px; color: #8e8e93; min-width: 36px; }
+
+  .mc-wrap { display: flex; flex-direction: column; gap: 8px; }
+  .mc-btn { padding: 14px 16px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #8e8e93; font-size: 15px; cursor: pointer; text-align: left; transition: all 0.15s; }
+  .mc-btn:active { transform: scale(0.98); }
+  .mc-btn.selected { background: #e8f0fe; border-color: #007aff; color: #007aff; }
+
+  .nav-row { display: flex; gap: 10px; margin-top: 1rem; }
+  .btn-back { flex: 0 0 48px; height: 48px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #8e8e93; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .btn-next { flex: 1; height: 48px; border: 1px solid #e5e5ea; border-radius: 12px; background: #e5e5ea; color: #8e8e93; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+  .btn-next.on { background: #007aff; color: #fff; border-color: #007aff; }
+  .btn-next:active { transform: scale(0.98); }
+  .skip-link { text-align: center; margin-top: 0.75rem; }
+  .skip-link a { font-size: 13px; color: #8e8e93; cursor: pointer; }
+
+  .sum-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+  .sum-card { background: #fff; border-radius: 12px; padding: 0.75rem 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  .sum-label { font-size: 11px; color: #8e8e93; margin-bottom: 4px; }
+  .sum-val { font-size: 24px; font-weight: 600; color: #1c1c1e; }
+  .sum-sec { font-size: 11px; color: #8e8e93; margin: 0.75rem 0 0.4rem; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+  .sum-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid #f2f2f7; font-size: 14px; }
+  .sum-row:last-child { border-bottom: none; }
+  .sum-row-lbl { color: #8e8e93; }
+  .c-yes { color: #198754; font-weight: 600; }
+  .c-no  { color: #dc3545; font-weight: 600; }
+  .c-n   { color: #1c1c1e; font-weight: 600; }
+
+  .intensity-row { display: flex; gap: 8px; justify-content: space-between; }
+  .int-btn { flex: 1; height: 72px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #8e8e93; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; transition: all 0.15s; padding: 4px 2px; }
+  .int-btn:active { transform: scale(0.94); }
+  .int-btn .int-num { font-size: 22px; font-weight: 700; line-height: 1; }
+  .int-btn.selected { border-color: #ff3b30; background: #fff0ef; color: #ff3b30; }
+
+  .strategy-list { display: flex; flex-direction: column; gap: 10px; }
+  .strategy-card { background: #fff; border: 1px solid #e5e5ea; border-radius: 14px; padding: 1rem 1.25rem; }
+  .strategy-card.pinned { border-color: #007aff; background: #f0f6ff; }
+  .strategy-name { font-size: 16px; font-weight: 600; color: #1c1c1e; margin-bottom: 4px; }
+  .strategy-note { font-size: 13px; color: #8e8e93; line-height: 1.5; }
+  .strategy-pin { font-size: 11px; color: #007aff; font-weight: 600; margin-bottom: 4px; }
+
+  .status-msg { font-size: 13px; color: #8e8e93; text-align: center; margin-top: 0.75rem; min-height: 20px; }
+  .status-msg.error { color: #dc3545; }
+  .status-msg.success { color: #198754; }
+
+  .btn-primary { width: 100%; height: 48px; border: none; border-radius: 12px; background: #007aff; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: all 0.15s; }
+  .btn-primary:active { transform: scale(0.98); background: #0062cc; }
+  .btn-secondary { width: 100%; height: 48px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #1c1c1e; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }
+
+  .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HOME -->
+  <div id="screen-start" class="screen active">
+    <div class="greeting" id="greeting-text">Good morning</div>
+    <div class="greeting-sub" id="greeting-date"></div>
+    <div class="streak-badge">&#128293; <span id="streak-count">0</span>-day streak</div>
+    <div class="insight-card" id="insight-card" style="display:none;">
+      <div class="insight-text" id="insight-text"></div>
+    </div>
+    <p style="font-size:13px;color:#8e8e93;margin-bottom:0.6rem;">Which check-in?</p>
+    <div class="type-row">
+      <div class="type-pill selected" onclick="selType(this,'quick')">Quick</div>
+      <div class="type-pill" onclick="selType(this,'morning')">Morning</div>
+      <div class="type-pill" onclick="selType(this,'midday')">Midday</div>
+      <div class="type-pill" onclick="selType(this,'evening')">Evening</div>
+    </div>
+    <p class="type-desc" id="tdesc">Mood, energy, anxiety — 30 seconds</p>
+    <button class="btn-primary" onclick="startCheckin()">Start check-in</button>
+    <button class="craving-btn" onclick="startCraving()">&#9888; Log a craving</button>
+  </div>
+
+  <!-- CHECK-IN QUESTIONS -->
+  <div id="screen-q" class="screen">
+    <div class="progress-bar"><div class="progress-fill" id="prog"></div></div>
+    <div class="section-label" id="qlabel"></div>
+    <div class="card">
+      <div class="question" id="qtext"></div>
+      <div class="subtext" id="qsub" style="display:none;"></div>
+      <div class="hint-box" id="qhint" style="display:none;"></div>
+      <div id="qinput"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="prevQ()">&#8592;</button>
+      <button class="btn-next" id="btn-next" onclick="nextQ()">Continue</button>
+    </div>
+    <div class="skip-link"><a onclick="skipQ()">Skip</a></div>
+  </div>
+
+  <!-- CHECK-IN SUMMARY -->
+  <div id="screen-done" class="screen">
+    <div class="greeting">Logged</div>
+    <div class="greeting-sub" id="done-date" style="margin-bottom:1.25rem;"></div>
+    <div class="sum-grid" id="sum-mood"></div>
+    <div class="card" id="sum-detail"></div>
+    <div class="status-msg" id="save-status"></div>
+    <button class="btn-secondary" style="margin-top:0.75rem;" onclick="goHome()">Done</button>
+  </div>
+
+  <!-- CRAVING: WHAT + INTENSITY -->
+  <div id="screen-craving1" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">Log a craving</div>
+    <div class="greeting-sub" style="margin-bottom:1.25rem;">What's pulling at you?</div>
+    <div class="card">
+      <div class="question">What are you craving?</div>
+      <div class="mc-wrap" id="substance-list"></div>
+    </div>
+    <div class="card" id="intensity-card" style="display:none;">
+      <div class="question">How intense is it?</div>
+      <div class="intensity-row" id="intensity-row"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goHome()">&#8592;</button>
+      <button class="btn-next on" onclick="showCraving2()">Continue</button>
+    </div>
+  </div>
+
+  <!-- CRAVING: TRIGGER -->
+  <div id="screen-craving2" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">Log a craving</div>
+    <div class="greeting-sub" style="margin-bottom:1.25rem;">What's going on?</div>
+    <div class="card">
+      <div class="question">What triggered it?</div>
+      <div class="mc-wrap" id="trigger-list"></div>
+    </div>
+    <div class="card">
+      <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Any more detail? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
+      <textarea id="trigger-notes" placeholder="What's happening right now..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="showScreen('screen-craving1')">&#8592;</button>
+      <button class="btn-next on" onclick="showStrategies()">Show strategies</button>
+    </div>
+  </div>
+
+  <!-- CRAVING: STRATEGIES -->
+  <div id="screen-strategies" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">Try one of these</div>
+    <div class="greeting-sub" id="strategy-sub" style="margin-bottom:1.25rem;"></div>
+    <div class="strategy-list" id="strategy-list"></div>
+    <div style="margin-top:1.25rem;">
+      <button class="btn-primary" onclick="showCraving3('resisted')">I resisted the craving</button>
+      <button class="btn-secondary" onclick="showCraving3('gave_in')">I gave in</button>
+      <button class="btn-secondary" onclick="showCraving3('still_going')">Still working through it</button>
+    </div>
+  </div>
+
+  <!-- CRAVING: OUTCOME -->
+  <div id="screen-craving3" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">Almost done</div>
+    <div class="greeting-sub" style="margin-bottom:1.25rem;">You're doing great for logging this.</div>
+    <div class="card">
+      <div class="question">Did any strategy help?</div>
+      <div class="mc-wrap" id="strategy-helpful-list"></div>
+    </div>
+    <div class="status-msg" id="craving-save-status"></div>
+    <button class="btn-primary" onclick="saveCraving()">Save &amp; finish</button>
+    <button class="btn-secondary" onclick="goHome()">Skip &amp; finish</button>
+  </div>
+
+</div>
+<script>
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyy4oizV3fTYbaj4OKGWRZVI6c6xDTyO2jp3WsE377bZSPJPemf_e6zLZ6CoYecBIJA/exec';
+
+const STRATEGIES = [
+  { id:1,  strategy:'3-4-3 breathing',          category:'Breathing',   works_for:'any',           pinned:true,  notes:'Inhale 3 counts, hold 4, exhale 3' },
+  { id:2,  strategy:'5-4-3-2-1 grounding',      category:'Grounding',   works_for:'any',           pinned:true,  notes:'5 see, 4 touch, 3 hear, 2 smell, 1 taste' },
+  { id:3,  strategy:'Temperature change',        category:'Physical',    works_for:'any',           pinned:true,  notes:'Cold compress or cold water on face' },
+  { id:4,  strategy:'Surf the urge',             category:'Mindfulness', works_for:'any',           pinned:false, notes:"Observe body feelings — you don't have to act" },
+  { id:5,  strategy:'Defer to later',            category:'Cognitive',   works_for:'any',           pinned:false, notes:'Not never, just not now' },
+  { id:6,  strategy:'Vivid visualization',       category:'Cognitive',   works_for:'any',           pinned:false, notes:"Imagine how good you'll feel having abstained" },
+  { id:7,  strategy:'Do it tired',               category:'Behavioral',  works_for:'any',           pinned:false, notes:"Act toward your goal even when you don't feel like it" },
+  { id:8,  strategy:'Hold your own hand',        category:'Physical',    works_for:'any',           pinned:false, notes:'Literally hold your own hand and breathe slowly' },
+  { id:9,  strategy:'Self care',                 category:'Physical',    works_for:'any',           pinned:false, notes:'Wash face, lotion on hands' },
+  { id:10, strategy:'Safe space visualization',  category:'Mindfulness', works_for:'any',           pinned:false, notes:'Imagine 13 Falls or West Bond' },
+  { id:11, strategy:'So what, I am who I am',    category:'Cognitive',   works_for:'any',           pinned:false, notes:'Self-acceptance reframe' },
+  { id:12, strategy:'This is pretend',           category:'Cognitive',   works_for:'anxiety',       pinned:false, notes:"Recognize the activation isn't real" },
+  { id:13, strategy:'If leaving is best, leave', category:'Behavioral',  works_for:'social_anxiety',pinned:false, notes:'Give yourself permission to exit' },
+  { id:14, strategy:'Art or music',              category:'Creative',    works_for:'any',           pinned:false, notes:'Low pressure, no expectations' },
+  { id:15, strategy:'Journal about it',          category:'Reflective',  works_for:'social_media',  pinned:false, notes:'Write instead of scroll' },
+  { id:16, strategy:'Meditate',                  category:'Mindfulness', works_for:'any',           pinned:false, notes:'Sit with the feeling without acting' },
+];
+
+const TRIGGERS = [
+  'Nice weather','Social anxiety','Low energy','Low mood',
+  'Withdrawal feelings','Nothing feels good','Peer pressure',
+  'Maximizing good feelings','Other'
+];
+
+const SUBSTANCES = ['Cannabis','Alcohol','Sugar','Social media','Other'];
+
+const DESCS = {
+  quick:   'Mood, energy, anxiety — 30 seconds',
+  morning: 'Morning vitals + sleep + meds',
+  midday:  'Midday check-in + morning exercise',
+  evening: 'Full day review — best done before bed'
+};
+
+const MOOD_BLOCK = [
+  { label:'Mood',    q:'How are you feeling right now?', sub:'1 = very low, 10 = great',      type:'scale', key:'mood' },
+  { label:'Energy',  q:'Energy level?',                  sub:'1 = exhausted, 10 = buzzing',    type:'scale', key:'energy' },
+  { label:'Anxiety', q:'Anxiety level?',                 sub:'1 = calm, 10 = very anxious',    type:'scale', key:'anxiety' },
+];
+
+const SLEEP_Q        = { label:'Sleep',    q:'Hours of sleep last night?',     sub:'Check your CPAP reading',            type:'stepper', unit:'hrs', step:0.5,  min:0,    max:14,  def:7,    key:'sleep' };
+const FOCUS_Q        = { label:'Focus',    q:'How is your focus right now?',   sub:'1 = scattered, 10 = locked in',      type:'scale',   key:'focus' };
+const FLUOX_Q        = { label:'Meds',     q:'Took Fluoxetine (40mg)?',        hint:"Take it now if you haven't yet!",   type:'yesno',   polarity:'good',    key:'fluoxetine' };
+const RITALIN_Q      = { label:'Meds',     q:'Took Ritalin this morning?',     sub:'As needed — skip if not applicable', type:'yesno',   polarity:'neutral', key:'ritalin',
+  followup: { label:'Meds', q:'How many mg?', sub:'One quarter tab = 1.25mg', type:'stepper', unit:'mg', step:1.25, min:1.25, max:20, def:1.25, key:'ritalin_mg' } };
+const RITALIN_TOPUP  = { label:'Meds',     q:'Took a second Ritalin dose?',    sub:'As needed',                          type:'yesno',   polarity:'neutral', key:'ritalin_midday',
+  followup: { label:'Meds', q:'How many mg?', sub:'One quarter tab = 1.25mg', type:'stepper', unit:'mg', step:1.25, min:1.25, max:20, def:1.25, key:'ritalin_midday_mg' } };
+const EXERCISE_AM_Q  = { label:'Activity', q:'Did you exercise this morning?', sub:'At least 15 min, intense',           type:'yesno',   polarity:'good',    key:'exercise_morning' };
+
+const Q_QUICK   = [...MOOD_BLOCK];
+const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q, FLUOX_Q, RITALIN_Q];
+const Q_MIDDAY  = [...MOOD_BLOCK, FOCUS_Q, EXERCISE_AM_Q, RITALIN_TOPUP];
+const Q_EVENING = [
+  ...MOOD_BLOCK, FOCUS_Q,
+  { label:'Drums',       q:'Did you practice drums today?',      sub:'Structured practice',         type:'yesno', polarity:'good',    key:'drums_practice',
+    followup: { label:'Drums', q:'How long?', type:'stepper', unit:'min', step:5, min:5, max:240, def:30, key:'drums_practice_min' } },
+  { label:'Drums',       q:'Did you play drums for fun?',        sub:'Casual playing or jamming',   type:'yesno', polarity:'good',    key:'drums_fun',
+    followup: { label:'Drums', q:'How long?', type:'stepper', unit:'min', step:5, min:5, max:240, def:15, key:'drums_fun_min' } },
+  { label:'Creativity',  q:'Did you create music today?',                                            type:'yesno', polarity:'good',    key:'music' },
+  { label:'Activity',    q:'Did you exercise today?',            sub:'Any intense 15+ min session', type:'yesno', polarity:'good',    key:'exercise_any' },
+  { label:'Activity',    q:'Did you ride your bicycle today?',                                       type:'yesno', polarity:'good',    key:'bicycle' },
+  { label:'Social',      q:'Attended a scheduled social event?',                                     type:'yesno', polarity:'good',    key:'attended_social' },
+  { label:'Commitments', q:'Attended class or volunteering?',                                        type:'yesno', polarity:'good',    key:'attended_class' },
+  { label:'Habits',      q:'Avoided sugar today?',                                                   type:'yesno', polarity:'good',    key:'avoided_sugar' },
+  { label:'Habits',      q:'Avoided alcohol today?',                                                 type:'yesno', polarity:'good',    key:'avoided_alcohol' },
+  { label:'Habits',      q:'Avoided cannabis today?',                                                type:'yesno', polarity:'good',    key:'avoided_cannabis' },
+  { label:'Habits',      q:'Did you have cravings today?',       sub:'Any substance or habit',      type:'yesno', polarity:'neutral', key:'had_cravings' },
+  { label:'Habits',      q:'Did you have sweets today?',                                             type:'yesno', polarity:'neutral', key:'had_sweets',
+    followup: { label:'Habits', q:'Why?', type:'multichoice', options:['Low energy','Depression','Just a craving','No particular reason'], key:'sweets_reason' } },
+  { label:'Screen time', q:'Hours of video games today?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
+  { label:'Screen time', q:'Hours on social media today?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
+];
+
+let questions=[], qIdx=0, answers={}, stepVals={}, checkinType='quick', inFollowup=false, followupQ=null;
+let cravingData = { substance:'', intensity:0, trigger:'', trigger_notes:'', outcome:'', strategies_shown:[], session_id:'' };
+let shownStrategyIds = [];
+
+function genSessionId() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
+
+function formatDateTime() {
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  let h = now.getHours(), m = now.getMinutes().toString().padStart(2,'0');
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12 || 12;
+  return `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()} · ${h}:${m} ${ampm}`;
+}
+
+function greetingText() {
+  const h = new Date().getHours();
+  return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+}
+
+function initHome() {
+  document.getElementById('greeting-text').textContent = greetingText();
+  document.getElementById('greeting-date').textContent = formatDateTime();
+  loadStreak();
+}
+
+function loadStreak() {
+  const streak = parseInt(localStorage.getItem('jt_streak') || '0');
+  document.getElementById('streak-count').textContent = streak;
+}
+
+function updateStreak() {
+  const today = new Date().toDateString();
+  const last = localStorage.getItem('jt_last_checkin');
+  let streak = parseInt(localStorage.getItem('jt_streak') || '0');
+  if (last !== today) {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    streak = (last === yesterday.toDateString()) ? streak + 1 : 1;
+    localStorage.setItem('jt_streak', streak);
+    localStorage.setItem('jt_last_checkin', today);
+  }
+  document.getElementById('streak-count').textContent = streak;
+}
+
+function selType(el, type) {
+  document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+  checkinType = type;
+  document.getElementById('tdesc').textContent = DESCS[type];
+}
+
+function startCheckin() {
+  const map = { quick:Q_QUICK, morning:Q_MORNING, midday:Q_MIDDAY, evening:Q_EVENING };
+  questions = map[checkinType];
+  qIdx = 0; answers = {}; inFollowup = false;
+  showQ(); showScreen('screen-q');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function showQ() {
+  const q = inFollowup ? followupQ : questions[qIdx];
+  document.getElementById('prog').style.width = ((qIdx / questions.length) * 100) + '%';
+  document.getElementById('qlabel').textContent = q.label || '';
+  document.getElementById('qtext').textContent = q.q;
+  const sub = document.getElementById('qsub');
+  sub.textContent = q.sub || ''; sub.style.display = q.sub ? 'block' : 'none';
+  const hint = document.getElementById('qhint');
+  hint.textContent = q.hint || ''; hint.style.display = q.hint ? 'block' : 'none';
+  renderInput(q); updateBtn(q);
+}
+
+function renderInput(q) {
+  const el = document.getElementById('qinput'); el.innerHTML = '';
+  if (q.type === 'scale') {
+    const row = document.createElement('div'); row.className = 'scale-row';
+    for (let i = 1; i <= 10; i++) {
+      const b = document.createElement('button'); b.className = 'scale-btn'; b.textContent = i;
+      if (answers[q.key] === i) b.classList.add('selected');
+      b.onclick = () => { answers[q.key] = i; document.querySelectorAll('.scale-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); updateBtn(q); };
+      row.appendChild(b);
+    }
+    el.appendChild(row);
+    const lbl = document.createElement('div'); lbl.className = 'scale-labels';
+    lbl.innerHTML = '<span>Low</span><span>High</span>'; el.appendChild(lbl);
+  } else if (q.type === 'yesno') {
+    const row = document.createElement('div'); row.className = 'yesno-row';
+    const isGood = q.polarity === 'good';
+    ['Yes','No'].forEach(opt => {
+      const b = document.createElement('button'); b.className = 'yn-btn';
+      b.textContent = opt === 'Yes' ? '✓  Yes' : '✗  No';
+      if (answers[q.key] === opt) b.classList.add(isGood ? (opt==='Yes' ? 'yn-good-yes' : 'yn-good-no') : (opt==='Yes' ? 'yn-neu-yes' : 'yn-neu-no'));
+      b.onclick = () => {
+        answers[q.key] = opt;
+        document.querySelectorAll('.yn-btn').forEach(x => x.classList.remove('yn-good-yes','yn-good-no','yn-neu-yes','yn-neu-no'));
+        b.classList.add(isGood ? (opt==='Yes' ? 'yn-good-yes' : 'yn-good-no') : (opt==='Yes' ? 'yn-neu-yes' : 'yn-neu-no'));
+        updateBtn(q);
+      };
+      row.appendChild(b);
+    });
+    el.appendChild(row);
+  } else if (q.type === 'stepper') {
+    if (stepVals[q.key] === undefined) stepVals[q.key] = q.def !== undefined ? q.def : (q.min || 0);
+    const row = document.createElement('div'); row.className = 'number-input-row';
+    const minus = document.createElement('button'); minus.className = 'stepper-btn'; minus.textContent = '−';
+    const val = document.createElement('div'); val.className = 'stepper-val'; val.textContent = stepVals[q.key];
+    const plus = document.createElement('button'); plus.className = 'stepper-btn'; plus.textContent = '+';
+    const unit = document.createElement('div'); unit.className = 'stepper-unit'; unit.textContent = q.unit || '';
+    minus.onclick = () => { stepVals[q.key] = Math.max(q.min||0, parseFloat((stepVals[q.key]-(q.step||1)).toFixed(2))); val.textContent = stepVals[q.key]; answers[q.key] = stepVals[q.key]; };
+    plus.onclick  = () => { stepVals[q.key] = Math.min(q.max||99, parseFloat((stepVals[q.key]+(q.step||1)).toFixed(2))); val.textContent = stepVals[q.key]; answers[q.key] = stepVals[q.key]; };
+    row.appendChild(minus); row.appendChild(val); row.appendChild(plus); row.appendChild(unit);
+    el.appendChild(row);
+    answers[q.key] = stepVals[q.key];
+  } else if (q.type === 'multichoice') {
+    const wrap = document.createElement('div'); wrap.className = 'mc-wrap';
+    q.options.forEach(opt => {
+      const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = opt;
+      if (answers[q.key] === opt) b.classList.add('selected');
+      b.onclick = () => { answers[q.key] = opt; document.querySelectorAll('.mc-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); updateBtn(q); };
+      wrap.appendChild(b);
+    });
+    el.appendChild(wrap);
+  }
+}
+
+function updateBtn(q) {
+  const btn = document.getElementById('btn-next');
+  const has = answers[q.key] !== undefined;
+  btn.classList.toggle('on', has);
+  const willFollowup = !inFollowup && questions[qIdx] && questions[qIdx].followup && answers[questions[qIdx].key] === 'Yes';
+  const isLast = !inFollowup && qIdx === questions.length - 1;
+  btn.textContent = (isLast && !willFollowup) ? 'Finish' : 'Continue';
+}
+
+function nextQ() {
+  const q = inFollowup ? followupQ : questions[qIdx];
+  if (answers[q.key] === undefined) return;
+  if (!inFollowup && questions[qIdx].followup && answers[questions[qIdx].key] === 'Yes') {
+    inFollowup = true; followupQ = questions[qIdx].followup; showQ(); return;
+  }
+  inFollowup = false; followupQ = null;
+  if (qIdx < questions.length - 1) { qIdx++; showQ(); } else { showSummary(); }
+}
+
+function prevQ() {
+  if (inFollowup) { inFollowup = false; followupQ = null; showQ(); return; }
+  if (qIdx > 0) { qIdx--; showQ(); } else showScreen('screen-start');
+}
+
+function skipQ() {
+  inFollowup = false; followupQ = null;
+  if (qIdx < questions.length - 1) { qIdx++; showQ(); } else showSummary();
+}
+
+function showSummary() {
+  document.getElementById('done-date').textContent = formatDateTime();
+  const moodKeys = [{k:'mood',l:'Mood'},{k:'energy',l:'Energy'},{k:'anxiety',l:'Anxiety'},{k:'focus',l:'Focus'}];
+  const grid = document.getElementById('sum-mood'); grid.innerHTML = '';
+  moodKeys.forEach(({k,l}) => {
+    if (answers[k] !== undefined) grid.innerHTML += `<div class="sum-card"><div class="sum-label">${l}</div><div class="sum-val">${answers[k]}/10</div></div>`;
+  });
+
+  const secs = [
+    { t:'Sleep', items:[{k:'sleep',l:'Sleep',fmt:v=>v+' hrs',pol:'n'}] },
+    { t:'Meds', items:[
+      {k:'fluoxetine',       l:'Fluoxetine 40mg',   fmt:v=>v,                                                               pol:'good'},
+      {k:'ritalin',          l:'Ritalin (morning)', fmt:v=>v+(answers.ritalin_mg?' — '+answers.ritalin_mg+'mg':''),         pol:'n'},
+      {k:'ritalin_midday',   l:'Ritalin (midday)',  fmt:v=>v+(answers.ritalin_midday_mg?' — '+answers.ritalin_midday_mg+'mg':''), pol:'n'},
+    ]},
+    { t:'Activity & creativity', items:[
+      {k:'exercise_morning', l:'Morning exercise',  fmt:v=>v, pol:'good'},
+      {k:'exercise_any',     l:'Exercise',          fmt:v=>v, pol:'good'},
+      {k:'bicycle',          l:'Bicycle',           fmt:v=>v, pol:'good'},
+      {k:'drums_practice',   l:'Drums practice',    fmt:v=>v+(answers.drums_practice_min?' — '+answers.drums_practice_min+' min':''), pol:'good'},
+      {k:'drums_fun',        l:'Drums for fun',     fmt:v=>v+(answers.drums_fun_min?' — '+answers.drums_fun_min+' min':''),           pol:'good'},
+      {k:'music',            l:'Created music',     fmt:v=>v, pol:'good'},
+    ]},
+    { t:'Commitments & social', items:[
+      {k:'attended_social',  l:'Attended social event',        fmt:v=>v, pol:'good'},
+      {k:'attended_class',   l:'Attended class/volunteering',  fmt:v=>v, pol:'good'},
+    ]},
+    { t:'Habits', items:[
+      {k:'avoided_sugar',    l:'Avoided sugar',    fmt:v=>v, pol:'good'},
+      {k:'avoided_alcohol',  l:'Avoided alcohol',  fmt:v=>v, pol:'good'},
+      {k:'avoided_cannabis', l:'Avoided cannabis', fmt:v=>v, pol:'good'},
+      {k:'had_cravings',     l:'Had cravings',     fmt:v=>v, pol:'n'},
+      {k:'had_sweets',       l:'Had sweets',       fmt:v=>v+(answers.sweets_reason?' ('+answers.sweets_reason+')':''), pol:'n'},
+    ]},
+    { t:'Screen time', items:[
+      {k:'videogames',   l:'Video games',   fmt:v=>v+' hrs', pol:'n'},
+      {k:'socialmedia',  l:'Social media',  fmt:v=>v+' hrs', pol:'n'},
+    ]},
+  ];
+
+  let html = '';
+  secs.forEach(sec => {
+    const rows = sec.items.filter(i => answers[i.k] !== undefined);
+    if (!rows.length) return;
+    html += `<div class="sum-sec">${sec.t}</div>`;
+    rows.forEach(item => {
+      const v = answers[item.k];
+      let cls = 'c-n';
+      if (item.pol === 'good') cls = v === 'Yes' ? 'c-yes' : 'c-no';
+      html += `<div class="sum-row"><span class="sum-row-lbl">${item.l}</span><span class="${cls}">${item.fmt(v)}</span></div>`;
+    });
+  });
+  document.getElementById('sum-detail').innerHTML = html || '<p style="font-size:14px;color:#8e8e93">Nothing logged.</p>';
+  showScreen('screen-done');
+  saveCheckin();
+}
+
+async function saveCheckin() {
+  const status = document.getElementById('save-status');
+  status.innerHTML = '<span class="spinner"></span> Saving...';
+  status.className = 'status-msg';
+  const payload = { type:'checkin', checkin_type:checkinType, session_id:genSessionId(), metrics:answers };
+  try {
+    await fetch(ENDPOINT, { method:'POST', body:JSON.stringify(payload) });
+    updateStreak();
+    status.textContent = 'Saved to Google Sheets ✓';
+    status.className = 'status-msg success';
+  } catch(err) {
+    status.textContent = 'Could not save — check your connection';
+    status.className = 'status-msg error';
+  }
+}
+
+function startCraving() {
+  cravingData = { substance:'', intensity:0, trigger:'', trigger_notes:'', outcome:'', strategies_shown:[], session_id:genSessionId() };
+  shownStrategyIds = [];
+
+  const subList = document.getElementById('substance-list'); subList.innerHTML = '';
+  SUBSTANCES.forEach(s => {
+    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = s;
+    b.onclick = () => {
+      cravingData.substance = s;
+      document.querySelectorAll('#substance-list .mc-btn').forEach(x => x.classList.remove('selected'));
+      b.classList.add('selected');
+      document.getElementById('intensity-card').style.display = 'block';
+    };
+    subList.appendChild(b);
+  });
+
+  const intRow = document.getElementById('intensity-row'); intRow.innerHTML = '';
+  const intLabels = ['','Passing thought','Noticeable','Real pull','Strong urge','Full body'];
+  for (let i = 1; i <= 5; i++) {
+    const b = document.createElement('button'); b.className = 'int-btn';
+    b.innerHTML = `<span class="int-num">${i}</span><span style="font-size:10px;text-align:center;line-height:1.3;">${intLabels[i]}</span>`;
+    b.onclick = () => { cravingData.intensity = i; document.querySelectorAll('.int-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    intRow.appendChild(b);
+  }
+
+  document.getElementById('intensity-card').style.display = 'none';
+  showScreen('screen-craving1');
+}
+
+function showCraving2() {
+  if (!cravingData.substance || !cravingData.intensity) {
+    alert('Please select what you are craving and an intensity level.');
+    return;
+  }
+  const tList = document.getElementById('trigger-list'); tList.innerHTML = '';
+  TRIGGERS.forEach(t => {
+    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = t;
+    b.onclick = () => { cravingData.trigger = t; document.querySelectorAll('#trigger-list .mc-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    tList.appendChild(b);
+  });
+  document.getElementById('trigger-notes').value = '';
+  showScreen('screen-craving2');
+}
+
+function showStrategies() {
+  cravingData.trigger_notes = document.getElementById('trigger-notes').value;
+  const sub = cravingData.substance.toLowerCase().replace(' ','_');
+  const pinned = STRATEGIES.filter(s => s.pinned);
+  const contextual = STRATEGIES.filter(s => !s.pinned && (s.works_for === 'any' || s.works_for === sub));
+  const shuffled = contextual.sort(() => Math.random() - 0.5).slice(0, 4);
+  const shown = [...pinned, ...shuffled];
+  shownStrategyIds = shown.map(s => s.id);
+  cravingData.strategies_shown = shownStrategyIds;
+
+  document.getElementById('strategy-sub').textContent = cravingData.intensity >= 4
+    ? 'High intensity — start with breathing or grounding'
+    : 'Pick whatever feels accessible right now';
+
+  const list = document.getElementById('strategy-list'); list.innerHTML = '';
+  shown.forEach(s => {
+    const card = document.createElement('div');
+    card.className = 'strategy-card' + (s.pinned ? ' pinned' : '');
+    card.innerHTML = `${s.pinned ? '<div class="strategy-pin">Recommended</div>' : ''}<div class="strategy-name">${s.strategy}</div><div class="strategy-note">${s.notes}</div>`;
+    list.appendChild(card);
+  });
+  showScreen('screen-strategies');
+}
+
+function showCraving3(outcome) {
+  cravingData.outcome = outcome;
+  const helpList = document.getElementById('strategy-helpful-list'); helpList.innerHTML = '';
+  STRATEGIES.filter(s => shownStrategyIds.includes(s.id)).forEach(s => {
+    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = s.strategy;
+    b.onclick = () => { document.querySelectorAll('#strategy-helpful-list .mc-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); cravingData.helpful_strategy = s; };
+    helpList.appendChild(b);
+  });
+  const none = document.createElement('button'); none.className = 'mc-btn'; none.textContent = 'None of them';
+  none.onclick = () => { document.querySelectorAll('#strategy-helpful-list .mc-btn').forEach(x => x.classList.remove('selected')); none.classList.add('selected'); cravingData.helpful_strategy = null; };
+  helpList.appendChild(none);
+  showScreen('screen-craving3');
+}
+
+async function saveCraving() {
+  const status = document.getElementById('craving-save-status');
+  status.innerHTML = '<span class="spinner"></span> Saving...';
+  status.className = 'status-msg';
+  try {
+    await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
+      type:'craving', session_id:cravingData.session_id, substance:cravingData.substance,
+      intensity:cravingData.intensity, trigger:cravingData.trigger,
+      trigger_notes:cravingData.trigger_notes, outcome:cravingData.outcome,
+      strategies_shown:cravingData.strategies_shown
+    })});
+    if (cravingData.helpful_strategy !== undefined) {
+      const s = cravingData.helpful_strategy;
+      await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
+        type:'strategy_outcome', craving_session_id:cravingData.session_id,
+        strategy_id:s ? s.id : 'none', strategy_name:s ? s.strategy : 'none',
+        craving_type:cravingData.substance, craving_intensity:cravingData.intensity,
+        helpful:s ? 'Yes' : 'No'
+      })});
+    }
+    status.textContent = 'Saved ✓';
+    status.className = 'status-msg success';
+    setTimeout(goHome, 1000);
+  } catch(err) {
+    status.textContent = 'Could not save — check your connection';
+    status.className = 'status-msg error';
+  }
+}
+
+function goHome() { showScreen('screen-start'); initHome(); }
+
+initHome();
+</script>
+</body>
+</html>
