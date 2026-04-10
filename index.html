@@ -18,6 +18,7 @@
   .greeting { font-size: 26px; font-weight: 600; color: #1c1c1e; margin-bottom: 2px; }
   .greeting-sub { font-size: 15px; color: #8e8e93; margin-bottom: 1.25rem; }
   .streak-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff3cd; border: 1px solid #ffc107; color: #856404; border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 600; margin-bottom: 1.25rem; }
+  .cannabis-badge { display: inline-flex; align-items: center; gap: 6px; background: #d1e7dd; border: 1px solid #a3cfbb; color: #0a3622; border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 600; margin-bottom: 1.25rem; margin-left: 8px; }
   .insight-card { background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
   .insight-text { font-size: 14px; color: #0a3622; line-height: 1.6; }
   .type-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-bottom: 0.6rem; }
@@ -116,6 +117,7 @@
     <div class="greeting" id="greeting-text">Good morning</div>
     <div class="greeting-sub" id="greeting-date"></div>
     <div class="streak-badge">&#128293; <span id="streak-count">0</span>-day streak</div>
+    <div class="cannabis-badge">&#127807; <span id="cannabis-count">0</span> days cannabis-free</div>
     <div class="insight-card" id="insight-card" style="display:none;">
       <div class="insight-text" id="insight-text"></div>
     </div>
@@ -407,6 +409,7 @@ function initHome() {
   document.getElementById('greeting-text').textContent = greetingText();
   document.getElementById('greeting-date').textContent = formatDateTime();
   loadStreak();
+  loadCannabisDays();
 }
 
 function loadStreak() {
@@ -428,6 +431,20 @@ function updateStreak() {
   document.getElementById('streak-count').textContent = streak;
 }
 
+function loadCannabisDays() {
+  const quitDate = localStorage.getItem('jt_cannabis_quit_date') || '2026-04-03';
+  const quit = new Date(quitDate);
+  const today = new Date();
+  const days = Math.floor((today - quit) / (1000 * 60 * 60 * 24));
+  document.getElementById('cannabis-count').textContent = Math.max(0, days);
+}
+
+function resetCannabisCounter() {
+  const today = new Date().toISOString().split('T')[0];
+  localStorage.setItem('jt_cannabis_quit_date', today);
+  document.getElementById('cannabis-count').textContent = '0';
+}
+ 
 function selType(el, type) {
   document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('selected'));
   el.classList.add('selected');
@@ -616,6 +633,9 @@ async function saveCheckin() {
   const notes = answers.notes || '';
   const metrics = Object.fromEntries(Object.entries(answers).filter(([k]) => k !== 'notes'));
   const payload = { type:'checkin', checkin_type:checkinType, session_id:genSessionId(), metrics, notes };
+  if (checkinType === 'evening' && answers.avoided_cannabis === 'No') {
+    resetCannabisCounter();
+  }
   try {
     await fetch(ENDPOINT, { method:'POST', body:JSON.stringify(payload) });
     updateStreak();
