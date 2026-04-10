@@ -26,6 +26,8 @@
   .type-desc { font-size: 12px; color: #8e8e93; margin-bottom: 1rem; min-height: 2em; line-height: 1.5; }
   .craving-btn { width: 100%; padding: 14px; border: 1px solid #ff3b30; border-radius: 14px; background: #fff; color: #ff3b30; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 0.75rem; transition: all 0.15s; }
   .craving-btn:active { background: #fff0ef; }
+  .episode-btn { width: 100%; padding: 14px; border: 1px solid #7f77dd; border-radius: 14px; background: #fff; color: #7f77dd; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 0.75rem; transition: all 0.15s; }
+  .episode-btn:active { background: #f0efff; }
 
   .progress-bar { height: 3px; background: #e5e5ea; border-radius: 2px; margin-bottom: 1.5rem; }
   .progress-fill { height: 100%; background: #007aff; border-radius: 2px; transition: width 0.3s ease; }
@@ -127,6 +129,7 @@
     <p class="type-desc" id="tdesc">Mood, energy, anxiety — 30 seconds</p>
     <button class="btn-primary" onclick="startCheckin()">Start check-in</button>
     <button class="craving-btn" onclick="startCraving()">&#9888; Log a craving</button>
+    <button class="episode-btn" onclick="startEpisode()">&#9679; Log an episode</button>
   </div>
 
   <!-- CHECK-IN QUESTIONS -->
@@ -156,6 +159,75 @@
     <button class="btn-secondary" style="margin-top:0.75rem;" onclick="goHome()">Done</button>
   </div>
 
+  <!-- EPISODE: TYPE + INTENSITY -->
+<div id="screen-episode1" class="screen">
+  <div class="greeting" style="margin-bottom:0.25rem;">Log an episode</div>
+  <div class="greeting-sub" style="margin-bottom:1.25rem;">What's happening?</div>
+  <div class="card">
+    <div class="question">What type of episode?</div>
+    <div class="mc-wrap" id="episode-type-list"></div>
+  </div>
+  <div class="card" id="episode-intensity-card" style="display:none;">
+    <div class="question">How intense is it?</div>
+    <div class="intensity-row" id="episode-intensity-row"></div>
+  </div>
+  <div class="card" id="episode-duration-card" style="display:none;">
+    <div class="question">How long has it been going on?</div>
+    <div class="number-input-row" id="episode-duration-row"></div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-back" onclick="goHome()">&#8592;</button>
+    <button class="btn-next on" onclick="showEpisode2()">Continue</button>
+  </div>
+</div>
+
+<!-- EPISODE: TRIGGER -->
+<div id="screen-episode2" class="screen">
+  <div class="greeting" style="margin-bottom:0.25rem;">Log an episode</div>
+  <div class="greeting-sub" style="margin-bottom:1.25rem;">What's going on?</div>
+  <div class="card">
+    <div class="question">What triggered it?</div>
+    <div class="mc-wrap" id="episode-trigger-list"></div>
+  </div>
+  <div class="card">
+    <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Any more detail? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
+    <textarea id="episode-trigger-notes" placeholder="What's happening right now..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
+  </div>
+  <div class="nav-row">
+    <button class="btn-back" onclick="showScreen('screen-episode1')">&#8592;</button>
+    <button class="btn-next on" onclick="showEpisodeStrategies()">Show strategies</button>
+  </div>
+</div>
+
+<!-- EPISODE: STRATEGIES -->
+<div id="screen-episode-strategies" class="screen">
+  <div class="greeting" style="margin-bottom:0.25rem;">Try one of these</div>
+  <div class="greeting-sub" id="episode-strategy-sub" style="margin-bottom:1.25rem;"></div>
+  <div class="strategy-list" id="episode-strategy-list"></div>
+  <div style="margin-top:1.25rem;">
+    <button class="btn-primary" onclick="showEpisode3()">Continue</button>
+  </div>
+</div>
+
+<!-- EPISODE: POST MOOD + NOTES -->
+<div id="screen-episode3" class="screen">
+  <div class="greeting" style="margin-bottom:0.25rem;">Almost done</div>
+  <div class="greeting-sub" style="margin-bottom:1.25rem;">You logged it — that matters.</div>
+  <div class="card">
+    <div class="question">How are you feeling right now?</div>
+    <div class="subtext" style="display:block;margin-top:-0.75rem;margin-bottom:1.25rem;">1 = very low, 10 = okay</div>
+    <div class="scale-row" id="episode-post-mood-row"></div>
+    <div class="scale-labels"><span>Low</span><span>Better</span></div>
+  </div>
+  <div class="card">
+    <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Anything else to note? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
+    <textarea id="episode-notes" placeholder="How you're feeling, what helped, what didn't..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
+  </div>
+  <div class="status-msg" id="episode-save-status"></div>
+  <button class="btn-primary" onclick="saveEpisode()">Save &amp; finish</button>
+  <button class="btn-secondary" onclick="goHome()">Skip &amp; finish</button>
+</div>
+ 
   <!-- CRAVING: WHAT + INTENSITY -->
   <div id="screen-craving1" class="screen">
     <div class="greeting" style="margin-bottom:0.25rem;">Log a craving</div>
@@ -298,6 +370,20 @@ const Q_EVENING = [
 
 let questions=[], qIdx=0, answers={}, stepVals={}, checkinType='quick', inFollowup=false, followupQ=null;
 let cravingData = { substance:'', intensity:0, trigger:'', trigger_notes:'', outcome:'', strategies_shown:[], session_id:'' };
+let episodeData = { episode_type:'', intensity:0, duration_min:0, trigger:'', trigger_notes:'', strategies_shown:[], post_mood:'', notes:'', session_id:'' };
+let episodeStepperVal = 0;
+
+const EPISODE_TYPES = [
+  { label:'Panic attack',                  key:'panic_attack',   acute:true  },
+  { label:'Anxiety spike',                 key:'anxiety_spike',  acute:true  },
+  { label:'Anger outburst',               key:'anger_outburst', acute:true  },
+  { label:'Depressive episode / emotional crash', key:'depressive_episode', acute:false },
+  { label:'Zero motivation / anhedonia',   key:'anhedonia',      acute:false },
+];
+
+const ACUTE_STRATEGY_ORDER = [1, 2, 3, 4, 8, 16];
+const SLOW_STRATEGY_ORDER  = [9, 10, 14, 16, 4, 6];
+ 
 let shownStrategyIds = [];
 
 function genSessionId() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
@@ -541,6 +627,139 @@ async function saveCheckin() {
   }
 }
 
+function startEpisode() {
+  episodeData = { episode_type:'', intensity:0, duration_min:0, trigger:'', trigger_notes:'', strategies_shown:[], post_mood:'', notes:'', session_id:genSessionId() };
+  episodeStepperVal = 0;
+
+  const typeList = document.getElementById('episode-type-list');
+  typeList.innerHTML = '';
+  EPISODE_TYPES.forEach(ep => {
+    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = ep.label;
+    b.onclick = () => {
+      episodeData.episode_type = ep.key;
+      episodeData.acute = ep.acute;
+      document.querySelectorAll('#episode-type-list .mc-btn').forEach(x => x.classList.remove('selected'));
+      b.classList.add('selected');
+      document.getElementById('episode-intensity-card').style.display = 'block';
+      document.getElementById('episode-duration-card').style.display = 'block';
+    };
+    typeList.appendChild(b);
+  });
+
+  const intRow = document.getElementById('episode-intensity-row');
+  intRow.innerHTML = '';
+  const intLabels = ['','Mild','Moderate','Significant','Severe','Overwhelming'];
+  for (let i = 1; i <= 5; i++) {
+    const b = document.createElement('button'); b.className = 'int-btn';
+    b.innerHTML = `<span class="int-num">${i}</span><span style="font-size:10px;text-align:center;line-height:1.3;">${intLabels[i]}</span>`;
+    b.onclick = () => { episodeData.intensity = i; document.querySelectorAll('#episode-intensity-row .int-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    intRow.appendChild(b);
+  }
+
+  const durRow = document.getElementById('episode-duration-row');
+  durRow.innerHTML = '';
+  const minus = document.createElement('button'); minus.className = 'stepper-btn'; minus.textContent = '−';
+  const val = document.createElement('div'); val.className = 'stepper-val'; val.id = 'episode-dur-val'; val.textContent = '0';
+  const plus = document.createElement('button'); plus.className = 'stepper-btn'; plus.textContent = '+';
+  const unit = document.createElement('div'); unit.className = 'stepper-unit'; unit.textContent = 'min';
+  minus.onclick = () => { episodeStepperVal = Math.max(0, episodeStepperVal - 5); val.textContent = episodeStepperVal; episodeData.duration_min = episodeStepperVal; };
+  plus.onclick  = () => { episodeStepperVal = Math.min(480, episodeStepperVal + 5); val.textContent = episodeStepperVal; episodeData.duration_min = episodeStepperVal; };
+  durRow.appendChild(minus); durRow.appendChild(val); durRow.appendChild(plus); durRow.appendChild(unit);
+
+  document.getElementById('episode-intensity-card').style.display = 'none';
+  document.getElementById('episode-duration-card').style.display = 'none';
+  showScreen('screen-episode1');
+}
+
+function showEpisode2() {
+  if (!episodeData.episode_type || !episodeData.intensity) {
+    alert('Please select an episode type and intensity level.');
+    return;
+  }
+  const tList = document.getElementById('episode-trigger-list');
+  tList.innerHTML = '';
+  TRIGGERS.forEach(t => {
+    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = t;
+    b.onclick = () => { episodeData.trigger = t; document.querySelectorAll('#episode-trigger-list .mc-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    tList.appendChild(b);
+  });
+  document.getElementById('episode-trigger-notes').value = '';
+  showScreen('screen-episode2');
+}
+
+function showEpisodeStrategies() {
+  episodeData.trigger_notes = document.getElementById('episode-trigger-notes').value;
+  const orderIds = episodeData.acute ? ACUTE_STRATEGY_ORDER : SLOW_STRATEGY_ORDER;
+  const ordered = orderIds.map(id => STRATEGIES.find(s => s.id === id)).filter(Boolean);
+  const remaining = STRATEGIES.filter(s => !orderIds.includes(s.id)).sort(() => Math.random() - 0.5).slice(0, 2);
+  const shown = [...ordered, ...remaining];
+  episodeData.strategies_shown = shown.map(s => s.id);
+
+  const sub = document.getElementById('episode-strategy-sub');
+  if (episodeData.acute) {
+    sub.textContent = episodeData.intensity >= 4
+      ? 'High intensity — start with breathing or grounding immediately'
+      : 'Acute episode — grounding strategies first';
+  } else {
+    sub.textContent = 'Gentle strategies for low/slow episodes';
+  }
+
+  const list = document.getElementById('episode-strategy-list');
+  list.innerHTML = '';
+  shown.slice(0, 6).forEach((s, i) => {
+    const card = document.createElement('div');
+    card.className = 'strategy-card' + (i < 3 ? ' pinned' : '');
+    card.innerHTML = `${i < 3 ? '<div class="strategy-pin">Try this first</div>' : ''}<div class="strategy-name">${s.strategy}</div><div class="strategy-note">${s.notes}</div>`;
+    list.appendChild(card);
+  });
+  showScreen('screen-episode-strategies');
+}
+
+function showEpisode3() {
+  const moodRow = document.getElementById('episode-post-mood-row');
+  moodRow.innerHTML = '';
+  for (let i = 1; i <= 10; i++) {
+    const b = document.createElement('button'); b.className = 'scale-btn'; b.textContent = i;
+    if (episodeData.post_mood === i) b.classList.add('selected');
+    b.onclick = () => { episodeData.post_mood = i; document.querySelectorAll('#episode-post-mood-row .scale-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    moodRow.appendChild(b);
+  }
+  document.getElementById('episode-notes').value = '';
+  showScreen('screen-episode3');
+}
+
+async function saveEpisode() {
+  const status = document.getElementById('episode-save-status');
+  status.innerHTML = '<span class="spinner"></span> Saving...';
+  status.className = 'status-msg';
+  episodeData.notes = document.getElementById('episode-notes').value;
+
+  if (episodeData.notes && episodeData.notes.trim()) {
+    const notes = answers.notes || '';
+  }
+
+  try {
+    await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
+      type:'episode',
+      session_id:episodeData.session_id,
+      episode_type:episodeData.episode_type,
+      intensity:episodeData.intensity,
+      duration_min:episodeData.duration_min,
+      trigger:episodeData.trigger,
+      trigger_notes:episodeData.trigger_notes,
+      strategies_shown:episodeData.strategies_shown,
+      post_mood:episodeData.post_mood,
+      notes:episodeData.notes
+    })});
+    status.textContent = 'Saved ✓';
+    status.className = 'status-msg success';
+    setTimeout(goHome, 1000);
+  } catch(err) {
+    status.textContent = 'Could not save — check your connection';
+    status.className = 'status-msg error';
+  }
+}
+ 
 function startCraving() {
   cravingData = { substance:'', intensity:0, trigger:'', trigger_notes:'', outcome:'', strategies_shown:[], session_id:genSessionId() };
   shownStrategyIds = [];
