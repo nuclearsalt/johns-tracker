@@ -722,6 +722,10 @@ function startEpisode() {
 
   durRow.appendChild(minusH); durRow.appendChild(valH); durRow.appendChild(plusH); durRow.appendChild(unitH);
   durRow.appendChild(minusM); durRow.appendChild(valM); durRow.appendChild(plusM); durRow.appendChild(unitM);
+
+  document.getElementById('episode-intensity-card').style.display = 'none';
+  document.getElementById('episode-duration-card').style.display = 'none';
+  showScreen('screen-episode1');
 }
 
 function showEpisode2() {
