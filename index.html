@@ -191,10 +191,14 @@
     <div class="question">What triggered it?</div>
     <div class="mc-wrap" id="episode-trigger-list"></div>
   </div>
-  <div class="card">
-    <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Any more detail? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
-    <textarea id="episode-trigger-notes" placeholder="What's happening right now..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
-  </div>
+  <div class="card" id="episode-trigger-other" style="display:none;">
+  <div class="question" style="font-size:16px;margin-bottom:0.75rem;">What was it? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
+  <textarea id="episode-trigger-notes" placeholder="Describe what triggered it..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
+</div>
+<div class="card">
+  <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Any more detail? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
+  <textarea id="episode-trigger-context" placeholder="What's happening right now..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
+</div>
   <div class="nav-row">
     <button class="btn-back" onclick="showScreen('screen-episode1')">&#8592;</button>
     <button class="btn-next on" onclick="showEpisodeStrategies()">Show strategies</button>
@@ -320,6 +324,21 @@ const TRIGGERS = [
   'Maximizing good feelings','Other'
 ];
 
+const EPISODE_TRIGGERS = [
+  'Stress / overwhelm',
+  'Financial anxiety',
+  'Conflict with someone',
+  'Loneliness / isolation',
+  'Physical exhaustion',
+  'Poor sleep',
+  'Withdrawal symptoms',
+  'Unexpected bad news',
+  'Social situation',
+  'Work pressure',
+  'No obvious trigger',
+  'Other'
+];
+ 
 const SUBSTANCES = ['Cannabis','Alcohol','Sugar','Social media','Other'];
 
 const DESCS = {
@@ -706,11 +725,16 @@ function showEpisode2() {
     alert('Please select an episode type and intensity level.');
     return;
   }
-  const tList = document.getElementById('episode-trigger-list');
+const tList = document.getElementById('episode-trigger-list');
   tList.innerHTML = '';
-  TRIGGERS.forEach(t => {
+  EPISODE_TRIGGERS.forEach(t => {
     const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = t;
-    b.onclick = () => { episodeData.trigger = t; document.querySelectorAll('#episode-trigger-list .mc-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    b.onclick = () => {
+      episodeData.trigger = t;
+      document.querySelectorAll('#episode-trigger-list .mc-btn').forEach(x => x.classList.remove('selected'));
+      b.classList.add('selected');
+      document.getElementById('episode-trigger-other').style.display = t === 'Other' ? 'block' : 'none';
+    };
     tList.appendChild(b);
   });
   document.getElementById('episode-trigger-notes').value = '';
@@ -718,7 +742,9 @@ function showEpisode2() {
 }
 
 function showEpisodeStrategies() {
-  episodeData.trigger_notes = document.getElementById('episode-trigger-notes').value;
+  const otherText = document.getElementById('episode-trigger-notes').value;
+  const contextText = document.getElementById('episode-trigger-context').value;
+  episodeData.trigger_notes = [otherText, contextText].filter(t => t.trim()).join(' — ');
   const orderIds = episodeData.acute ? ACUTE_STRATEGY_ORDER : SLOW_STRATEGY_ORDER;
   const ordered = orderIds.map(id => STRATEGIES.find(s => s.id === id)).filter(Boolean);
   const remaining = STRATEGIES.filter(s => !orderIds.includes(s.id)).sort(() => Math.random() - 0.5).slice(0, 2);
