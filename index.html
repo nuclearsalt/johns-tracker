@@ -321,7 +321,7 @@ const STRATEGIES = [
 const TRIGGERS = [
   'Nice weather','Social anxiety','Low energy','Low mood',
   'Withdrawal feelings','Nothing feels good','Peer pressure',
-  'Maximizing good feelings','Other'
+  'Maximizing good feelings','Financial anxiety','Other'
 ];
 
 const EPISODE_TRIGGERS = [
@@ -386,6 +386,8 @@ const Q_EVENING = [
     followup: { label:'Habits', q:'Why?', type:'multichoice', options:['Low energy','Depression','Just a craving','No particular reason'], key:'sweets_reason' } },
   { label:'Screen time', q:'Hours of video games today?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
   { label:'Screen time', q:'Hours on social media today?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
+  { label:'Sleep aid', q:'Did you take a sleep aid tonight?', type:'yesno', polarity:'neutral', key:'sleep_aid',
+  followup: { label:'Sleep aid', q:'Which one and how many mg?', type:'multichoice', options:['Seroquel 6.25mg','Seroquel 12.5mg','Seroquel 25mg','Benadryl 12.5mg','Benadryl 25mg','Both — 6.25mg Seroquel + 12.5mg Benadryl','Both — 12.5mg Seroquel + 12.5mg Benadryl','Other'], key:'sleep_aid_detail' } },
   NOTES_Q,
 ];
 
@@ -625,6 +627,8 @@ function showSummary() {
       {k:'avoided_cannabis', l:'Avoided cannabis', fmt:v=>v, pol:'good'},
       {k:'had_cravings',     l:'Had cravings',     fmt:v=>v, pol:'n'},
       {k:'had_sweets',       l:'Had sweets',       fmt:v=>v+(answers.sweets_reason?' ('+answers.sweets_reason+')':''), pol:'n'},
+      {k:'sleep_aid',        l:'Sleep aid',        fmt:v=>v, pol:'n'},
+      {k:'sleep_aid_detail', l:'Sleep aid detail',  fmt:v=>v, pol:'n'},
     ]},
     { t:'Screen time', items:[
       {k:'videogames',   l:'Video games',   fmt:v=>v+' hrs', pol:'n'},
