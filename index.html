@@ -175,7 +175,7 @@
   </div>
   <div class="card" id="episode-duration-card" style="display:none;">
     <div class="question">How long has it been going on?</div>
-   <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;" id="episode-duration-row"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;" id="episode-duration-row"></div>
   </div>
   <div class="nav-row">
     <button class="btn-back" onclick="goHome()">&#8592;</button>
@@ -720,8 +720,16 @@ function startEpisode() {
   minusM.onclick = () => { durMins = Math.max(0, durMins - 5); valM.textContent = durMins; episodeData.duration_min = durHours * 60 + durMins; };
   plusM.onclick  = () => { durMins = Math.min(55, durMins + 5); valM.textContent = durMins; episodeData.duration_min = durHours * 60 + durMins; };
 
-  durRow.appendChild(minusH); durRow.appendChild(valH); durRow.appendChild(plusH); durRow.appendChild(unitH);
-  durRow.appendChild(minusM); durRow.appendChild(valM); durRow.appendChild(plusM); durRow.appendChild(unitM);
+ const hrsGroup = document.createElement('div');
+  hrsGroup.style.cssText = 'display:flex;align-items:center;gap:8px;';
+  hrsGroup.appendChild(minusH); hrsGroup.appendChild(valH); hrsGroup.appendChild(plusH); hrsGroup.appendChild(unitH);
+
+  const minsGroup = document.createElement('div');
+  minsGroup.style.cssText = 'display:flex;align-items:center;gap:8px;';
+  minsGroup.appendChild(minusM); minsGroup.appendChild(valM); minsGroup.appendChild(plusM); minsGroup.appendChild(unitM);
+
+  durRow.appendChild(hrsGroup);
+  durRow.appendChild(minsGroup);
 
   document.getElementById('episode-intensity-card').style.display = 'none';
   document.getElementById('episode-duration-card').style.display = 'none';
