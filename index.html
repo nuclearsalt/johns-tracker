@@ -387,8 +387,11 @@ const Q_EVENING = [
   { label:'Screen time', q:'Hours of video games today?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
   { label:'Screen time', q:'Hours on social media today?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
   { label:'Sleep aid', q:'Did you take a sleep aid tonight?', type:'yesno', polarity:'neutral', key:'sleep_aid',
-  followup: { label:'Sleep aid', q:'Which one and how many mg?', type:'multichoice', options:['Seroquel 6.25mg','Seroquel 12.5mg','Seroquel 25mg','Benadryl 12.5mg','Benadryl 25mg','Both — 6.25mg Seroquel + 12.5mg Benadryl','Both — 12.5mg Seroquel + 12.5mg Benadryl','Other'], key:'sleep_aid_detail' } },
-  NOTES_Q,
+  followup: { label:'Sleep aid', q:'Which one?', type:'multichoice', options:['Seroquel','Benadryl','Both','Other'], key:'sleep_aid_type',
+    followup2: { label:'Sleep aid', q:'How many mg total?', sub:'Seroquel: 6.25mg steps · Benadryl: 12.5mg steps', type:'stepper', unit:'mg', step:6.25, min:6.25, max:150, def:6.25, key:'sleep_aid_mg' }
+  }
+},  
+ NOTES_Q,
 ];
 
 let questions=[], qIdx=0, answers={}, stepVals={}, checkinType='quick', inFollowup=false, followupQ=null;
@@ -577,13 +580,20 @@ function updateBtn(q) {
 function nextQ() {
   const q = inFollowup ? followupQ : questions[qIdx];
   if (answers[q.key] === undefined) return;
+
+  if (inFollowup && followupQ.followup2 && answers[followupQ.key] !== undefined) {
+    followupQ = followupQ.followup2;
+    showQ(); return;
+  }
+
   if (!inFollowup && questions[qIdx].followup && answers[questions[qIdx].key] === 'Yes') {
     inFollowup = true; followupQ = questions[qIdx].followup; showQ(); return;
   }
+
   inFollowup = false; followupQ = null;
   if (qIdx < questions.length - 1) { qIdx++; showQ(); } else { showSummary(); }
 }
-
+ 
 function prevQ() {
   if (inFollowup) { inFollowup = false; followupQ = null; showQ(); return; }
   if (qIdx > 0) { qIdx--; showQ(); } else showScreen('screen-start');
