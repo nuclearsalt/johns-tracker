@@ -175,7 +175,7 @@
   </div>
   <div class="card" id="episode-duration-card" style="display:none;">
     <div class="question">How long has it been going on?</div>
-    <div class="number-input-row" id="episode-duration-row"></div>
+   <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;" id="episode-duration-row"></div>
   </div>
   <div class="nav-row">
     <button class="btn-back" onclick="goHome()">&#8592;</button>
@@ -676,19 +676,29 @@ function startEpisode() {
     intRow.appendChild(b);
   }
 
-  const durRow = document.getElementById('episode-duration-row');
+ const durRow = document.getElementById('episode-duration-row');
   durRow.innerHTML = '';
-  const minus = document.createElement('button'); minus.className = 'stepper-btn'; minus.textContent = '−';
-  const val = document.createElement('div'); val.className = 'stepper-val'; val.id = 'episode-dur-val'; val.textContent = '0';
-  const plus = document.createElement('button'); plus.className = 'stepper-btn'; plus.textContent = '+';
-  const unit = document.createElement('div'); unit.className = 'stepper-unit'; unit.textContent = 'min';
-  minus.onclick = () => { episodeStepperVal = Math.max(0, episodeStepperVal - 5); val.textContent = episodeStepperVal; episodeData.duration_min = episodeStepperVal; };
-  plus.onclick  = () => { episodeStepperVal = Math.min(480, episodeStepperVal + 5); val.textContent = episodeStepperVal; episodeData.duration_min = episodeStepperVal; };
-  durRow.appendChild(minus); durRow.appendChild(val); durRow.appendChild(plus); durRow.appendChild(unit);
 
-  document.getElementById('episode-intensity-card').style.display = 'none';
-  document.getElementById('episode-duration-card').style.display = 'none';
-  showScreen('screen-episode1');
+  let durHours = 0;
+  let durMins = 0;
+
+  const minusH = document.createElement('button'); minusH.className = 'stepper-btn'; minusH.textContent = '−';
+  const valH = document.createElement('div'); valH.className = 'stepper-val'; valH.style.fontSize = '24px'; valH.textContent = '0';
+  const plusH = document.createElement('button'); plusH.className = 'stepper-btn'; plusH.textContent = '+';
+  const unitH = document.createElement('div'); unitH.className = 'stepper-unit'; unitH.textContent = 'hrs';
+
+  const minusM = document.createElement('button'); minusM.className = 'stepper-btn'; minusM.textContent = '−';
+  const valM = document.createElement('div'); valM.className = 'stepper-val'; valM.style.fontSize = '24px'; valM.textContent = '0';
+  const plusM = document.createElement('button'); plusM.className = 'stepper-btn'; plusM.textContent = '+';
+  const unitM = document.createElement('div'); unitM.className = 'stepper-unit'; unitM.textContent = 'min';
+
+  minusH.onclick = () => { durHours = Math.max(0, durHours - 1); valH.textContent = durHours; episodeData.duration_min = durHours * 60 + durMins; };
+  plusH.onclick  = () => { durHours = Math.min(12, durHours + 1); valH.textContent = durHours; episodeData.duration_min = durHours * 60 + durMins; };
+  minusM.onclick = () => { durMins = Math.max(0, durMins - 5); valM.textContent = durMins; episodeData.duration_min = durHours * 60 + durMins; };
+  plusM.onclick  = () => { durMins = Math.min(55, durMins + 5); valM.textContent = durMins; episodeData.duration_min = durHours * 60 + durMins; };
+
+  durRow.appendChild(minusH); durRow.appendChild(valH); durRow.appendChild(plusH); durRow.appendChild(unitH);
+  durRow.appendChild(minusM); durRow.appendChild(valM); durRow.appendChild(plusM); durRow.appendChild(unitM);
 }
 
 function showEpisode2() {
