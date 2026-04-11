@@ -720,13 +720,13 @@ function startEpisode() {
   minusM.onclick = () => { durMins = Math.max(0, durMins - 5); valM.textContent = durMins; episodeData.duration_min = durHours * 60 + durMins; };
   plusM.onclick  = () => { durMins = Math.min(55, durMins + 5); valM.textContent = durMins; episodeData.duration_min = durHours * 60 + durMins; };
 
- const hrsGroup = document.createElement('div');
+  const hrsGroup = document.createElement('div');
   hrsGroup.style.cssText = 'display:flex;align-items:center;gap:8px;';
-  hrsGroup.appendChild(minusH); hrsGroup.appendChild(valH); hrsGroup.appendChild(plusH); hrsGroup.appendChild(unitH);
+  hrsGroup.appendChild(minusH); hrsGroup.appendChild(plusH); hrsGroup.appendChild(valH); hrsGroup.appendChild(unitH);
 
   const minsGroup = document.createElement('div');
   minsGroup.style.cssText = 'display:flex;align-items:center;gap:8px;';
-  minsGroup.appendChild(minusM); minsGroup.appendChild(valM); minsGroup.appendChild(plusM); minsGroup.appendChild(unitM);
+  minsGroup.appendChild(minusM); minsGroup.appendChild(plusM); minsGroup.appendChild(valM); minsGroup.appendChild(unitM);
 
   durRow.appendChild(hrsGroup);
   durRow.appendChild(minsGroup);
