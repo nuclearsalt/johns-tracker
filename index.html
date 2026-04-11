@@ -452,16 +452,13 @@ function updateStreak() {
 
 function loadCannabisDays() {
   const quitDateStr = localStorage.getItem('jt_cannabis_quit_date') || '2026-04-03';
-  const today = new Date();
-  const todayStr = today.toISOString().split('T')[0];
-  
   const quitParts = quitDateStr.split('-').map(Number);
-  const todayParts = todayStr.split('-').map(Number);
-  
   const quit = new Date(quitParts[0], quitParts[1] - 1, quitParts[2]);
-  const now = new Date(todayParts[0], todayParts[1] - 1, todayParts[2]);
   
-  const days = Math.floor((now - quit) / (1000 * 60 * 60 * 24));
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  
+  const days = Math.floor((today - quit) / (1000 * 60 * 60 * 24));
   document.getElementById('cannabis-count').textContent = Math.max(0, days);
 }
 
