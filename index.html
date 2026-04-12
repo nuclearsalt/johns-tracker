@@ -436,8 +436,46 @@ function initHome() {
   document.getElementById('greeting-date').textContent = formatDateTime();
   loadStreak();
   loadCannabisDays();
+ function loadInsightCard() {
+  const existing = document.getElementById('briefing-script');
+  if (existing) existing.remove();
+  const script = document.createElement('script');
+  script.id  = 'briefing-script';
+  script.src = ENDPOINT + '?action=getBriefingData&callback=handleInsightCard&t=' + Date.now();
+  document.body.appendChild(script);
 }
 
+function handleInsightCard(data) {
+  const card = document.getElementById('insight-card');
+  const text = document.getElementById('insight-text');
+  if (!card || !text) return;
+
+  const lines = [];
+
+  if (data.streaks && data.streaks.length > 0) {
+    data.streaks.forEach(function(s) {
+      lines.push(s.emoji + ' ' + s.streak + '-day ' + s.label.toLowerCase() + ' streak — keep it going!');
+    });
+  }
+
+  if (data.correlations && data.correlations.length > 0) {
+    const c    = data.correlations[0];
+    const diff = (parseFloat(c.avg_did) - parseFloat(c.avg_didnt)).toFixed(1);
+    lines.push(c.emoji + ' Your mood is +' + diff + ' pts higher on ' + c.label.toLowerCase() + ' days (' + c.avg_did + ' vs ' + c.avg_didnt + ').');
+  }
+
+  if (data.encouraging_line && lines.length === 0) {
+    lines.push(data.encouraging_line);
+  }
+
+  if (lines.length > 0) {
+    text.innerHTML = lines.join('<br>');
+    card.style.display = 'block';
+  }
+}
+  loadInsightCard();
+}
+ 
 function loadStreak() {
   const streak = parseInt(localStorage.getItem('jt_streak') || '0');
   document.getElementById('streak-count').textContent = streak;
