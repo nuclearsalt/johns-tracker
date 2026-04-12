@@ -116,10 +116,6 @@ function getCannabisDays() {
   return Math.max(0, Math.floor((today - quit) / (1000*60*60*24)));
 }
 
-function getStreak() {
-  return parseInt(localStorage.getItem('jt_streak') || '0');
-}
-
 function labelPills(labelsStr) {
   if (!labelsStr) return '';
   return labelsStr.split(',').map(function(l) {
@@ -171,7 +167,6 @@ async function getWeather() {
 function handleBriefingData(data) {
   getWeather().then(function(weather) {
     const cannabisDays = getCannabisDays();
-    const streak       = getStreak();
 
     let html = '';
 
@@ -180,7 +175,6 @@ function handleBriefingData(data) {
 
     html += '<div class="badges">';
     html += '<span class="badge badge-cannabis">🌿 ' + cannabisDays + ' days cannabis-free</span>';
-    html += '<span class="badge badge-streak">🔥 ' + streak + '-day streak</span>';
     html += '</div>';
 
     if (weather) {
