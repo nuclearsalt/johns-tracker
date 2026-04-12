@@ -370,8 +370,8 @@ const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q, { label:'Sleep aid', q:'Did you take 
     followup2: { label:'Sleep aid', q:'How many mg total?', sub:'Seroquel: 6.25mg steps · Benadryl: 12.5mg steps', type:'stepper', unit:'mg', step:6.25, min:6.25, max:150, def:6.25, key:'sleep_aid_mg' }
   }
 }, 
-  { label:'Screen time', q:'Hours of video games today?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
-  { label:'Screen time', q:'Hours on social media today?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
+  { label:'Screen time', q:'Hours of video games yesterday?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
+  { label:'Screen time', q:'Hours on social media yesterday?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
     FLUOX_Q, RITALIN_Q, NOTES_Q];
   
 const Q_MIDDAY  = [...MOOD_BLOCK, FOCUS_Q, EXERCISE_AM_Q, RITALIN_TOPUP, NOTES_Q];
