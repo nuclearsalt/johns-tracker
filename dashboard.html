@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Dashboard">
+<title>John's Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f2f2f7; min-height: 100vh; }
+  #app { max-width: 390px; margin: 0 auto; padding: 1.25rem; padding-bottom: 2rem; }
+
+  .header { margin-bottom: 1.5rem; }
+  .title { font-size: 26px; font-weight: 700; color: #1c1c1e; margin-bottom: 2px; }
+  .subtitle { font-size: 14px; color: #8e8e93; }
+
+  .stat-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 1.25rem; }
+  .stat-card { background: #fff; border-radius: 12px; padding: 0.75rem; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .stat-val { font-size: 22px; font-weight: 700; color: #1c1c1e; }
+  .stat-lbl { font-size: 11px; color: #8e8e93; margin-top: 2px; }
+
+  .section { margin-bottom: 1.5rem; }
+  .section-label { font-size: 11px; font-weight: 600; color: #8e8e93; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+  .chart-card { background: #fff; border-radius: 14px; padding: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); margin-bottom: 1rem; }
+  .chart-title { font-size: 14px; font-weight: 600; color: #1c1c1e; margin-bottom: 0.75rem; }
+  .chart-sub { font-size: 12px; color: #8e8e93; margin-top: 6px; }
+
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #636366; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .corr-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 0.75rem; }
+  .corr-card { background: #fff; border-radius: 12px; padding: 0.9rem 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .corr-label { font-size: 12px; color: #8e8e93; margin-bottom: 4px; }
+  .corr-val { font-size: 22px; font-weight: 700; color: #1c1c1e; }
+  .corr-sub { font-size: 11px; color: #8e8e93; margin-top: 2px; }
+  .corr-better { color: #198754; }
+  .corr-worse  { color: #dc3545; }
+
+  .insight-card { background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1rem; font-size: 14px; color: #0a3622; line-height: 1.6; }
+
+  .footer-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 1rem; }
+  .btn-secondary { width: 100%; height: 44px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #1c1c1e; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+
+  .loading { text-align: center; padding: 3rem 1rem; }
+  .spinner { display: inline-block; width: 28px; height: 28px; border: 2.5px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 1rem; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading-text { font-size: 15px; color: #8e8e93; }
+
+  canvas { width: 100% !important; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="loading" class="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">Loading your data...</div>
+  </div>
+  <div id="content" style="display:none;"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyy4oizV3fTYbaj4OKGWRZVI6c6xDTyO2jp3WsE377bZSPJPemf_e6zLZ6CoYecBIJA/exec';
+
+function formatDateShort(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return (d.getMonth()+1) + '/' + d.getDate();
+}
+
+function avg(arr) {
+  const valid = arr.filter(function(v) { return v !== null && !isNaN(v); });
+  if (!valid.length) return null;
+  return (valid.reduce(function(a,b){return a+b;},0) / valid.length).toFixed(1);
+}
+
+function handleDashboardData(data) {
+  const daily    = data.daily || [];
+  const cravings = data.craving_daily || [];
+
+  const labels   = daily.map(function(d) { return formatDateShort(d.date); });
+  const moods    = daily.map(function(d) { return d.mood; });
+  const anxiety  = daily.map(function(d) { return d.anxiety; });
+  const energy   = daily.map(function(d) { return d.energy; });
+  const sleepArr = daily.map(function(d) { return d.sleep; });
+  const exerciseDots = daily.map(function(d) { return d.exercised ? (d.mood || 0) : null; });
+
+  const avgMood    = avg(moods);
+  const avgAnxiety = avg(anxiety);
+  const avgEnergy  = avg(energy);
+  const avgSleep   = avg(sleepArr);
+
+  const exMood  = data.exercise_mood_avg;
+  const noMood  = data.no_exercise_mood_avg;
+  const exDays  = data.exercise_days;
+  const noDays  = data.no_exercise_days;
+  const exDiff  = exMood && noMood ? (parseFloat(exMood) - parseFloat(noMood)).toFixed(1) : null;
+
+  let html = '';
+  html += '<div class="header"><div class="title">Dashboard</div>';
+  html += '<div class="subtitle">Last ' + data.days_tracked + ' days of data</div></div>';
+
+  html += '<div class="stat-row">';
+  html += '<div class="stat-card"><div class="stat-val">' + (avgMood || '–') + '</div><div class="stat-lbl">Avg mood</div></div>';
+  html += '<div class="stat-card"><div class="stat-val">' + (avgAnxiety || '–') + '</div><div class="stat-lbl">Avg anxiety</div></div>';
+  html += '<div class="stat-card"><div class="stat-val">' + (avgEnergy || '–') + '</div><div class="stat-lbl">Avg energy</div></div>';
+  html += '</div>';
+
+  if (exMood && noMood) {
+    const better = parseFloat(exMood) >= parseFloat(noMood);
+    const diffClass = better ? 'corr-better' : 'corr-worse';
+    const sign = parseFloat(exDiff) > 0 ? '+' : '';
+    html += '<div class="insight-card">🏃 On exercise days your mood averages <strong>' + exMood + '</strong> vs <strong>' + noMood + '</strong> on rest days — a <strong class="' + diffClass + '">' + sign + exDiff + ' pt</strong> difference across ' + (exDays + noDays) + ' days of data.</div>';
+  }
+
+  html += '<div class="section"><div class="section-label">Mood trend</div>';
+  html += '<div class="chart-card"><div class="chart-title">Mood · Energy · Anxiety</div>';
+  html += '<canvas id="chart-mood"></canvas>';
+  html += '<div class="legend">';
+  html += '<div class="legend-item"><div class="legend-dot" style="background:#007aff;"></div>Mood</div>';
+  html += '<div class="legend-item"><div class="legend-dot" style="background:#34c759;"></div>Energy</div>';
+  html += '<div class="legend-item"><div class="legend-dot" style="background:#ff9500;"></div>Anxiety</div>';
+  html += '<div class="legend-item"><div class="legend-dot" style="background:#007aff;border:2px solid #1c1c1e;"></div>Exercise day</div>';
+  html += '</div></div></div>';
+
+  html += '<div class="section"><div class="section-label">Exercise vs mood</div>';
+  html += '<div class="corr-row">';
+  html += '<div class="corr-card"><div class="corr-label">Exercise days (' + exDays + ')</div><div class="corr-val ' + (parseFloat(exMood) >= parseFloat(noMood) ? 'corr-better' : '') + '">' + (exMood || '–') + '</div><div class="corr-sub">avg mood /10</div></div>';
+  html += '<div class="corr-card"><div class="corr-label">Rest days (' + noDays + ')</div><div class="corr-val">' + (noMood || '–') + '</div><div class="corr-sub">avg mood /10</div></div>';
+  html += '</div>';
+  html += '<div class="chart-card"><div class="chart-title">Mood on exercise vs rest days</div>';
+  html += '<canvas id="chart-exercise"></canvas></div></div>';
+
+  html += '<div class="section"><div class="section-label">Sleep & mood</div>';
+  html += '<div class="chart-card"><div class="chart-title">Avg mood by sleep duration</div>';
+  html += '<canvas id="chart-sleep"></canvas>';
+  html += '<div class="chart-sub">Based on ' + data.days_tracked + ' nights logged</div></div></div>';
+
+  if (cravings.length > 0) {
+    html += '<div class="section"><div class="section-label">Cravings</div>';
+    html += '<div class="chart-card"><div class="chart-title">Craving frequency & intensity</div>';
+    html += '<canvas id="chart-cravings"></canvas></div></div>';
+  }
+
+  html += '<div class="footer-btns">';
+  html += '<a href="https://nuclearsalt.github.io/johns-tracker" class="btn-secondary">← Back to tracker</a>';
+  html += '<a href="https://nuclearsalt.github.io/johns-tracker/insights.html" class="btn-secondary">Weekly insight</a>';
+  html += '</div>';
+
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('content').style.display = 'block';
+  document.getElementById('content').innerHTML = html;
+
+  // ── Chart 1: Mood trend line ────────────────────────────
+  new Chart(document.getElementById('chart-mood'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Mood',
+          data: moods,
+          borderColor: '#007aff',
+          backgroundColor: 'rgba(0,122,255,0.08)',
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true,
+          pointRadius: daily.map(function(d) { return d.exercised ? 6 : 3; }),
+          pointBackgroundColor: daily.map(function(d) { return d.exercised ? '#1c1c1e' : '#007aff'; }),
+          pointBorderColor: daily.map(function(d) { return d.exercised ? '#007aff' : '#007aff'; }),
+          pointBorderWidth: daily.map(function(d) { return d.exercised ? 2 : 1; }),
+        },
+        {
+          label: 'Energy',
+          data: energy,
+          borderColor: '#34c759',
+          borderWidth: 1.5,
+          tension: 0.3,
+          fill: false,
+          pointRadius: 2,
+          borderDash: [4,2],
+        },
+        {
+          label: 'Anxiety',
+          data: anxiety,
+          borderColor: '#ff9500',
+          borderWidth: 1.5,
+          tension: 0.3,
+          fill: false,
+          pointRadius: 2,
+          borderDash: [2,3],
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { min: 0, max: 10, ticks: { stepSize: 2, font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // ── Chart 2: Exercise vs mood bar ───────────────────────
+  new Chart(document.getElementById('chart-exercise'), {
+    type: 'bar',
+    data: {
+      labels: ['Exercise days', 'Rest days'],
+      datasets: [{
+        data: [parseFloat(exMood) || 0, parseFloat(noMood) || 0],
+        backgroundColor: ['rgba(0,122,255,0.7)', 'rgba(142,142,147,0.4)'],
+        borderColor:     ['#007aff', '#8e8e93'],
+        borderWidth: 1,
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { min: 0, max: 10, ticks: { stepSize: 2, font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { font: { size: 12 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // ── Chart 3: Sleep vs mood bar ──────────────────────────
+  const sleepData = data.sleep_mood || [];
+  new Chart(document.getElementById('chart-sleep'), {
+    type: 'bar',
+    data: {
+      labels: sleepData.map(function(s) { return s.bucket; }),
+      datasets: [{
+        data: sleepData.map(function(s) { return parseFloat(s.avg_mood); }),
+        backgroundColor: 'rgba(52,199,89,0.7)',
+        borderColor: '#34c759',
+        borderWidth: 1,
+        borderRadius: 8,
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false },
+        tooltip: {
+          callbacks: {
+            afterLabel: function(ctx) {
+              return sleepData[ctx.dataIndex].days + ' nights';
+            }
+          }
+        }
+      },
+      scales: {
+        y: { min: 0, max: 10, ticks: { stepSize: 2, font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // ── Chart 4: Cravings (if any) ──────────────────────────
+  if (cravings.length > 0) {
+    const cravingLabels = cravings.map(function(c) { return formatDateShort(c.date); });
+    new Chart(document.getElementById('chart-cravings'), {
+      type: 'bar',
+      data: {
+        labels: cravingLabels,
+        datasets: [
+          {
+            label: 'Count',
+            data: cravings.map(function(c) { return c.count; }),
+            backgroundColor: 'rgba(255,59,48,0.6)',
+            borderColor: '#ff3b30',
+            borderWidth: 1,
+            borderRadius: 6,
+            yAxisID: 'y',
+          },
+          {
+            label: 'Avg intensity',
+            data: cravings.map(function(c) { return parseFloat(c.avg_intensity); }),
+            type: 'line',
+            borderColor: '#ff9500',
+            borderWidth: 2,
+            tension: 0.3,
+            pointRadius: 4,
+            fill: false,
+            yAxisID: 'y2',
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y:  { position: 'left',  min: 0, max: 5, ticks: { stepSize: 1, font: { size: 10 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
+          y2: { position: 'right', min: 0, max: 5, ticks: { stepSize: 1, font: { size: 10 } }, grid: { display: false } },
+          x:  { ticks: { font: { size: 10 } }, grid: { display: false } }
+        }
+      }
+    });
+  }
+}
+
+function loadDashboard() {
+  const existing = document.getElementById('dashboard-script');
+  if (existing) existing.remove();
+  const script = document.createElement('script');
+  script.id  = 'dashboard-script';
+  script.src = ENDPOINT + '?action=getDashboardData&callback=handleDashboardData&t=' + Date.now();
+  script.onerror = function() {
+    document.getElementById('loading').innerHTML = '<p style="color:#dc3545;font-size:15px;">Could not load dashboard. Check your connection.</p>';
+  };
+  document.body.appendChild(script);
+}
+
+loadDashboard();
+</script>
+</body>
+</html>
