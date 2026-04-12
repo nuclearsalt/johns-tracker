@@ -365,7 +365,13 @@ const EXERCISE_AM_Q  = { label:'Activity', q:'Did you exercise this morning?', s
 const NOTES_Q = { label:'Notes', q:'Anything else worth noting today?', sub:'Optional — mood context, events, how you\'re feeling overall', type:'notes', key:'notes' };
 
 const Q_QUICK   = [...MOOD_BLOCK, NOTES_Q];
-const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q, FLUOX_Q, RITALIN_Q, NOTES_Q];
+const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q, { label:'Sleep aid', q:'Did you take a sleep aid tonight?', type:'yesno', polarity:'neutral', key:'sleep_aid',
+  followup: { label:'Sleep aid', q:'Which one?', type:'multichoice', options:['Seroquel','Benadryl','Both','Other'], key:'sleep_aid_type',
+    followup2: { label:'Sleep aid', q:'How many mg total?', sub:'Seroquel: 6.25mg steps · Benadryl: 12.5mg steps', type:'stepper', unit:'mg', step:6.25, min:6.25, max:150, def:6.25, key:'sleep_aid_mg' }
+  }
+}, 
+    FLUOX_Q, RITALIN_Q, NOTES_Q];
+  
 const Q_MIDDAY  = [...MOOD_BLOCK, FOCUS_Q, EXERCISE_AM_Q, RITALIN_TOPUP, NOTES_Q];
 const Q_EVENING = [
   ...MOOD_BLOCK, FOCUS_Q,
@@ -378,19 +384,14 @@ const Q_EVENING = [
   { label:'Activity',    q:'Did you ride your bicycle today?',                                       type:'yesno', polarity:'good',    key:'bicycle' },
   { label:'Social',      q:'Attended a scheduled social event?',                                     type:'yesno', polarity:'good',    key:'attended_social' },
   { label:'Commitments', q:'Attended class or volunteering?',                                        type:'yesno', polarity:'good',    key:'attended_class' },
-  { label:'Habits',      q:'Avoided sugar today?',                                                   type:'yesno', polarity:'good',    key:'avoided_sugar' },
+  
   { label:'Habits',      q:'Avoided alcohol today?',                                                 type:'yesno', polarity:'good',    key:'avoided_alcohol' },
   { label:'Habits',      q:'Avoided cannabis today?',                                                type:'yesno', polarity:'good',    key:'avoided_cannabis' },
   { label:'Habits',      q:'Did you have cravings today?',       sub:'Any substance or habit',      type:'yesno', polarity:'neutral', key:'had_cravings' },
-  { label:'Habits',      q:'Did you have sweets today?',                                             type:'yesno', polarity:'neutral', key:'had_sweets',
+  { label:'Habits', q:'Did you have sweets today?', type:'yesno', polarity:'neutral', key:'had_sweets',
     followup: { label:'Habits', q:'Why?', type:'multichoice', options:['Low energy','Depression','Just a craving','No particular reason'], key:'sweets_reason' } },
   { label:'Screen time', q:'Hours of video games today?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
   { label:'Screen time', q:'Hours on social media today?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
-  { label:'Sleep aid', q:'Did you take a sleep aid tonight?', type:'yesno', polarity:'neutral', key:'sleep_aid',
-  followup: { label:'Sleep aid', q:'Which one?', type:'multichoice', options:['Seroquel','Benadryl','Both','Other'], key:'sleep_aid_type',
-    followup2: { label:'Sleep aid', q:'How many mg total?', sub:'Seroquel: 6.25mg steps · Benadryl: 12.5mg steps', type:'stepper', unit:'mg', step:6.25, min:6.25, max:150, def:6.25, key:'sleep_aid_mg' }
-  }
-},  
  NOTES_Q,
 ];
 
@@ -632,7 +633,6 @@ function showSummary() {
       {k:'attended_class',   l:'Attended class/volunteering',  fmt:v=>v, pol:'good'},
     ]},
     { t:'Habits', items:[
-      {k:'avoided_sugar',    l:'Avoided sugar',    fmt:v=>v, pol:'good'},
       {k:'avoided_alcohol',  l:'Avoided alcohol',  fmt:v=>v, pol:'good'},
       {k:'avoided_cannabis', l:'Avoided cannabis', fmt:v=>v, pol:'good'},
       {k:'had_cravings',     l:'Had cravings',     fmt:v=>v, pol:'n'},
