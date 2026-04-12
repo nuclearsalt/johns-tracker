@@ -12,20 +12,20 @@
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f2f2f7; min-height: 100vh; }
   #app { max-width: 390px; margin: 0 auto; padding: 1.25rem; padding-bottom: 2rem; }
 
-  .greeting { font-size: 28px; font-weight: 700; color: #1c1c1e; margin-bottom: 2px; }
+  .greeting  { font-size: 28px; font-weight: 700; color: #1c1c1e; margin-bottom: 2px; }
   .date-line { font-size: 15px; color: #8e8e93; margin-bottom: 1.5rem; }
 
   .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
   .badge { display: inline-flex; align-items: center; gap: 5px; border-radius: 999px; padding: 5px 12px; font-size: 13px; font-weight: 600; }
   .badge-cannabis { background: #d1e7dd; border: 1px solid #a3cfbb; color: #0a3622; }
-  .badge-streak   { background: #fff3cd; border: 1px solid #ffc107; color: #856404; }
+  .badge-streak   { background: #e8f0fe; border: 1px solid #b8d0f5; color: #185fa5; }
 
   .section { margin-bottom: 1.25rem; }
   .section-label { font-size: 11px; font-weight: 600; color: #8e8e93; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
 
   .card { background: #fff; border-radius: 14px; padding: 1rem 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); margin-bottom: 0.75rem; }
 
-  .weather-row { display: flex; align-items: center; gap: 12px; }
+  .weather-row  { display: flex; align-items: center; gap: 12px; }
   .weather-temp { font-size: 36px; font-weight: 700; color: #1c1c1e; }
   .weather-detail { display: flex; flex-direction: column; }
   .weather-desc { font-size: 15px; color: #1c1c1e; font-weight: 500; }
@@ -39,30 +39,33 @@
 
   .encourage { font-size: 15px; color: #1c1c1e; line-height: 1.6; }
 
+  .streak-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .streak-badge { display: inline-flex; align-items: center; gap: 6px; background: #d1e7dd; border: 1px solid #a3cfbb; color: #0a3622; border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 600; }
+
+  .correlation-card { background: #fff; border-radius: 12px; padding: 0.9rem 1.1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); margin-bottom: 0.6rem; }
+  .correlation-label { font-size: 14px; font-weight: 600; color: #1c1c1e; margin-bottom: 4px; }
+  .correlation-stat  { font-size: 13px; color: #636366; line-height: 1.5; }
+  .correlation-diff  { color: #198754; font-weight: 600; }
+
   .trello-card { background: #fff; border-radius: 12px; padding: 0.75rem 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); margin-bottom: 0.6rem; }
   .trello-name { font-size: 15px; font-weight: 600; color: #1c1c1e; margin-bottom: 3px; }
   .trello-meta { font-size: 12px; color: #8e8e93; }
   .trello-desc { font-size: 13px; color: #636366; margin-top: 4px; line-height: 1.4; }
   .trello-due  { font-size: 12px; color: #dc3545; font-weight: 600; margin-top: 3px; }
-
-  .label-pill { display: inline-block; background: #e8f0fe; color: #185fa5; border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 600; margin-right: 4px; }
-  .label-pill-asap { background: #f8d7da; color: #842029; }
-
-  .empty-state { font-size: 14px; color: #8e8e93; padding: 0.5rem 0; }
-
-  .overdue-card { border-left: 3px solid #dc3545; border-radius: 0 12px 12px 0; }
+  .overdue-card   { border-left: 3px solid #dc3545; border-radius: 0 12px 12px 0; }
   .due-today-card { border-left: 3px solid #fd7e14; border-radius: 0 12px 12px 0; }
 
+  .label-pill      { display: inline-block; background: #e8f0fe; color: #185fa5; border-radius: 999px; padding: 2px 8px; font-size: 11px; font-weight: 600; margin-right: 4px; }
+  .label-pill-asap { background: #f8d7da; color: #842029; }
+
   .footer-btns { display: flex; flex-direction: column; gap: 8px; margin-top: 1.5rem; }
-  .btn-primary { width: 100%; height: 48px; border: none; border-radius: 12px; background: #007aff; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+  .btn-primary   { width: 100%; height: 48px; border: none; border-radius: 12px; background: #007aff; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; }
   .btn-secondary { width: 100%; height: 44px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #1c1c1e; font-size: 15px; font-weight: 500; cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; }
 
-  .loading { text-align: center; padding: 3rem 1rem; }
-  .spinner { display: inline-block; width: 28px; height: 28px; border: 2.5px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 1rem; }
+  .loading      { text-align: center; padding: 3rem 1rem; }
+  .spinner      { display: inline-block; width: 28px; height: 28px; border: 2.5px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 1rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .loading-text { font-size: 15px; color: #8e8e93; }
-
-  .section-divider { height: 1px; background: #e5e5ea; margin: 1.25rem 0; }
 </style>
 </head>
 <body>
@@ -78,28 +81,26 @@
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyy4oizV3fTYbaj4OKGWRZVI6c6xDTyO2jp3WsE377bZSPJPemf_e6zLZ6CoYecBIJA/exec';
 
 const WMO_CODES = {
-  0:'Clear sky', 1:'Mainly clear', 2:'Partly cloudy', 3:'Overcast',
-  45:'Foggy', 48:'Icy fog', 51:'Light drizzle', 53:'Drizzle', 55:'Heavy drizzle',
-  61:'Light rain', 63:'Rain', 65:'Heavy rain', 71:'Light snow', 73:'Snow', 75:'Heavy snow',
-  80:'Rain showers', 81:'Rain showers', 82:'Heavy showers',
-  95:'Thunderstorm', 96:'Thunderstorm', 99:'Thunderstorm'
+  0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',
+  45:'Foggy',48:'Icy fog',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',
+  61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',
+  80:'Rain showers',81:'Rain showers',82:'Heavy showers',
+  95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'
 };
-
 const WMO_ICONS = {
-  0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
-  45:'🌫️', 48:'🌫️', 51:'🌦️', 53:'🌦️', 55:'🌧️',
-  61:'🌧️', 63:'🌧️', 65:'🌧️', 71:'🌨️', 73:'❄️', 75:'❄️',
-  80:'🌦️', 81:'🌦️', 82:'⛈️',
-  95:'⛈️', 96:'⛈️', 99:'⛈️'
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+  51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',
+  71:'🌨️',73:'❄️',75:'❄️',80:'🌦️',81:'🌦️',82:'⛈️',
+  95:'⛈️',96:'⛈️',99:'⛈️'
 };
 
 function formatDate() {
-  const now = new Date();
-  const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const now  = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const mons = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   let h = now.getHours(), m = now.getMinutes().toString().padStart(2,'0');
-  const ampm = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
-  return days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ' · ' + h + ':' + m + ' ' + ampm;
+  const ap = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
+  return days[now.getDay()] + ', ' + mons[now.getMonth()] + ' ' + now.getDate() + ' · ' + h + ':' + m + ' ' + ap;
 }
 
 function greeting() {
@@ -108,66 +109,52 @@ function greeting() {
 }
 
 function getCannabisDays() {
-  const quitDateStr = localStorage.getItem('jt_cannabis_quit_date') || '2026-04-03';
-  const quitParts   = quitDateStr.split('-').map(Number);
-  const quit  = new Date(quitParts[0], quitParts[1]-1, quitParts[2]);
+  const s = localStorage.getItem('jt_cannabis_quit_date') || '2026-04-03';
+  const p = s.split('-').map(Number);
+  const quit  = new Date(p[0], p[1]-1, p[2]);
   const now   = new Date();
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  return Math.max(0, Math.floor((today - quit) / (1000*60*60*24)));
+  return Math.max(0, Math.floor((today - quit) / 86400000));
 }
 
 function labelPills(labelsStr) {
   if (!labelsStr) return '';
   return labelsStr.split(',').map(function(l) {
     l = l.trim();
-    const cls = l === 'ASAP' ? 'label-pill label-pill-asap' : 'label-pill';
-    return '<span class="' + cls + '">' + l + '</span>';
+    return '<span class="label-pill' + (l === 'ASAP' ? ' label-pill-asap' : '') + '">' + l + '</span>';
   }).join('');
 }
 
 function renderTrelloCard(card, extraClass) {
-  const cls = 'trello-card' + (extraClass ? ' ' + extraClass : '');
-  const due = card.due ? '<div class="trello-due">Due: ' + card.due + '</div>' : '';
-  const desc = card.desc ? '<div class="trello-desc">' + card.desc + '</div>' : '';
-  return '<div class="' + cls + '">' +
+  return '<div class="trello-card' + (extraClass ? ' ' + extraClass : '') + '">' +
     '<div class="trello-name">' + card.name + '</div>' +
     '<div class="trello-meta">' + labelPills(card.labels) + '</div>' +
-    desc + due +
+    (card.desc ? '<div class="trello-desc">' + card.desc + '</div>' : '') +
+    (card.due  ? '<div class="trello-due">Due: ' + card.due + '</div>' : '') +
     '</div>';
 }
 
 async function getWeather() {
   return new Promise(function(resolve) {
     if (!navigator.geolocation) { resolve(null); return; }
-    navigator.geolocation.getCurrentPosition(
-      async function(pos) {
-        try {
-          const lat = pos.coords.latitude.toFixed(4);
-          const lon = pos.coords.longitude.toFixed(4);
-          const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
-            '&current=temperature_2m,weathercode,windspeed_10m&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto';
-          const res  = await fetch(url);
-          const data = await res.json();
-          const cur  = data.current;
-          resolve({
-            temp:    Math.round(cur.temperature_2m),
-            code:    cur.weathercode,
-            desc:    WMO_CODES[cur.weathercode] || 'Unknown',
-            icon:    WMO_ICONS[cur.weathercode] || '🌡️',
-            wind:    Math.round(cur.windspeed_10m)
-          });
-        } catch(e) { resolve(null); }
-      },
-      function() { resolve(null); },
-      { timeout: 5000 }
-    );
+    navigator.geolocation.getCurrentPosition(function(pos) {
+      const lat = pos.coords.latitude.toFixed(4);
+      const lon = pos.coords.longitude.toFixed(4);
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
+        '&current=temperature_2m,weathercode,windspeed_10m&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=auto')
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          const c = d.current;
+          resolve({ temp: Math.round(c.temperature_2m), code: c.weathercode, wind: Math.round(c.windspeed_10m),
+            desc: WMO_CODES[c.weathercode] || 'Unknown', icon: WMO_ICONS[c.weathercode] || '🌡️' });
+        }).catch(function() { resolve(null); });
+    }, function() { resolve(null); }, { timeout: 5000 });
   });
 }
 
 function handleBriefingData(data) {
   getWeather().then(function(weather) {
     const cannabisDays = getCannabisDays();
-
     let html = '';
 
     html += '<div class="greeting">' + greeting() + '</div>';
@@ -175,11 +162,15 @@ function handleBriefingData(data) {
 
     html += '<div class="badges">';
     html += '<span class="badge badge-cannabis">🌿 ' + cannabisDays + ' days cannabis-free</span>';
+    if (data.streaks && data.streaks.length > 0) {
+      data.streaks.forEach(function(s) {
+        html += '<span class="badge badge-streak">' + s.emoji + ' ' + s.streak + '-day ' + s.label.toLowerCase() + '</span>';
+      });
+    }
     html += '</div>';
 
     if (weather) {
-      html += '<div class="section">';
-      html += '<div class="section-label">Weather</div>';
+      html += '<div class="section"><div class="section-label">Weather</div>';
       html += '<div class="card"><div class="weather-row">';
       html += '<div class="weather-icon">' + weather.icon + '</div>';
       html += '<div class="weather-temp">' + weather.temp + '°F</div>';
@@ -188,8 +179,7 @@ function handleBriefingData(data) {
       html += '</div></div></div>';
     }
 
-    html += '<div class="section">';
-    html += '<div class="section-label">This week</div>';
+    html += '<div class="section"><div class="section-label">This week</div>';
     html += '<div class="card"><div class="mood-row">';
     html += '<div class="mood-cell"><div class="mood-val">' + (data.avg_mood || '–') + '</div><div class="mood-lbl">Mood avg</div></div>';
     html += '<div class="mood-cell"><div class="mood-val">' + (data.avg_energy || '–') + '</div><div class="mood-lbl">Energy avg</div></div>';
@@ -200,30 +190,38 @@ function handleBriefingData(data) {
     }
     html += '</div>';
 
+    if (data.correlations && data.correlations.length > 0) {
+      html += '<div class="section"><div class="section-label">What the data says</div>';
+      data.correlations.forEach(function(c) {
+        const diff = (parseFloat(c.avg_did) - parseFloat(c.avg_didnt)).toFixed(1);
+        html += '<div class="correlation-card">';
+        html += '<div class="correlation-label">' + c.emoji + ' ' + c.label + '</div>';
+        html += '<div class="correlation-stat">Your mood averages <span class="correlation-diff">' + c.avg_did + '/10</span> on ' + c.label.toLowerCase() + ' days vs ' + c.avg_didnt + '/10 on days you don\'t — a <span class="correlation-diff">+' + diff + ' point</span> difference.</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+
     if (data.overdue && data.overdue.length > 0) {
-      html += '<div class="section">';
-      html += '<div class="section-label">⚠️ Overdue</div>';
+      html += '<div class="section"><div class="section-label">⚠️ Overdue</div>';
       data.overdue.forEach(function(card) { html += renderTrelloCard(card, 'overdue-card'); });
       html += '</div>';
     }
 
     if (data.due_today && data.due_today.length > 0) {
-      html += '<div class="section">';
-      html += '<div class="section-label">Due today</div>';
+      html += '<div class="section"><div class="section-label">Due today</div>';
       data.due_today.forEach(function(card) { html += renderTrelloCard(card, 'due-today-card'); });
       html += '</div>';
     }
 
     if (data.wip && data.wip.length > 0) {
-      html += '<div class="section">';
-      html += '<div class="section-label">In progress</div>';
+      html += '<div class="section"><div class="section-label">In progress</div>';
       data.wip.forEach(function(card) { html += renderTrelloCard(card, ''); });
       html += '</div>';
     }
 
     if (data.ready && data.ready.length > 0) {
-      html += '<div class="section">';
-      html += '<div class="section-label">Up next (Ready)</div>';
+      html += '<div class="section"><div class="section-label">Up next</div>';
       data.ready.forEach(function(card) { html += renderTrelloCard(card, ''); });
       html += '</div>';
     }
@@ -233,8 +231,8 @@ function handleBriefingData(data) {
     html += '<a href="https://nuclearsalt.github.io/johns-tracker/insights.html" class="btn-secondary">View weekly insight</a>';
     html += '</div>';
 
-    document.getElementById('loading').style.display = 'none';
-    document.getElementById('content').style.display = 'block';
+    document.getElementById('loading').style.display  = 'none';
+    document.getElementById('content').style.display  = 'block';
     document.getElementById('content').innerHTML = html;
   });
 }
