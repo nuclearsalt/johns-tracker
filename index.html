@@ -365,7 +365,7 @@ const EXERCISE_AM_Q  = { label:'Activity', q:'Did you exercise this morning?', s
 const NOTES_Q = { label:'Notes', q:'Anything else worth noting today?', sub:'Optional — mood context, events, how you\'re feeling overall', type:'notes', key:'notes' };
 
 const Q_QUICK   = [...MOOD_BLOCK, NOTES_Q];
-const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q, { label:'Sleep aid', q:'Did you take a sleep aid tonight?', type:'yesno', polarity:'neutral', key:'sleep_aid',
+const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q, { label:'Sleep aid', q:'Did you take a sleep aid last night?', type:'yesno', polarity:'neutral', key:'sleep_aid',
   followup: { label:'Sleep aid', q:'Which one?', type:'multichoice', options:['Seroquel','Benadryl','Both','Other'], key:'sleep_aid_type',
     followup2: { label:'Sleep aid', q:'How many mg total?', sub:'Seroquel: 6.25mg steps · Benadryl: 12.5mg steps', type:'stepper', unit:'mg', step:6.25, min:6.25, max:150, def:6.25, key:'sleep_aid_mg' }
   }
