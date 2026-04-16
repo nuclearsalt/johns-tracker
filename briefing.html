@@ -249,10 +249,10 @@ function handleBriefingData(data) {
         const time = event.all_day ? 'All day' : event.start + (event.end ? ' – ' + event.end : '');
         const calColor = {
           'Work':                    '#007aff',
-          'Capitalism':              '#ff9500',
-          'Events and Volunteering': '#34c759',
+          'Capitalism':              '#34c759',
+          'Events and Volunteering': '#af52de',
           'Personal/Medical':        '#ff3b30',
-          'Social Commitments':      '#af52de',
+          'Social Commitments':      '#ff9500',
           'Travel':                  '#5ac8fa',
         }[event.calendar] || '#8e8e93';
 
