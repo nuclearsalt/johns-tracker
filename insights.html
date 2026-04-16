@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,62 +5,281 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Weekly Insight">
-<title>Weekly Insight</title>
+<meta name="apple-mobile-web-app-title" content="Insights">
+<title>Insights</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f2f2f7; min-height: 100vh; }
   #app { max-width: 390px; margin: 0 auto; padding: 1.25rem; padding-bottom: 2rem; }
+
   .header { margin-bottom: 1.5rem; }
   .title { font-size: 26px; font-weight: 600; color: #1c1c1e; margin-bottom: 2px; }
   .subtitle { font-size: 15px; color: #8e8e93; }
+
+  .section-label { font-size: 11px; font-weight: 600; color: #8e8e93; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.75rem; }
+
+  .chart-card { background: #fff; border-radius: 14px; padding: 1rem 1.1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); margin-bottom: 0.75rem; }
+  .chart-title { font-size: 14px; font-weight: 600; color: #1c1c1e; margin-bottom: 0.75rem; }
+  canvas { width: 100% !important; }
+
+  .corr-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 0.75rem; }
+  .corr-card { background: #fff; border-radius: 12px; padding: 0.85rem 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); }
+  .corr-label { font-size: 11px; color: #8e8e93; margin-bottom: 4px; }
+  .corr-val { font-size: 24px; font-weight: 700; color: #1c1c1e; }
+  .corr-sub { font-size: 11px; color: #8e8e93; margin-top: 2px; }
+  .corr-better { color: #198754; }
+
+  .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #636366; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+  .divider { height: 1px; background: #e5e5ea; margin: 1.25rem 0; }
+
   .week-label { font-size: 12px; font-weight: 600; color: #8e8e93; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid #e5e5ea; }
   .insight-paragraph { background: #fff; border-radius: 14px; padding: 1.1rem 1.25rem; margin-bottom: 0.75rem; box-shadow: 0 1px 3px rgba(0,0,0,0.07); font-size: 16px; color: #1c1c1e; line-height: 1.75; }
   .insight-paragraph b { font-weight: 600; }
   .paragraph-number { font-size: 11px; font-weight: 600; color: #007aff; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.5rem; }
-  .loading { text-align: center; padding: 3rem 1rem; }
-  .spinner { display: inline-block; width: 28px; height: 28px; border: 2.5px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 1rem; }
+
+  .loading { text-align: center; padding: 2rem 1rem; }
+  .spinner { display: inline-block; width: 24px; height: 24px; border: 2.5px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; margin-bottom: 0.75rem; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .loading-text { font-size: 15px; color: #8e8e93; }
+  .loading-text { font-size: 14px; color: #8e8e93; }
+
   .error-card { background: #fff0ef; border: 1px solid #ffc5c0; border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem; }
   .error-text { font-size: 15px; color: #c0392b; line-height: 1.6; }
   .empty-card { background: #f0f6ff; border: 1px solid #c5d9f7; border-radius: 16px; padding: 1.5rem; text-align: center; }
   .empty-text { font-size: 15px; color: #185fa5; line-height: 1.6; }
-  .footer { text-align: center; margin-top: 1.5rem; }
-  .footer-link { font-size: 13px; color: #8e8e93; text-decoration: none; display: inline-block; padding: 8px 16px; border: 1px solid #e5e5ea; border-radius: 999px; background: #fff; }
-  .refresh-btn { width: 100%; height: 44px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #007aff; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; margin-bottom: 1rem; }
-  .refresh-btn:active { background: #f0f6ff; }
+
   .status-row { display: flex; align-items: center; margin-bottom: 1rem; }
   .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #34c759; margin-right: 6px; flex-shrink: 0; }
   .status-text { font-size: 13px; color: #8e8e93; }
+
+  .refresh-btn { width: 100%; height: 44px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #007aff; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; margin-bottom: 1rem; }
+  .refresh-btn:active { background: #f0f6ff; }
+
+  .footer-btns { display: flex; gap: 8px; margin-top: 1.5rem; }
+  .footer-link { flex: 1; font-size: 13px; color: #8e8e93; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; height: 40px; border: 1px solid #e5e5ea; border-radius: 999px; background: #fff; }
 </style>
 </head>
 <body>
 <div id="app">
   <div class="header">
-    <div class="title">Weekly insight</div>
+    <div class="title">Insights</div>
     <div class="subtitle" id="date-display"></div>
   </div>
+
+  <!-- Charts section -->
+  <div id="charts-section">
+    <div class="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">Loading charts...</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Insight text section -->
   <div id="content">
     <div class="loading">
       <div class="spinner"></div>
       <div class="loading-text">Loading your insight...</div>
     </div>
   </div>
-  <div class="footer">
-    <a href="https://nuclearsalt.github.io/johns-tracker" class="footer-link">Open John's Tracker</a>
+
+  <div class="footer-btns">
+    <a href="https://nuclearsalt.github.io/johns-tracker" class="footer-link">← Tracker</a>
+    <a href="https://nuclearsalt.github.io/johns-tracker/dashboard.html" class="footer-link">Dashboard →</a>
   </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
 const ENDPOINT = 'https://script.google.com/macros/s/AKfycbyy4oizV3fTYbaj4OKGWRZVI6c6xDTyO2jp3WsE377bZSPJPemf_e6zLZ6CoYecBIJA/exec';
 
 function formatDate() {
   const now = new Date();
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const days   = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  return `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+  return days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate();
 }
 document.getElementById('date-display').textContent = formatDate();
+
+function formatDateShort(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  return (d.getMonth()+1) + '/' + d.getDate();
+}
+
+// ── Charts ───────────────────────────────────────────────────
+
+function handleDashboardData(data) {
+  const section = document.getElementById('charts-section');
+  if (!data || !data.daily || data.daily.length < 3) {
+    section.innerHTML = '<div class="empty-card"><div class="empty-text">Not enough data yet for charts. Keep logging!</div></div>';
+    return;
+  }
+
+  const daily   = data.daily;
+  const labels  = daily.map(function(d) { return formatDateShort(d.date); });
+  const moods   = daily.map(function(d) { return d.mood; });
+  const anxiety = daily.map(function(d) { return d.anxiety; });
+  const energy  = daily.map(function(d) { return d.energy; });
+
+  const exMood = data.exercise_mood_avg;
+  const noMood = data.no_exercise_mood_avg;
+  const exDays = data.exercise_days;
+  const noDays = data.no_exercise_days;
+  const exDiff = exMood && noMood ? (parseFloat(exMood) - parseFloat(noMood)).toFixed(1) : null;
+  const sleepData = data.sleep_mood || [];
+
+  let html = '';
+
+  // Mood trend
+  html += '<div class="section-label">This week</div>';
+  html += '<div class="chart-card">';
+  html += '<div class="chart-title">Mood · Energy · Anxiety</div>';
+  html += '<canvas id="chart-mood"></canvas>';
+  html += '<div class="legend">';
+  html += '<div class="legend-item"><div class="legend-dot" style="background:#007aff;"></div>Mood</div>';
+  html += '<div class="legend-item"><div class="legend-dot" style="background:#34c759;"></div>Energy</div>';
+  html += '<div class="legend-item"><div class="legend-dot" style="background:#ff9500;"></div>Anxiety</div>';
+  html += '<div class="legend-item"><div class="legend-dot" style="background:#1c1c1e;border:2px solid #007aff;"></div>Exercise day</div>';
+  html += '</div></div>';
+
+  // Exercise correlation
+  if (exMood && noMood) {
+    const better = parseFloat(exMood) >= parseFloat(noMood);
+    const sign   = parseFloat(exDiff) > 0 ? '+' : '';
+    html += '<div class="corr-row">';
+    html += '<div class="corr-card"><div class="corr-label">Exercise days (' + exDays + ')</div><div class="corr-val ' + (better ? 'corr-better' : '') + '">' + exMood + '</div><div class="corr-sub">avg mood /10</div></div>';
+    html += '<div class="corr-card"><div class="corr-label">Rest days (' + noDays + ')</div><div class="corr-val">' + noMood + '</div><div class="corr-sub">avg mood /10</div></div>';
+    html += '</div>';
+    html += '<div class="chart-card"><div class="chart-title">Mood on exercise vs rest days</div><canvas id="chart-exercise"></canvas></div>';
+  }
+
+  // Sleep vs mood
+  if (sleepData.length >= 2) {
+    html += '<div class="chart-card"><div class="chart-title">Avg mood by sleep duration</div><canvas id="chart-sleep"></canvas></div>';
+  }
+
+  section.innerHTML = html;
+
+  // Render mood trend
+  new Chart(document.getElementById('chart-mood'), {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Mood',
+          data: moods,
+          borderColor: '#007aff',
+          backgroundColor: 'rgba(0,122,255,0.08)',
+          borderWidth: 2,
+          tension: 0.3,
+          fill: true,
+          pointRadius: daily.map(function(d) { return d.exercised ? 6 : 3; }),
+          pointBackgroundColor: daily.map(function(d) { return d.exercised ? '#1c1c1e' : '#007aff'; }),
+          pointBorderColor: '#007aff',
+          pointBorderWidth: daily.map(function(d) { return d.exercised ? 2 : 1; }),
+        },
+        {
+          label: 'Energy',
+          data: energy,
+          borderColor: '#34c759',
+          borderWidth: 1.5,
+          tension: 0.3,
+          fill: false,
+          pointRadius: 2,
+          borderDash: [4,2],
+        },
+        {
+          label: 'Anxiety',
+          data: anxiety,
+          borderColor: '#ff9500',
+          borderWidth: 1.5,
+          tension: 0.3,
+          fill: false,
+          pointRadius: 2,
+          borderDash: [2,3],
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: {
+        y: { min: 0, max: 10, ticks: { stepSize: 2, font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
+        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  // Render exercise bar
+  if (exMood && noMood && document.getElementById('chart-exercise')) {
+    new Chart(document.getElementById('chart-exercise'), {
+      type: 'bar',
+      data: {
+        labels: ['Exercise days', 'Rest days'],
+        datasets: [{
+          data: [parseFloat(exMood), parseFloat(noMood)],
+          backgroundColor: ['rgba(0,122,255,0.7)', 'rgba(142,142,147,0.4)'],
+          borderColor:     ['#007aff', '#8e8e93'],
+          borderWidth: 1,
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { min: 0, max: 10, ticks: { stepSize: 2, font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
+          x: { ticks: { font: { size: 12 } }, grid: { display: false } }
+        }
+      }
+    });
+  }
+
+  // Render sleep bar
+  if (sleepData.length >= 2 && document.getElementById('chart-sleep')) {
+    new Chart(document.getElementById('chart-sleep'), {
+      type: 'bar',
+      data: {
+        labels: sleepData.map(function(s) { return s.bucket; }),
+        datasets: [{
+          data: sleepData.map(function(s) { return parseFloat(s.avg_mood); }),
+          backgroundColor: 'rgba(52,199,89,0.7)',
+          borderColor: '#34c759',
+          borderWidth: 1,
+          borderRadius: 8,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false },
+          tooltip: { callbacks: { afterLabel: function(ctx) { return sleepData[ctx.dataIndex].days + ' nights'; } } }
+        },
+        scales: {
+          y: { min: 0, max: 10, ticks: { stepSize: 2, font: { size: 11 } }, grid: { color: 'rgba(0,0,0,0.05)' } },
+          x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+        }
+      }
+    });
+  }
+}
+
+function loadCharts() {
+  const existing = document.getElementById('chart-script');
+  if (existing) existing.remove();
+  const script = document.createElement('script');
+  script.id  = 'chart-script';
+  script.src = ENDPOINT + '?action=getDashboardData&callback=handleDashboardData&t=' + Date.now();
+  script.onerror = function() {
+    document.getElementById('charts-section').innerHTML = '<div class="error-card"><div class="error-text">Could not load chart data.</div></div>';
+  };
+  document.body.appendChild(script);
+}
+
+// ── Insight text ─────────────────────────────────────────────
 
 function markdownToHTML(text) {
   return text
@@ -74,52 +292,52 @@ function splitAndClean(rawContent) {
   const joined = Array.isArray(rawContent) ? rawContent.join('\r\r') : rawContent;
   return joined
     .split(/\r\r|\n\n/)
-    .map(p => p.replace(/\r/g, ' ').replace(/\n/g, ' ').trim())
-    .filter(p => p.length > 20 && !p.startsWith('#'));
+    .map(function(p) { return p.replace(/\r/g, ' ').replace(/\n/g, ' ').trim(); })
+    .filter(function(p) { return p.length > 20 && !p.startsWith('#'); });
 }
 
 function handleInsightResponse(data) {
   const content = document.getElementById('content');
-
   if (!data || (!data.heading && (!data.content || data.content.length === 0))) {
-    content.innerHTML = `<div class="empty-card"><div class="empty-text">No insight yet this week.<br><br>Your first automated insight will appear here on Sunday at 11am once you have a week of check-in data.</div></div>`;
+    content.innerHTML = '<div class="empty-card"><div class="empty-text">No insight yet this week.<br><br>Your first automated insight will appear here on Sunday at 11am once you have a week of check-in data.</div></div>';
     return;
   }
 
   const paragraphs = splitAndClean(data.content);
-  const labels = ['Trends', 'Correlations', 'Focus'];
-
+  const labels     = ['Trends', 'Correlations', 'Focus'];
   let paraHTML = '';
+
   if (paragraphs.length > 0) {
-    paragraphs.forEach((p, i) => {
+    paragraphs.forEach(function(p, i) {
       const label = labels[i] !== undefined ? labels[i] : 'Note';
-      paraHTML += `<div class="insight-paragraph"><div class="paragraph-number">${label}</div>${markdownToHTML(p)}</div>`;
+      paraHTML += '<div class="insight-paragraph"><div class="paragraph-number">' + label + '</div>' + markdownToHTML(p) + '</div>';
     });
   } else {
     const fallback = Array.isArray(data.content) ? data.content.join(' ') : data.content;
-    paraHTML = `<div class="insight-paragraph">${markdownToHTML(fallback)}</div>`;
+    paraHTML = '<div class="insight-paragraph">' + markdownToHTML(fallback) + '</div>';
   }
 
-  content.innerHTML = `
-    <div class="status-row"><span class="dot"></span><span class="status-text">Latest insight loaded</span></div>
-    <div class="week-label">${data.heading || 'This week'}</div>
-    ${paraHTML}
-    <button class="refresh-btn" onclick="loadInsight()">Refresh</button>`;
+  content.innerHTML =
+    '<div class="status-row"><span class="dot"></span><span class="status-text">Latest insight loaded</span></div>' +
+    '<div class="week-label">' + (data.heading || 'This week') + '</div>' +
+    paraHTML +
+    '<button class="refresh-btn" onclick="loadInsight()">Refresh</button>';
 }
 
 function loadInsight() {
-  document.getElementById('content').innerHTML = `<div class="loading"><div class="spinner"></div><div class="loading-text">Loading your insight...</div></div>`;
+  document.getElementById('content').innerHTML = '<div class="loading"><div class="spinner"></div><div class="loading-text">Loading your insight...</div></div>';
   const existing = document.getElementById('jsonp-script');
   if (existing) existing.remove();
   const script = document.createElement('script');
-  script.id = 'jsonp-script';
-  script.src = `${ENDPOINT}?action=getLatestInsight&callback=handleInsightResponse&t=${Date.now()}`;
-  script.onerror = () => {
-    document.getElementById('content').innerHTML = `<div class="error-card"><div class="error-text">Could not load insight. Check your connection and try again.</div></div><button class="refresh-btn" onclick="loadInsight()">Try again</button>`;
+  script.id  = 'jsonp-script';
+  script.src = ENDPOINT + '?action=getLatestInsight&callback=handleInsightResponse&t=' + Date.now();
+  script.onerror = function() {
+    document.getElementById('content').innerHTML = '<div class="error-card"><div class="error-text">Could not load insight. Check your connection and try again.</div></div><button class="refresh-btn" onclick="loadInsight()">Try again</button>';
   };
   document.body.appendChild(script);
 }
 
+loadCharts();
 loadInsight();
 </script>
 </body>
