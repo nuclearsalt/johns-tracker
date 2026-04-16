@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -117,7 +116,7 @@
   <div id="screen-start" class="screen active">
     <div class="greeting" id="greeting-text">Good morning</div>
     <div class="greeting-sub" id="greeting-date"></div>
-    <div class="streak-badge">&#128293; <span id="streak-count">0</span>day streak</div>
+    <div class="streak-badge" id="streak-badge">&#128293; 0 days streak</div>
     <div class="cannabis-badge">&#127807; <span id="cannabis-count">0</span> days cannabis-free</div>
     <div class="alcohol-badge">&#127867; <span id="alcohol-count">0</span> days alcohol-free</div>
     <div class="insight-card" id="insight-card" style="display:none;">
@@ -164,78 +163,78 @@
   </div>
 
   <!-- EPISODE: TYPE + INTENSITY -->
-<div id="screen-episode1" class="screen">
-  <div class="greeting" style="margin-bottom:0.25rem;">Log an episode</div>
-  <div class="greeting-sub" style="margin-bottom:1.25rem;">What's happening?</div>
-  <div class="card">
-    <div class="question">What type of episode?</div>
-    <div class="mc-wrap" id="episode-type-list"></div>
+  <div id="screen-episode1" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">Log an episode</div>
+    <div class="greeting-sub" style="margin-bottom:1.25rem;">What's happening?</div>
+    <div class="card">
+      <div class="question">What type of episode?</div>
+      <div class="mc-wrap" id="episode-type-list"></div>
+    </div>
+    <div class="card" id="episode-intensity-card" style="display:none;">
+      <div class="question">How intense is it?</div>
+      <div class="intensity-row" id="episode-intensity-row"></div>
+    </div>
+    <div class="card" id="episode-duration-card" style="display:none;">
+      <div class="question">How long has it been going on?</div>
+      <div style="display:flex;flex-direction:column;gap:12px;" id="episode-duration-row"></div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goHome()">&#8592;</button>
+      <button class="btn-next on" onclick="showEpisode2()">Continue</button>
+    </div>
   </div>
-  <div class="card" id="episode-intensity-card" style="display:none;">
-    <div class="question">How intense is it?</div>
-    <div class="intensity-row" id="episode-intensity-row"></div>
-  </div>
-  <div class="card" id="episode-duration-card" style="display:none;">
-    <div class="question">How long has it been going on?</div>
-    <div style="display:flex;flex-direction:column;gap:12px;" id="episode-duration-row"></div>
-  </div>
-  <div class="nav-row">
-    <button class="btn-back" onclick="goHome()">&#8592;</button>
-    <button class="btn-next on" onclick="showEpisode2()">Continue</button>
-  </div>
-</div>
 
-<!-- EPISODE: TRIGGER -->
-<div id="screen-episode2" class="screen">
-  <div class="greeting" style="margin-bottom:0.25rem;">Log an episode</div>
-  <div class="greeting-sub" style="margin-bottom:1.25rem;">What's going on?</div>
-  <div class="card">
-    <div class="question">What triggered it?</div>
-    <div class="mc-wrap" id="episode-trigger-list"></div>
+  <!-- EPISODE: TRIGGER -->
+  <div id="screen-episode2" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">Log an episode</div>
+    <div class="greeting-sub" style="margin-bottom:1.25rem;">What's going on?</div>
+    <div class="card">
+      <div class="question">What triggered it?</div>
+      <div class="mc-wrap" id="episode-trigger-list"></div>
+    </div>
+    <div class="card" id="episode-trigger-other" style="display:none;">
+      <div class="question" style="font-size:16px;margin-bottom:0.75rem;">What was it? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
+      <textarea id="episode-trigger-notes" placeholder="Describe what triggered it..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
+    </div>
+    <div class="card">
+      <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Any more detail? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
+      <textarea id="episode-trigger-context" placeholder="What's happening right now..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="showScreen('screen-episode1')">&#8592;</button>
+      <button class="btn-next on" onclick="showEpisodeStrategies()">Show strategies</button>
+    </div>
   </div>
-  <div class="card" id="episode-trigger-other" style="display:none;">
-  <div class="question" style="font-size:16px;margin-bottom:0.75rem;">What was it? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
-  <textarea id="episode-trigger-notes" placeholder="Describe what triggered it..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
-</div>
-<div class="card">
-  <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Any more detail? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
-  <textarea id="episode-trigger-context" placeholder="What's happening right now..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
-</div>
-  <div class="nav-row">
-    <button class="btn-back" onclick="showScreen('screen-episode1')">&#8592;</button>
-    <button class="btn-next on" onclick="showEpisodeStrategies()">Show strategies</button>
-  </div>
-</div>
 
-<!-- EPISODE: STRATEGIES -->
-<div id="screen-episode-strategies" class="screen">
-  <div class="greeting" style="margin-bottom:0.25rem;">Try one of these</div>
-  <div class="greeting-sub" id="episode-strategy-sub" style="margin-bottom:1.25rem;"></div>
-  <div class="strategy-list" id="episode-strategy-list"></div>
-  <div style="margin-top:1.25rem;">
-    <button class="btn-primary" onclick="showEpisode3()">Continue</button>
+  <!-- EPISODE: STRATEGIES -->
+  <div id="screen-episode-strategies" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">Try one of these</div>
+    <div class="greeting-sub" id="episode-strategy-sub" style="margin-bottom:1.25rem;"></div>
+    <div class="strategy-list" id="episode-strategy-list"></div>
+    <div style="margin-top:1.25rem;">
+      <button class="btn-primary" onclick="showEpisode3()">Continue</button>
+    </div>
   </div>
-</div>
 
-<!-- EPISODE: POST MOOD + NOTES -->
-<div id="screen-episode3" class="screen">
-  <div class="greeting" style="margin-bottom:0.25rem;">Almost done</div>
-  <div class="greeting-sub" style="margin-bottom:1.25rem;">You logged it — that matters.</div>
-  <div class="card">
-    <div class="question">How are you feeling right now?</div>
-    <div class="subtext" style="display:block;margin-top:-0.75rem;margin-bottom:1.25rem;">1 = very low, 10 = okay</div>
-    <div class="scale-row" id="episode-post-mood-row"></div>
-    <div class="scale-labels"><span>Low</span><span>Better</span></div>
+  <!-- EPISODE: POST MOOD + NOTES -->
+  <div id="screen-episode3" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">Almost done</div>
+    <div class="greeting-sub" style="margin-bottom:1.25rem;">You logged it — that matters.</div>
+    <div class="card">
+      <div class="question">How are you feeling right now?</div>
+      <div class="subtext" style="display:block;margin-top:-0.75rem;margin-bottom:1.25rem;">1 = very low, 10 = okay</div>
+      <div class="scale-row" id="episode-post-mood-row"></div>
+      <div class="scale-labels"><span>Low</span><span>Better</span></div>
+    </div>
+    <div class="card">
+      <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Anything else to note? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
+      <textarea id="episode-notes" placeholder="How you're feeling, what helped, what didn't..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
+    </div>
+    <div class="status-msg" id="episode-save-status"></div>
+    <button class="btn-primary" onclick="saveEpisode()">Save &amp; finish</button>
+    <button class="btn-secondary" onclick="goHome()">Skip &amp; finish</button>
   </div>
-  <div class="card">
-    <div class="question" style="font-size:16px;margin-bottom:0.75rem;">Anything else to note? <span style="font-weight:400;color:#8e8e93;">(optional)</span></div>
-    <textarea id="episode-notes" placeholder="How you're feeling, what helped, what didn't..." style="width:100%;height:80px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;"></textarea>
-  </div>
-  <div class="status-msg" id="episode-save-status"></div>
-  <button class="btn-primary" onclick="saveEpisode()">Save &amp; finish</button>
-  <button class="btn-secondary" onclick="goHome()">Skip &amp; finish</button>
-</div>
- 
+
   <!-- CRAVING: WHAT + INTENSITY -->
   <div id="screen-craving1" class="screen">
     <div class="greeting" style="margin-bottom:0.25rem;">Log a craving</div>
@@ -327,20 +326,12 @@ const TRIGGERS = [
 ];
 
 const EPISODE_TRIGGERS = [
-  'Stress / overwhelm',
-  'Financial anxiety',
-  'Conflict with someone',
-  'Loneliness / isolation',
-  'Physical exhaustion',
-  'Poor sleep',
-  'Withdrawal symptoms',
-  'Unexpected bad news',
-  'Social situation',
-  'Work pressure',
-  'No obvious trigger',
-  'Other'
+  'Stress / overwhelm','Financial anxiety','Conflict with someone',
+  'Loneliness / isolation','Physical exhaustion','Poor sleep',
+  'Withdrawal symptoms','Unexpected bad news','Social situation',
+  'Work pressure','No obvious trigger','Other'
 ];
- 
+
 const SUBSTANCES = ['Cannabis','Alcohol','Sugar','Social media','Other'];
 
 const DESCS = {
@@ -351,69 +342,66 @@ const DESCS = {
 };
 
 const MOOD_BLOCK = [
-  { label:'Mood',    q:'How are you feeling right now?', sub:'1 = very low, 10 = great',      type:'scale', key:'mood' },
-  { label:'Energy',  q:'Energy level?',                  sub:'1 = exhausted, 10 = buzzing',    type:'scale', key:'energy' },
-  { label:'Anxiety', q:'Anxiety level?',                 sub:'1 = calm, 10 = very anxious',    type:'scale', key:'anxiety' },
+  { label:'Mood',    q:'How are you feeling right now?', sub:'1 = very low, 10 = great',   type:'scale', key:'mood' },
+  { label:'Energy',  q:'Energy level?',                  sub:'1 = exhausted, 10 = buzzing', type:'scale', key:'energy' },
+  { label:'Anxiety', q:'Anxiety level?',                 sub:'1 = calm, 10 = very anxious', type:'scale', key:'anxiety' },
 ];
 
-const SLEEP_Q        = { label:'Sleep',    q:'Hours of sleep last night?',     sub:'Check your CPAP reading',            type:'stepper', unit:'hrs', step:0.5,  min:0,    max:14,  def:7,    key:'sleep' };
-const FOCUS_Q        = { label:'Focus',    q:'How is your focus right now?',   sub:'1 = scattered, 10 = locked in',      type:'scale',   key:'focus' };
-const FLUOX_Q        = { label:'Meds',     q:'Took Fluoxetine (40mg)?',        hint:"Take it now if you haven't yet!",   type:'yesno',   polarity:'good',    key:'fluoxetine' };
-const RITALIN_Q      = { label:'Meds',     q:'Took Ritalin this morning?',     sub:'As needed — skip if not applicable', type:'yesno',   polarity:'neutral', key:'ritalin',
+const SLEEP_Q       = { label:'Sleep',    q:'Hours of sleep last night?',     sub:'Check your CPAP reading',           type:'stepper', unit:'hrs', step:0.5,  min:0,    max:14,  def:7,    key:'sleep' };
+const FOCUS_Q       = { label:'Focus',    q:'How is your focus right now?',   sub:'1 = scattered, 10 = locked in',     type:'scale',   key:'focus' };
+const FLUOX_Q       = { label:'Meds',     q:'Took Fluoxetine (40mg)?',        hint:"Take it now if you haven't yet!",  type:'yesno',   polarity:'good',    key:'fluoxetine' };
+const RITALIN_Q     = { label:'Meds',     q:'Took Ritalin this morning?',     sub:'As needed — skip if not applicable',type:'yesno',   polarity:'neutral', key:'ritalin',
   followup: { label:'Meds', q:'How many mg?', sub:'One quarter tab = 1.25mg', type:'stepper', unit:'mg', step:1.25, min:1.25, max:20, def:1.25, key:'ritalin_mg' } };
-const RITALIN_TOPUP  = { label:'Meds',     q:'Took a second Ritalin dose?',    sub:'As needed',                          type:'yesno',   polarity:'neutral', key:'ritalin_midday',
+const RITALIN_TOPUP = { label:'Meds',     q:'Took a second Ritalin dose?',    sub:'As needed',                         type:'yesno',   polarity:'neutral', key:'ritalin_midday',
   followup: { label:'Meds', q:'How many mg?', sub:'One quarter tab = 1.25mg', type:'stepper', unit:'mg', step:1.25, min:1.25, max:20, def:1.25, key:'ritalin_midday_mg' } };
-const EXERCISE_AM_Q  = { label:'Activity', q:'Did you exercise this morning?', sub:'At least 15 min, intense',           type:'yesno',   polarity:'good',    key:'exercise_morning' };
-const NOTES_Q = { label:'Notes', q:'Anything else worth noting today?', sub:'Optional — mood context, events, how you\'re feeling overall', type:'notes', key:'notes' };
+const EXERCISE_AM_Q = { label:'Activity', q:'Did you exercise this morning?', sub:'At least 15 min, intense',          type:'yesno',   polarity:'good',    key:'exercise_morning' };
+const NOTES_Q       = { label:'Notes',    q:'Anything else worth noting today?', sub:'Optional — mood context, events, how you\'re feeling overall', type:'notes', key:'notes' };
 
 const Q_QUICK   = [...MOOD_BLOCK, NOTES_Q];
-const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q, { label:'Sleep aid', q:'Did you take a sleep aid last night?', type:'yesno', polarity:'neutral', key:'sleep_aid',
-  followup: { label:'Sleep aid', q:'Which one?', type:'multichoice', options:['Seroquel','Benadryl','Both','Other'], key:'sleep_aid_type',
-    followup2: { label:'Sleep aid', q:'How many mg total?', sub:'Seroquel: 6.25mg steps · Benadryl: 12.5mg steps', type:'stepper', unit:'mg', step:6.25, min:6.25, max:150, def:6.25, key:'sleep_aid_mg' }
-  }
-}, 
-  { label:'Screen time', q:'Hours of video games yesterday?',                                            type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
-  { label:'Screen time', q:'Hours on social media yesterday?',       hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
-    FLUOX_Q, RITALIN_Q, NOTES_Q];
-  
+const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q,
+  { label:'Sleep aid', q:'Did you take a sleep aid last night?', type:'yesno', polarity:'neutral', key:'sleep_aid',
+    followup: { label:'Sleep aid', q:'Which one?', type:'multichoice', options:['Seroquel','Benadryl','Both','Other'], key:'sleep_aid_type',
+      followup2: { label:'Sleep aid', q:'How many mg total?', sub:'Seroquel: 6.25mg steps · Benadryl: 12.5mg steps', type:'stepper', unit:'mg', step:6.25, min:6.25, max:150, def:6.25, key:'sleep_aid_mg' }
+    }
+  },
+  { label:'Screen time', q:'Hours of video games yesterday?',  type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
+  { label:'Screen time', q:'Hours on social media yesterday?', hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
+  FLUOX_Q, RITALIN_Q, NOTES_Q
+];
 const Q_MIDDAY  = [...MOOD_BLOCK, FOCUS_Q, EXERCISE_AM_Q, RITALIN_TOPUP, NOTES_Q];
 const Q_EVENING = [
   ...MOOD_BLOCK, FOCUS_Q,
-  { label:'Drums',       q:'Did you practice drums today?',      sub:'Structured practice',         type:'yesno', polarity:'good',    key:'drums_practice',
+  { label:'Drums',      q:'Did you practice drums today?',   sub:'Structured practice',        type:'yesno', polarity:'good',    key:'drums_practice',
     followup: { label:'Drums', q:'How long?', type:'stepper', unit:'min', step:5, min:5, max:240, def:30, key:'drums_practice_min' } },
-  { label:'Drums',       q:'Did you play drums for fun?',        sub:'Casual playing or jamming',   type:'yesno', polarity:'good',    key:'drums_fun',
+  { label:'Drums',      q:'Did you play drums for fun?',     sub:'Casual playing or jamming',  type:'yesno', polarity:'good',    key:'drums_fun',
     followup: { label:'Drums', q:'How long?', type:'stepper', unit:'min', step:5, min:5, max:240, def:15, key:'drums_fun_min' } },
-  { label:'Creativity',  q:'Did you create music today?',                                            type:'yesno', polarity:'good',    key:'music' },
-  { label:'Activity',    q:'Did you exercise today?',            sub:'Any intense 15+ min session', type:'yesno', polarity:'good',    key:'exercise_any' },
-  { label:'Activity',    q:'Did you ride your bicycle today?',                                       type:'yesno', polarity:'good',    key:'bicycle' },
-  { label:'Social',      q:'Attended a scheduled social event?',                                     type:'yesno', polarity:'good',    key:'attended_social' },
-  { label:'Commitments', q:'Attended class or volunteering?',                                        type:'yesno', polarity:'good',    key:'attended_class' },
-  
-  { label:'Habits',      q:'Avoided alcohol today?',                                                 type:'yesno', polarity:'good',    key:'avoided_alcohol' },
-  { label:'Habits',      q:'Avoided cannabis today?',                                                type:'yesno', polarity:'good',    key:'avoided_cannabis' },
-  { label:'Habits',      q:'Did you have cravings today?',       sub:'Any substance or habit',      type:'yesno', polarity:'neutral', key:'had_cravings' },
-  { label:'Habits', q:'Did you have sweets today?', type:'yesno', polarity:'neutral', key:'had_sweets',
+  { label:'Creativity', q:'Did you create music today?',                                        type:'yesno', polarity:'good',    key:'music' },
+  { label:'Activity',   q:'Did you exercise today?',         sub:'Any intense 15+ min session',type:'yesno', polarity:'good',    key:'exercise_any' },
+  { label:'Activity',   q:'Did you ride your bicycle today?',                                   type:'yesno', polarity:'good',    key:'bicycle' },
+  { label:'Social',     q:'Attended a scheduled social event?',                                 type:'yesno', polarity:'good',    key:'attended_social' },
+  { label:'Commitments',q:'Attended class or volunteering?',                                    type:'yesno', polarity:'good',    key:'attended_class' },
+  { label:'Habits',     q:'Avoided alcohol today?',                                             type:'yesno', polarity:'good',    key:'avoided_alcohol' },
+  { label:'Habits',     q:'Avoided cannabis today?',                                            type:'yesno', polarity:'good',    key:'avoided_cannabis' },
+  { label:'Habits',     q:'Did you have cravings today?',    sub:'Any substance or habit',     type:'yesno', polarity:'neutral', key:'had_cravings' },
+  { label:'Habits',     q:'Did you have sweets today?',                                         type:'yesno', polarity:'neutral', key:'had_sweets',
     followup: { label:'Habits', q:'Why?', type:'multichoice', options:['Low energy','Depression','Just a craving','No particular reason'], key:'sweets_reason' } },
- 
- NOTES_Q,
+  NOTES_Q,
 ];
 
 let questions=[], qIdx=0, answers={}, stepVals={}, checkinType='quick', inFollowup=false, followupQ=null;
 let cravingData = { substance:'', intensity:0, trigger:'', trigger_notes:'', outcome:'', strategies_shown:[], session_id:'' };
 let episodeData = { episode_type:'', intensity:0, duration_min:0, trigger:'', trigger_notes:'', strategies_shown:[], post_mood:'', notes:'', session_id:'' };
-let episodeStepperVal = 0;
 
 const EPISODE_TYPES = [
-  { label:'Panic attack',                  key:'panic_attack',   acute:true  },
-  { label:'Anxiety spike',                 key:'anxiety_spike',  acute:true  },
-  { label:'Anger outburst',               key:'anger_outburst', acute:true  },
-  { label:'Depressive episode / emotional crash', key:'depressive_episode', acute:false },
-  { label:'Zero motivation / anhedonia',   key:'anhedonia',      acute:false },
+  { label:'Panic attack',                          key:'panic_attack',      acute:true  },
+  { label:'Anxiety spike',                         key:'anxiety_spike',     acute:true  },
+  { label:'Anger outburst',                        key:'anger_outburst',    acute:true  },
+  { label:'Depressive episode / emotional crash',  key:'depressive_episode',acute:false },
+  { label:'Zero motivation / anhedonia',           key:'anhedonia',         acute:false },
 ];
 
 const ACUTE_STRATEGY_ORDER = [1, 2, 3, 4, 8, 16];
 const SLOW_STRATEGY_ORDER  = [9, 10, 14, 16, 4, 6];
- 
 let shownStrategyIds = [];
 
 function genSessionId() { return Date.now().toString(36) + Math.random().toString(36).substr(2,5); }
@@ -425,7 +413,7 @@ function formatDateTime() {
   let h = now.getHours(), m = now.getMinutes().toString().padStart(2,'0');
   const ampm = h >= 12 ? 'PM' : 'AM';
   h = h % 12 || 12;
-  return `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()} · ${h}:${m} ${ampm}`;
+  return days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ' · ' + h + ':' + m + ' ' + ampm;
 }
 
 function greetingText() {
@@ -433,21 +421,62 @@ function greetingText() {
   return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
 }
 
-function initHome() {
-   if (!localStorage.getItem('jt_cannabis_quit_date')) {
-    localStorage.setItem('jt_cannabis_quit_date', '2026-04-03');
-  }
-  if (!localStorage.getItem('jt_alcohol_quit_date')) {
-    localStorage.setItem('jt_alcohol_quit_date', '2022-06-13');
-  }
-  document.getElementById('greeting-text').textContent = greetingText();
-  document.getElementById('greeting-date').textContent = formatDateTime();
-  loadStreak();
-  loadCannabisDays();
-  loadAlcoholDays();
+// ── Counter functions ────────────────────────────────────────
+
+function loadCannabisDays() {
+  const quitDateStr = localStorage.getItem('jt_cannabis_quit_date') || '2026-04-03';
+  const p = quitDateStr.split('-').map(Number);
+  const quit  = new Date(p[0], p[1]-1, p[2]);
+  const today = new Date(); today.setHours(0,0,0,0);
+  document.getElementById('cannabis-count').textContent = Math.max(0, Math.floor((today - quit) / 86400000));
 }
- 
- function loadInsightCard() {
+
+function loadAlcoholDays() {
+  const quitDateStr = localStorage.getItem('jt_alcohol_quit_date') || '2022-06-13';
+  const p = quitDateStr.split('-').map(Number);
+  const quit  = new Date(p[0], p[1]-1, p[2]);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const el = document.getElementById('alcohol-count');
+  if (el) el.textContent = Math.max(0, Math.floor((today - quit) / 86400000));
+}
+
+function loadStreak() {
+  const streak = parseInt(localStorage.getItem('jt_streak') || '0');
+  const badge  = document.getElementById('streak-badge');
+  if (badge) badge.innerHTML = '🔥 ' + streak + ' ' + (streak === 1 ? 'day' : 'days') + ' streak';
+}
+
+function updateStreak() {
+  const today = new Date().toDateString();
+  const last  = localStorage.getItem('jt_last_checkin');
+  let streak  = parseInt(localStorage.getItem('jt_streak') || '0');
+  if (last !== today) {
+    const yesterday = new Date(); yesterday.setDate(yesterday.getDate() - 1);
+    streak = (last === yesterday.toDateString()) ? streak + 1 : 1;
+    localStorage.setItem('jt_streak', streak);
+    localStorage.setItem('jt_last_checkin', today);
+  }
+  loadStreak();
+}
+
+function resetCannabisCounter() {
+  const today = new Date();
+  const str = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  localStorage.setItem('jt_cannabis_quit_date', str);
+  document.getElementById('cannabis-count').textContent = '0';
+}
+
+function resetAlcoholCounter() {
+  const today = new Date();
+  const str = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+  localStorage.setItem('jt_alcohol_quit_date', str);
+  const el = document.getElementById('alcohol-count');
+  if (el) el.textContent = '0';
+}
+
+// ── Insight card ─────────────────────────────────────────────
+
+function loadInsightCard() {
   const existing = document.getElementById('briefing-script');
   if (existing) existing.remove();
   const script = document.createElement('script');
@@ -460,93 +489,46 @@ function handleInsightCard(data) {
   const card = document.getElementById('insight-card');
   const text = document.getElementById('insight-text');
   if (!card || !text) return;
-
   const lines = [];
-
   if (data.streaks && data.streaks.length > 0) {
     data.streaks.forEach(function(s) {
-      lines.push(s.emoji + ' ' + s.streak + '-day ' + s.label.toLowerCase() + ' streak — keep it going!');
+      lines.push(s.emoji + ' ' + s.streak + ' ' + (s.streak === 1 ? 'day' : 'days') + ' ' + s.label.toLowerCase() + ' — keep it going!');
     });
   }
-
   if (data.correlations && data.correlations.length > 0) {
     const c    = data.correlations[0];
     const diff = (parseFloat(c.avg_did) - parseFloat(c.avg_didnt)).toFixed(1);
     lines.push(c.emoji + ' Your mood is +' + diff + ' pts higher on ' + c.label.toLowerCase() + ' days (' + c.avg_did + ' vs ' + c.avg_didnt + ').');
   }
-
   if (data.encouraging_line && lines.length === 0) {
     lines.push(data.encouraging_line);
   }
-
   if (lines.length > 0) {
     text.innerHTML = lines.join('<br>');
     card.style.display = 'block';
   }
 }
+
+// ── Init ─────────────────────────────────────────────────────
+
+function initHome() {
+  // Auto-initialize localStorage defaults on any device
+  if (!localStorage.getItem('jt_cannabis_quit_date')) {
+    localStorage.setItem('jt_cannabis_quit_date', '2026-04-03');
+  }
+  if (!localStorage.getItem('jt_alcohol_quit_date')) {
+    localStorage.setItem('jt_alcohol_quit_date', '2022-06-13');
+  }
+  document.getElementById('greeting-text').textContent = greetingText();
+  document.getElementById('greeting-date').textContent = formatDateTime();
+  loadStreak();
+  loadCannabisDays();
+  loadAlcoholDays();
   loadInsightCard();
 }
- 
-function loadStreak() {
-  const streak = parseInt(localStorage.getItem('jt_streak') || '0');
-  document.getElementById('streak-count').textContent = streak;
-  const badge = document.querySelector('.streak-badge');
-  if (badge) badge.innerHTML = '🔥 ' + streak + ' ' + (streak === 1 ? 'day' : 'days') + ' streak';
-}
 
-function updateStreak() {
-  const today = new Date().toDateString();
-  const last = localStorage.getItem('jt_last_checkin');
-  let streak = parseInt(localStorage.getItem('jt_streak') || '0');
-  if (last !== today) {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    streak = (last === yesterday.toDateString()) ? streak + 1 : 1;
-    localStorage.setItem('jt_streak', streak);
-    localStorage.setItem('jt_last_checkin', today);
-  }
-  document.getElementById('streak-count').textContent = streak;
-}
+// ── Check-in flow ─────────────────────────────────────────────
 
-function loadCannabisDays() {
-  const quitDateStr = localStorage.getItem('jt_cannabis_quit_date') || '2026-04-03';
-  const quitParts = quitDateStr.split('-').map(Number);
-  const quit = new Date(quitParts[0], quitParts[1] - 1, quitParts[2]);
-  
-  const now = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  
-  const days = Math.floor((today - quit) / (1000 * 60 * 60 * 24));
-  document.getElementById('cannabis-count').textContent = Math.max(0, days);
-}
-
-function loadAlcoholDays() {
-  const quitDateStr = localStorage.getItem('jt_alcohol_quit_date') || '2022-06-13';
-  const quitParts = quitDateStr.split('-').map(Number);
-  const quit  = new Date(quitParts[0], quitParts[1]-1, quitParts[2]);
-  const now   = new Date();
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-  const days  = Math.max(0, Math.floor((today - quit) / 86400000));
-  const el    = document.getElementById('alcohol-count');
-  if (el) el.textContent = days;
-}
-
-function resetAlcoholCounter() {
-  const today = new Date();
-  const str   = today.getFullYear() + '-' +
-    String(today.getMonth()+1).padStart(2,'0') + '-' +
-    String(today.getDate()).padStart(2,'0');
-  localStorage.setItem('jt_alcohol_quit_date', str);
-  const el = document.getElementById('alcohol-count');
-  if (el) el.textContent = '0';
-}
- 
-function resetCannabisCounter() {
-  const today = new Date().toISOString().split('T')[0];
-  localStorage.setItem('jt_cannabis_quit_date', today);
-  document.getElementById('cannabis-count').textContent = '0';
-}
- 
 function selType(el, type) {
   document.querySelectorAll('.type-pill').forEach(p => p.classList.remove('selected'));
   el.classList.add('selected');
@@ -571,11 +553,9 @@ function showQ() {
   const q = inFollowup ? followupQ : questions[qIdx];
   document.getElementById('prog').style.width = ((qIdx / questions.length) * 100) + '%';
   document.getElementById('qlabel').textContent = q.label || '';
-  document.getElementById('qtext').textContent = q.q;
-  const sub = document.getElementById('qsub');
-  sub.textContent = q.sub || ''; sub.style.display = q.sub ? 'block' : 'none';
-  const hint = document.getElementById('qhint');
-  hint.textContent = q.hint || ''; hint.style.display = q.hint ? 'block' : 'none';
+  document.getElementById('qtext').textContent  = q.q;
+  const sub  = document.getElementById('qsub');  sub.textContent  = q.sub  || ''; sub.style.display  = q.sub  ? 'block' : 'none';
+  const hint = document.getElementById('qhint'); hint.textContent = q.hint || ''; hint.style.display = q.hint ? 'block' : 'none';
   renderInput(q); updateBtn(q);
 }
 
@@ -612,23 +592,21 @@ function renderInput(q) {
     if (stepVals[q.key] === undefined) stepVals[q.key] = q.def !== undefined ? q.def : (q.min || 0);
     const row = document.createElement('div'); row.className = 'number-input-row';
     const minus = document.createElement('button'); minus.className = 'stepper-btn'; minus.textContent = '−';
-    const val = document.createElement('div'); val.className = 'stepper-val'; val.textContent = stepVals[q.key];
-    const plus = document.createElement('button'); plus.className = 'stepper-btn'; plus.textContent = '+';
-    const unit = document.createElement('div'); unit.className = 'stepper-unit'; unit.textContent = q.unit || '';
+    const val   = document.createElement('div');    val.className   = 'stepper-val'; val.textContent   = stepVals[q.key];
+    const plus  = document.createElement('button'); plus.className  = 'stepper-btn'; plus.textContent  = '+';
+    const unit  = document.createElement('div');    unit.className  = 'stepper-unit'; unit.textContent = q.unit || '';
     minus.onclick = () => { stepVals[q.key] = Math.max(q.min||0, parseFloat((stepVals[q.key]-(q.step||1)).toFixed(2))); val.textContent = stepVals[q.key]; answers[q.key] = stepVals[q.key]; };
     plus.onclick  = () => { stepVals[q.key] = Math.min(q.max||99, parseFloat((stepVals[q.key]+(q.step||1)).toFixed(2))); val.textContent = stepVals[q.key]; answers[q.key] = stepVals[q.key]; };
     row.appendChild(minus); row.appendChild(val); row.appendChild(plus); row.appendChild(unit);
     el.appendChild(row);
     answers[q.key] = stepVals[q.key];
-   } else if (q.type === 'notes') {
-    const wrap = document.createElement('div');
+  } else if (q.type === 'notes') {
     const ta = document.createElement('textarea');
     ta.placeholder = 'Write anything here...';
     ta.style.cssText = 'width:100%;height:100px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;';
     if (answers[q.key]) ta.value = answers[q.key];
     ta.oninput = () => { answers[q.key] = ta.value; updateBtn(q); };
-    wrap.appendChild(ta);
-    el.appendChild(wrap);
+    el.appendChild(ta);
     answers[q.key] = answers[q.key] || '';
   } else if (q.type === 'multichoice') {
     const wrap = document.createElement('div'); wrap.className = 'mc-wrap';
@@ -654,20 +632,16 @@ function updateBtn(q) {
 function nextQ() {
   const q = inFollowup ? followupQ : questions[qIdx];
   if (answers[q.key] === undefined) return;
-
   if (inFollowup && followupQ.followup2 && answers[followupQ.key] !== undefined) {
-    followupQ = followupQ.followup2;
-    showQ(); return;
+    followupQ = followupQ.followup2; showQ(); return;
   }
-
   if (!inFollowup && questions[qIdx].followup && answers[questions[qIdx].key] === 'Yes') {
     inFollowup = true; followupQ = questions[qIdx].followup; showQ(); return;
   }
-
   inFollowup = false; followupQ = null;
   if (qIdx < questions.length - 1) { qIdx++; showQ(); } else { showSummary(); }
 }
- 
+
 function prevQ() {
   if (inFollowup) { inFollowup = false; followupQ = null; showQ(); return; }
   if (qIdx > 0) { qIdx--; showQ(); } else showScreen('screen-start');
@@ -682,53 +656,53 @@ function showSummary() {
   document.getElementById('done-date').textContent = formatDateTime();
   const moodKeys = [{k:'mood',l:'Mood'},{k:'energy',l:'Energy'},{k:'anxiety',l:'Anxiety'},{k:'focus',l:'Focus'}];
   const grid = document.getElementById('sum-mood'); grid.innerHTML = '';
-  moodKeys.forEach(({k,l}) => {
-    if (answers[k] !== undefined) grid.innerHTML += `<div class="sum-card"><div class="sum-label">${l}</div><div class="sum-val">${answers[k]}/10</div></div>`;
+  moodKeys.forEach(function(item) {
+    if (answers[item.k] !== undefined) grid.innerHTML += '<div class="sum-card"><div class="sum-label">' + item.l + '</div><div class="sum-val">' + answers[item.k] + '/10</div></div>';
   });
 
   const secs = [
-    { t:'Sleep', items:[{k:'sleep',l:'Sleep',fmt:v=>v+' hrs',pol:'n'}] },
+    { t:'Sleep', items:[{k:'sleep',l:'Sleep',fmt:function(v){return v+' hrs';},pol:'n'}] },
     { t:'Meds', items:[
-      {k:'fluoxetine',       l:'Fluoxetine 40mg',   fmt:v=>v,                                                               pol:'good'},
-      {k:'ritalin',          l:'Ritalin (morning)', fmt:v=>v+(answers.ritalin_mg?' — '+answers.ritalin_mg+'mg':''),         pol:'n'},
-      {k:'ritalin_midday',   l:'Ritalin (midday)',  fmt:v=>v+(answers.ritalin_midday_mg?' — '+answers.ritalin_midday_mg+'mg':''), pol:'n'},
+      {k:'fluoxetine',     l:'Fluoxetine 40mg',  fmt:function(v){return v;},                                                                              pol:'good'},
+      {k:'ritalin',        l:'Ritalin (morning)', fmt:function(v){return v+(answers.ritalin_mg?' — '+answers.ritalin_mg+'mg':'');},                        pol:'n'},
+      {k:'ritalin_midday', l:'Ritalin (midday)',  fmt:function(v){return v+(answers.ritalin_midday_mg?' — '+answers.ritalin_midday_mg+'mg':'');},           pol:'n'},
+      {k:'sleep_aid',      l:'Sleep aid',         fmt:function(v){return v;},                                                                              pol:'n'},
+      {k:'sleep_aid_detail',l:'Sleep aid detail', fmt:function(v){return v;},                                                                              pol:'n'},
     ]},
     { t:'Activity & creativity', items:[
-      {k:'exercise_morning', l:'Morning exercise',  fmt:v=>v, pol:'good'},
-      {k:'exercise_any',     l:'Exercise',          fmt:v=>v, pol:'good'},
-      {k:'bicycle',          l:'Bicycle',           fmt:v=>v, pol:'good'},
-      {k:'drums_practice',   l:'Drums practice',    fmt:v=>v+(answers.drums_practice_min?' — '+answers.drums_practice_min+' min':''), pol:'good'},
-      {k:'drums_fun',        l:'Drums for fun',     fmt:v=>v+(answers.drums_fun_min?' — '+answers.drums_fun_min+' min':''),           pol:'good'},
-      {k:'music',            l:'Created music',     fmt:v=>v, pol:'good'},
+      {k:'exercise_morning',l:'Morning exercise', fmt:function(v){return v;},pol:'good'},
+      {k:'exercise_any',    l:'Exercise',         fmt:function(v){return v;},pol:'good'},
+      {k:'bicycle',         l:'Bicycle',          fmt:function(v){return v;},pol:'good'},
+      {k:'drums_practice',  l:'Drums practice',   fmt:function(v){return v+(answers.drums_practice_min?' — '+answers.drums_practice_min+' min':'');},pol:'good'},
+      {k:'drums_fun',       l:'Drums for fun',    fmt:function(v){return v+(answers.drums_fun_min?' — '+answers.drums_fun_min+' min':'');},pol:'good'},
+      {k:'music',           l:'Created music',    fmt:function(v){return v;},pol:'good'},
     ]},
     { t:'Commitments & social', items:[
-      {k:'attended_social',  l:'Attended social event',        fmt:v=>v, pol:'good'},
-      {k:'attended_class',   l:'Attended class/volunteering',  fmt:v=>v, pol:'good'},
+      {k:'attended_social', l:'Attended social event',       fmt:function(v){return v;},pol:'good'},
+      {k:'attended_class',  l:'Attended class/volunteering', fmt:function(v){return v;},pol:'good'},
     ]},
     { t:'Habits', items:[
-      {k:'avoided_alcohol',  l:'Avoided alcohol',  fmt:v=>v, pol:'good'},
-      {k:'avoided_cannabis', l:'Avoided cannabis', fmt:v=>v, pol:'good'},
-      {k:'had_cravings',     l:'Had cravings',     fmt:v=>v, pol:'n'},
-      {k:'had_sweets',       l:'Had sweets',       fmt:v=>v+(answers.sweets_reason?' ('+answers.sweets_reason+')':''), pol:'n'},
-      {k:'sleep_aid',        l:'Sleep aid',        fmt:v=>v, pol:'n'},
-      {k:'sleep_aid_detail', l:'Sleep aid detail',  fmt:v=>v, pol:'n'},
+      {k:'avoided_alcohol',  l:'Avoided alcohol',  fmt:function(v){return v;},pol:'good'},
+      {k:'avoided_cannabis', l:'Avoided cannabis', fmt:function(v){return v;},pol:'good'},
+      {k:'had_cravings',     l:'Had cravings',     fmt:function(v){return v;},pol:'n'},
+      {k:'had_sweets',       l:'Had sweets',       fmt:function(v){return v+(answers.sweets_reason?' ('+answers.sweets_reason+')':'');},pol:'n'},
     ]},
     { t:'Screen time', items:[
-      {k:'videogames',   l:'Video games',   fmt:v=>v+' hrs', pol:'n'},
-      {k:'socialmedia',  l:'Social media',  fmt:v=>v+' hrs', pol:'n'},
+      {k:'videogames',  l:'Video games',  fmt:function(v){return v+' hrs';},pol:'n'},
+      {k:'socialmedia', l:'Social media', fmt:function(v){return v+' hrs';},pol:'n'},
     ]},
   ];
 
   let html = '';
-  secs.forEach(sec => {
-    const rows = sec.items.filter(i => answers[i.k] !== undefined);
+  secs.forEach(function(sec) {
+    const rows = sec.items.filter(function(i) { return answers[i.k] !== undefined; });
     if (!rows.length) return;
-    html += `<div class="sum-sec">${sec.t}</div>`;
-    rows.forEach(item => {
+    html += '<div class="sum-sec">' + sec.t + '</div>';
+    rows.forEach(function(item) {
       const v = answers[item.k];
       let cls = 'c-n';
       if (item.pol === 'good') cls = v === 'Yes' ? 'c-yes' : 'c-no';
-      html += `<div class="sum-row"><span class="sum-row-lbl">${item.l}</span><span class="${cls}">${item.fmt(v)}</span></div>`;
+      html += '<div class="sum-row"><span class="sum-row-lbl">' + item.l + '</span><span class="' + cls + '">' + item.fmt(v) + '</span></div>';
     });
   });
   document.getElementById('sum-detail').innerHTML = html || '<p style="font-size:14px;color:#8e8e93">Nothing logged.</p>';
@@ -740,104 +714,82 @@ async function saveCheckin() {
   const status = document.getElementById('save-status');
   status.innerHTML = '<span class="spinner"></span> Saving...';
   status.className = 'status-msg';
-  const notes = answers.notes || '';
-  const metrics = Object.fromEntries(Object.entries(answers).filter(([k]) => k !== 'notes'));
+  const notes   = answers.notes || '';
+  const metrics = Object.fromEntries(Object.entries(answers).filter(function(e) { return e[0] !== 'notes'; }));
   const payload = { type:'checkin', checkin_type:checkinType, session_id:genSessionId(), metrics, notes };
-  if (checkinType === 'evening' && answers.avoided_cannabis === 'No') {
-    resetCannabisCounter();
-  }
-  if (checkinType === 'evening' && answers.avoided_alcohol === 'No') {
-    resetAlcoholCounter();
-  }
+  if (checkinType === 'evening' && answers.avoided_cannabis === 'No') resetCannabisCounter();
+  if (checkinType === 'evening' && answers.avoided_alcohol  === 'No') resetAlcoholCounter();
   try {
     await fetch(ENDPOINT, { method:'POST', body:JSON.stringify(payload) });
     updateStreak();
     status.textContent = 'Saved to Google Sheets ✓';
-    status.className = 'status-msg success';
+    status.className   = 'status-msg success';
   } catch(err) {
     status.textContent = 'Could not save — check your connection';
-    status.className = 'status-msg error';
+    status.className   = 'status-msg error';
   }
 }
 
+// ── Episode flow ─────────────────────────────────────────────
+
 function startEpisode() {
   episodeData = { episode_type:'', intensity:0, duration_min:0, trigger:'', trigger_notes:'', strategies_shown:[], post_mood:'', notes:'', session_id:genSessionId() };
-  episodeStepperVal = 0;
 
-  const typeList = document.getElementById('episode-type-list');
-  typeList.innerHTML = '';
-  EPISODE_TYPES.forEach(ep => {
+  const typeList = document.getElementById('episode-type-list'); typeList.innerHTML = '';
+  EPISODE_TYPES.forEach(function(ep) {
     const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = ep.label;
-    b.onclick = () => {
-      episodeData.episode_type = ep.key;
-      episodeData.acute = ep.acute;
-      document.querySelectorAll('#episode-type-list .mc-btn').forEach(x => x.classList.remove('selected'));
+    b.onclick = function() {
+      episodeData.episode_type = ep.key; episodeData.acute = ep.acute;
+      document.querySelectorAll('#episode-type-list .mc-btn').forEach(function(x) { x.classList.remove('selected'); });
       b.classList.add('selected');
       document.getElementById('episode-intensity-card').style.display = 'block';
-      document.getElementById('episode-duration-card').style.display = 'block';
+      document.getElementById('episode-duration-card').style.display  = 'block';
     };
     typeList.appendChild(b);
   });
 
-  const intRow = document.getElementById('episode-intensity-row');
-  intRow.innerHTML = '';
+  const intRow = document.getElementById('episode-intensity-row'); intRow.innerHTML = '';
   const intLabels = ['','Mild','Moderate','Significant','Severe','Overwhelming'];
   for (let i = 1; i <= 5; i++) {
     const b = document.createElement('button'); b.className = 'int-btn';
-    b.innerHTML = `<span class="int-num">${i}</span><span style="font-size:10px;text-align:center;line-height:1.3;">${intLabels[i]}</span>`;
-    b.onclick = () => { episodeData.intensity = i; document.querySelectorAll('#episode-intensity-row .int-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    b.innerHTML = '<span class="int-num">' + i + '</span><span style="font-size:10px;text-align:center;line-height:1.3;">' + intLabels[i] + '</span>';
+    b.onclick = function() { episodeData.intensity = i; document.querySelectorAll('#episode-intensity-row .int-btn').forEach(function(x) { x.classList.remove('selected'); }); b.classList.add('selected'); };
     intRow.appendChild(b);
   }
 
- const durRow = document.getElementById('episode-duration-row');
-  durRow.innerHTML = '';
-
-  let durHours = 0;
-  let durMins = 0;
-
+  const durRow = document.getElementById('episode-duration-row'); durRow.innerHTML = '';
+  let durHours = 0, durMins = 0;
   const minusH = document.createElement('button'); minusH.className = 'stepper-btn'; minusH.textContent = '−';
-  const valH = document.createElement('div'); valH.className = 'stepper-val'; valH.style.fontSize = '24px'; valH.textContent = '0';
-  const plusH = document.createElement('button'); plusH.className = 'stepper-btn'; plusH.textContent = '+';
-  const unitH = document.createElement('div'); unitH.className = 'stepper-unit'; unitH.textContent = 'hrs';
-
+  const valH   = document.createElement('div');    valH.className   = 'stepper-val'; valH.style.fontSize = '24px'; valH.textContent = '0';
+  const plusH  = document.createElement('button'); plusH.className  = 'stepper-btn'; plusH.textContent  = '+';
+  const unitH  = document.createElement('div');    unitH.className  = 'stepper-unit'; unitH.textContent = 'hrs';
   const minusM = document.createElement('button'); minusM.className = 'stepper-btn'; minusM.textContent = '−';
-  const valM = document.createElement('div'); valM.className = 'stepper-val'; valM.style.fontSize = '24px'; valM.textContent = '0';
-  const plusM = document.createElement('button'); plusM.className = 'stepper-btn'; plusM.textContent = '+';
-  const unitM = document.createElement('div'); unitM.className = 'stepper-unit'; unitM.textContent = 'min';
-
-  minusH.onclick = () => { durHours = Math.max(0, durHours - 1); valH.textContent = durHours; episodeData.duration_min = durHours * 60 + durMins; };
-  plusH.onclick  = () => { durHours = Math.min(12, durHours + 1); valH.textContent = durHours; episodeData.duration_min = durHours * 60 + durMins; };
-  minusM.onclick = () => { durMins = Math.max(0, durMins - 5); valM.textContent = durMins; episodeData.duration_min = durHours * 60 + durMins; };
-  plusM.onclick  = () => { durMins = Math.min(55, durMins + 5); valM.textContent = durMins; episodeData.duration_min = durHours * 60 + durMins; };
-
-  const hrsGroup = document.createElement('div');
-  hrsGroup.style.cssText = 'display:flex;align-items:center;gap:8px;';
+  const valM   = document.createElement('div');    valM.className   = 'stepper-val'; valM.style.fontSize = '24px'; valM.textContent = '0';
+  const plusM  = document.createElement('button'); plusM.className  = 'stepper-btn'; plusM.textContent  = '+';
+  const unitM  = document.createElement('div');    unitM.className  = 'stepper-unit'; unitM.textContent = 'min';
+  minusH.onclick = function() { durHours = Math.max(0,  durHours-1);  valH.textContent = durHours; episodeData.duration_min = durHours*60+durMins; };
+  plusH.onclick  = function() { durHours = Math.min(12, durHours+1);  valH.textContent = durHours; episodeData.duration_min = durHours*60+durMins; };
+  minusM.onclick = function() { durMins  = Math.max(0,  durMins-5);   valM.textContent = durMins;  episodeData.duration_min = durHours*60+durMins; };
+  plusM.onclick  = function() { durMins  = Math.min(55, durMins+5);   valM.textContent = durMins;  episodeData.duration_min = durHours*60+durMins; };
+  const hrsGroup = document.createElement('div'); hrsGroup.style.cssText = 'display:flex;align-items:center;gap:8px;';
   hrsGroup.appendChild(minusH); hrsGroup.appendChild(plusH); hrsGroup.appendChild(valH); hrsGroup.appendChild(unitH);
-
-  const minsGroup = document.createElement('div');
-  minsGroup.style.cssText = 'display:flex;align-items:center;gap:8px;';
+  const minsGroup = document.createElement('div'); minsGroup.style.cssText = 'display:flex;align-items:center;gap:8px;';
   minsGroup.appendChild(minusM); minsGroup.appendChild(plusM); minsGroup.appendChild(valM); minsGroup.appendChild(unitM);
-
-  durRow.appendChild(hrsGroup);
-  durRow.appendChild(minsGroup);
+  durRow.appendChild(hrsGroup); durRow.appendChild(minsGroup);
 
   document.getElementById('episode-intensity-card').style.display = 'none';
-  document.getElementById('episode-duration-card').style.display = 'none';
+  document.getElementById('episode-duration-card').style.display  = 'none';
   showScreen('screen-episode1');
 }
 
 function showEpisode2() {
-  if (!episodeData.episode_type || !episodeData.intensity) {
-    alert('Please select an episode type and intensity level.');
-    return;
-  }
-const tList = document.getElementById('episode-trigger-list');
-  tList.innerHTML = '';
-  EPISODE_TRIGGERS.forEach(t => {
+  if (!episodeData.episode_type || !episodeData.intensity) { alert('Please select an episode type and intensity level.'); return; }
+  const tList = document.getElementById('episode-trigger-list'); tList.innerHTML = '';
+  EPISODE_TRIGGERS.forEach(function(t) {
     const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = t;
-    b.onclick = () => {
+    b.onclick = function() {
       episodeData.trigger = t;
-      document.querySelectorAll('#episode-trigger-list .mc-btn').forEach(x => x.classList.remove('selected'));
+      document.querySelectorAll('#episode-trigger-list .mc-btn').forEach(function(x) { x.classList.remove('selected'); });
       b.classList.add('selected');
       document.getElementById('episode-trigger-other').style.display = t === 'Other' ? 'block' : 'none';
     };
@@ -848,42 +800,35 @@ const tList = document.getElementById('episode-trigger-list');
 }
 
 function showEpisodeStrategies() {
-  const otherText = document.getElementById('episode-trigger-notes').value;
+  const otherText   = document.getElementById('episode-trigger-notes').value;
   const contextText = document.getElementById('episode-trigger-context').value;
-  episodeData.trigger_notes = [otherText, contextText].filter(t => t.trim()).join(' — ');
+  episodeData.trigger_notes = [otherText, contextText].filter(function(t) { return t.trim(); }).join(' — ');
   const orderIds = episodeData.acute ? ACUTE_STRATEGY_ORDER : SLOW_STRATEGY_ORDER;
-  const ordered = orderIds.map(id => STRATEGIES.find(s => s.id === id)).filter(Boolean);
-  const remaining = STRATEGIES.filter(s => !orderIds.includes(s.id)).sort(() => Math.random() - 0.5).slice(0, 2);
+  const ordered  = orderIds.map(function(id) { return STRATEGIES.find(function(s) { return s.id === id; }); }).filter(Boolean);
+  const remaining = STRATEGIES.filter(function(s) { return !orderIds.includes(s.id); }).sort(function() { return Math.random()-0.5; }).slice(0,2);
   const shown = [...ordered, ...remaining];
-  episodeData.strategies_shown = shown.map(s => s.id);
+  episodeData.strategies_shown = shown.map(function(s) { return s.id; });
 
   const sub = document.getElementById('episode-strategy-sub');
-  if (episodeData.acute) {
-    sub.textContent = episodeData.intensity >= 4
-      ? 'High intensity — start with breathing or grounding immediately'
-      : 'Acute episode — grounding strategies first';
-  } else {
-    sub.textContent = 'Gentle strategies for low/slow episodes';
-  }
+  sub.textContent = episodeData.acute
+    ? (episodeData.intensity >= 4 ? 'High intensity — start with breathing or grounding immediately' : 'Acute episode — grounding strategies first')
+    : 'Gentle strategies for low/slow episodes';
 
-  const list = document.getElementById('episode-strategy-list');
-  list.innerHTML = '';
-  shown.slice(0, 6).forEach((s, i) => {
-    const card = document.createElement('div');
-    card.className = 'strategy-card' + (i < 3 ? ' pinned' : '');
-    card.innerHTML = `${i < 3 ? '<div class="strategy-pin">Try this first</div>' : ''}<div class="strategy-name">${s.strategy}</div><div class="strategy-note">${s.notes}</div>`;
+  const list = document.getElementById('episode-strategy-list'); list.innerHTML = '';
+  shown.slice(0,6).forEach(function(s, i) {
+    const card = document.createElement('div'); card.className = 'strategy-card' + (i < 3 ? ' pinned' : '');
+    card.innerHTML = (i < 3 ? '<div class="strategy-pin">Try this first</div>' : '') + '<div class="strategy-name">' + s.strategy + '</div><div class="strategy-note">' + s.notes + '</div>';
     list.appendChild(card);
   });
   showScreen('screen-episode-strategies');
 }
 
 function showEpisode3() {
-  const moodRow = document.getElementById('episode-post-mood-row');
-  moodRow.innerHTML = '';
+  const moodRow = document.getElementById('episode-post-mood-row'); moodRow.innerHTML = '';
   for (let i = 1; i <= 10; i++) {
     const b = document.createElement('button'); b.className = 'scale-btn'; b.textContent = i;
     if (episodeData.post_mood === i) b.classList.add('selected');
-    b.onclick = () => { episodeData.post_mood = i; document.querySelectorAll('#episode-post-mood-row .scale-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    b.onclick = function() { episodeData.post_mood = i; document.querySelectorAll('#episode-post-mood-row .scale-btn').forEach(function(x) { x.classList.remove('selected'); }); b.classList.add('selected'); };
     moodRow.appendChild(b);
   }
   document.getElementById('episode-notes').value = '';
@@ -892,74 +837,56 @@ function showEpisode3() {
 
 async function saveEpisode() {
   const status = document.getElementById('episode-save-status');
-  status.innerHTML = '<span class="spinner"></span> Saving...';
-  status.className = 'status-msg';
+  status.innerHTML = '<span class="spinner"></span> Saving...'; status.className = 'status-msg';
   episodeData.notes = document.getElementById('episode-notes').value;
-
-  if (episodeData.notes && episodeData.notes.trim()) {
-    const notes = answers.notes || '';
-  }
-
   try {
     await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
-      type:'episode',
-      session_id:episodeData.session_id,
-      episode_type:episodeData.episode_type,
-      intensity:episodeData.intensity,
-      duration_min:episodeData.duration_min,
-      trigger:episodeData.trigger,
-      trigger_notes:episodeData.trigger_notes,
-      strategies_shown:episodeData.strategies_shown,
-      post_mood:episodeData.post_mood,
-      notes:episodeData.notes
+      type:'episode', session_id:episodeData.session_id, episode_type:episodeData.episode_type,
+      intensity:episodeData.intensity, duration_min:episodeData.duration_min,
+      trigger:episodeData.trigger, trigger_notes:episodeData.trigger_notes,
+      strategies_shown:episodeData.strategies_shown, post_mood:episodeData.post_mood, notes:episodeData.notes
     })});
-    status.textContent = 'Saved ✓';
-    status.className = 'status-msg success';
+    status.textContent = 'Saved ✓'; status.className = 'status-msg success';
     setTimeout(goHome, 1000);
   } catch(err) {
-    status.textContent = 'Could not save — check your connection';
-    status.className = 'status-msg error';
+    status.textContent = 'Could not save — check your connection'; status.className = 'status-msg error';
   }
 }
- 
+
+// ── Craving flow ─────────────────────────────────────────────
+
 function startCraving() {
   cravingData = { substance:'', intensity:0, trigger:'', trigger_notes:'', outcome:'', strategies_shown:[], session_id:genSessionId() };
   shownStrategyIds = [];
-
   const subList = document.getElementById('substance-list'); subList.innerHTML = '';
-  SUBSTANCES.forEach(s => {
+  SUBSTANCES.forEach(function(s) {
     const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = s;
-    b.onclick = () => {
+    b.onclick = function() {
       cravingData.substance = s;
-      document.querySelectorAll('#substance-list .mc-btn').forEach(x => x.classList.remove('selected'));
+      document.querySelectorAll('#substance-list .mc-btn').forEach(function(x) { x.classList.remove('selected'); });
       b.classList.add('selected');
       document.getElementById('intensity-card').style.display = 'block';
     };
     subList.appendChild(b);
   });
-
   const intRow = document.getElementById('intensity-row'); intRow.innerHTML = '';
   const intLabels = ['','Passing thought','Noticeable','Real pull','Strong urge','Full body'];
   for (let i = 1; i <= 5; i++) {
     const b = document.createElement('button'); b.className = 'int-btn';
-    b.innerHTML = `<span class="int-num">${i}</span><span style="font-size:10px;text-align:center;line-height:1.3;">${intLabels[i]}</span>`;
-    b.onclick = () => { cravingData.intensity = i; document.querySelectorAll('.int-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    b.innerHTML = '<span class="int-num">' + i + '</span><span style="font-size:10px;text-align:center;line-height:1.3;">' + intLabels[i] + '</span>';
+    b.onclick = function() { cravingData.intensity = i; document.querySelectorAll('.int-btn').forEach(function(x) { x.classList.remove('selected'); }); b.classList.add('selected'); };
     intRow.appendChild(b);
   }
-
   document.getElementById('intensity-card').style.display = 'none';
   showScreen('screen-craving1');
 }
 
 function showCraving2() {
-  if (!cravingData.substance || !cravingData.intensity) {
-    alert('Please select what you are craving and an intensity level.');
-    return;
-  }
+  if (!cravingData.substance || !cravingData.intensity) { alert('Please select what you are craving and an intensity level.'); return; }
   const tList = document.getElementById('trigger-list'); tList.innerHTML = '';
-  TRIGGERS.forEach(t => {
+  TRIGGERS.forEach(function(t) {
     const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = t;
-    b.onclick = () => { cravingData.trigger = t; document.querySelectorAll('#trigger-list .mc-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); };
+    b.onclick = function() { cravingData.trigger = t; document.querySelectorAll('#trigger-list .mc-btn').forEach(function(x) { x.classList.remove('selected'); }); b.classList.add('selected'); };
     tList.appendChild(b);
   });
   document.getElementById('trigger-notes').value = '';
@@ -968,23 +895,18 @@ function showCraving2() {
 
 function showStrategies() {
   cravingData.trigger_notes = document.getElementById('trigger-notes').value;
-  const sub = cravingData.substance.toLowerCase().replace(' ','_');
-  const pinned = STRATEGIES.filter(s => s.pinned);
-  const contextual = STRATEGIES.filter(s => !s.pinned && (s.works_for === 'any' || s.works_for === sub));
-  const shuffled = contextual.sort(() => Math.random() - 0.5).slice(0, 4);
-  const shown = [...pinned, ...shuffled];
-  shownStrategyIds = shown.map(s => s.id);
+  const sub      = cravingData.substance.toLowerCase().replace(' ','_');
+  const pinned   = STRATEGIES.filter(function(s) { return s.pinned; });
+  const contextual = STRATEGIES.filter(function(s) { return !s.pinned && (s.works_for === 'any' || s.works_for === sub); });
+  const shuffled = contextual.sort(function() { return Math.random()-0.5; }).slice(0,4);
+  const shown    = [...pinned, ...shuffled];
+  shownStrategyIds = shown.map(function(s) { return s.id; });
   cravingData.strategies_shown = shownStrategyIds;
-
-  document.getElementById('strategy-sub').textContent = cravingData.intensity >= 4
-    ? 'High intensity — start with breathing or grounding'
-    : 'Pick whatever feels accessible right now';
-
+  document.getElementById('strategy-sub').textContent = cravingData.intensity >= 4 ? 'High intensity — start with breathing or grounding' : 'Pick whatever feels accessible right now';
   const list = document.getElementById('strategy-list'); list.innerHTML = '';
-  shown.forEach(s => {
-    const card = document.createElement('div');
-    card.className = 'strategy-card' + (s.pinned ? ' pinned' : '');
-    card.innerHTML = `${s.pinned ? '<div class="strategy-pin">Recommended</div>' : ''}<div class="strategy-name">${s.strategy}</div><div class="strategy-note">${s.notes}</div>`;
+  shown.forEach(function(s) {
+    const card = document.createElement('div'); card.className = 'strategy-card' + (s.pinned ? ' pinned' : '');
+    card.innerHTML = (s.pinned ? '<div class="strategy-pin">Recommended</div>' : '') + '<div class="strategy-name">' + s.strategy + '</div><div class="strategy-note">' + s.notes + '</div>';
     list.appendChild(card);
   });
   showScreen('screen-strategies');
@@ -993,21 +915,20 @@ function showStrategies() {
 function showCraving3(outcome) {
   cravingData.outcome = outcome;
   const helpList = document.getElementById('strategy-helpful-list'); helpList.innerHTML = '';
-  STRATEGIES.filter(s => shownStrategyIds.includes(s.id)).forEach(s => {
+  STRATEGIES.filter(function(s) { return shownStrategyIds.includes(s.id); }).forEach(function(s) {
     const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = s.strategy;
-    b.onclick = () => { document.querySelectorAll('#strategy-helpful-list .mc-btn').forEach(x => x.classList.remove('selected')); b.classList.add('selected'); cravingData.helpful_strategy = s; };
+    b.onclick = function() { document.querySelectorAll('#strategy-helpful-list .mc-btn').forEach(function(x) { x.classList.remove('selected'); }); b.classList.add('selected'); cravingData.helpful_strategy = s; };
     helpList.appendChild(b);
   });
   const none = document.createElement('button'); none.className = 'mc-btn'; none.textContent = 'None of them';
-  none.onclick = () => { document.querySelectorAll('#strategy-helpful-list .mc-btn').forEach(x => x.classList.remove('selected')); none.classList.add('selected'); cravingData.helpful_strategy = null; };
+  none.onclick = function() { document.querySelectorAll('#strategy-helpful-list .mc-btn').forEach(function(x) { x.classList.remove('selected'); }); none.classList.add('selected'); cravingData.helpful_strategy = null; };
   helpList.appendChild(none);
   showScreen('screen-craving3');
 }
 
 async function saveCraving() {
   const status = document.getElementById('craving-save-status');
-  status.innerHTML = '<span class="spinner"></span> Saving...';
-  status.className = 'status-msg';
+  status.innerHTML = '<span class="spinner"></span> Saving...'; status.className = 'status-msg';
   try {
     await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
       type:'craving', session_id:cravingData.session_id, substance:cravingData.substance,
@@ -1020,21 +941,19 @@ async function saveCraving() {
       await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
         type:'strategy_outcome', craving_session_id:cravingData.session_id,
         strategy_id:s ? s.id : 'none', strategy_name:s ? s.strategy : 'none',
-        craving_type:cravingData.substance, craving_intensity:cravingData.intensity,
-        helpful:s ? 'Yes' : 'No'
+        craving_type:cravingData.substance, craving_intensity:cravingData.intensity, helpful:s ? 'Yes' : 'No'
       })});
     }
-    status.textContent = 'Saved ✓';
-    status.className = 'status-msg success';
+    status.textContent = 'Saved ✓'; status.className = 'status-msg success';
     setTimeout(goHome, 1000);
   } catch(err) {
-    status.textContent = 'Could not save — check your connection';
-    status.className = 'status-msg error';
+    status.textContent = 'Could not save — check your connection'; status.className = 'status-msg error';
   }
 }
 
 function goHome() { showScreen('screen-start'); initHome(); }
 
+// ── Entry point ───────────────────────────────────────────────
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('mode') === 'craving') {
   startCraving();
