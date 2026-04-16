@@ -483,6 +483,8 @@ function handleInsightCard(data) {
 function loadStreak() {
   const streak = parseInt(localStorage.getItem('jt_streak') || '0');
   document.getElementById('streak-count').textContent = streak;
+  const badge = document.querySelector('.streak-badge');
+  if (badge) badge.innerHTML = '🔥 ' + streak + ' ' + (streak === 1 ? 'day' : 'days') + ' streak';
 }
 
 function updateStreak() {
