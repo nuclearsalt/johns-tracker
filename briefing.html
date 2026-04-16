@@ -243,6 +243,31 @@ function handleBriefingData(data) {
       html += '</div>';
     }
 
+    if (data.calendar && data.calendar.length > 0) {
+      html += '<div class="section"><div class="section-label">Today\'s schedule</div>';
+      data.calendar.forEach(function(event) {
+        const time = event.all_day ? 'All day' : event.start + (event.end ? ' – ' + event.end : '');
+        const calColor = {
+          'Work':                    '#007aff',
+          'Capitalism':              '#ff9500',
+          'Events and Volunteering': '#34c759',
+          'Personal/Medical':        '#ff3b30',
+          'Social Commitments':      '#af52de',
+          'Travel':                  '#5ac8fa',
+        }[event.calendar] || '#8e8e93';
+
+        html += '<div class="trello-card" style="border-left: 3px solid ' + calColor + '; border-radius: 0 12px 12px 0;">';
+        html += '<div class="trello-name">' + event.title + '</div>';
+        html += '<div class="trello-meta" style="color:' + calColor + ';font-weight:600;">' + time + '</div>';
+        if (event.location) {
+          const locLine = event.location.split('\n')[0];
+          html += '<div class="trello-desc">' + locLine + '</div>';
+        }
+        html += '</div>';
+      });
+      html += '</div>';
+    }
+   
     html += '<div class="footer-btns">';
     html += '<a href="https://nuclearsalt.github.io/johns-tracker" class="btn-primary">Open John\'s Tracker</a>';
     html += '<a href="https://nuclearsalt.github.io/johns-tracker/insights.html" class="btn-secondary">Weekly insight</a>';
