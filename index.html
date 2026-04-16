@@ -434,12 +434,19 @@ function greetingText() {
 }
 
 function initHome() {
+   if (!localStorage.getItem('jt_cannabis_quit_date')) {
+    localStorage.setItem('jt_cannabis_quit_date', '2026-04-03');
+  }
+  if (!localStorage.getItem('jt_alcohol_quit_date')) {
+    localStorage.setItem('jt_alcohol_quit_date', '2022-06-13');
+  }
   document.getElementById('greeting-text').textContent = greetingText();
   document.getElementById('greeting-date').textContent = formatDateTime();
   loadStreak();
   loadCannabisDays();
   loadAlcoholDays();
 }
+ 
  function loadInsightCard() {
   const existing = document.getElementById('briefing-script');
   if (existing) existing.remove();
