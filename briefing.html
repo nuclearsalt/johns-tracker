@@ -114,6 +114,15 @@ function getCannabisDays() {
   return Math.max(0, Math.floor((today - quit) / 86400000));
 }
 
+function getAlcoholDays() {
+  const s = localStorage.getItem('jt_alcohol_quit_date') || '2022-06-13';
+  const p = s.split('-').map(Number);
+  const quit  = new Date(p[0], p[1]-1, p[2]);
+  const now   = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  return Math.max(0, Math.floor((today - quit) / 86400000));
+}
+ 
 function labelPills(labelsStr) {
   if (!labelsStr) return '';
   return labelsStr.split(',').map(function(l) {
@@ -175,6 +184,10 @@ function handleBriefingData(data) {
 
     html += '<div class="badges">';
     html += '<span class="badge badge-cannabis">🌿 ' + cannabisDays + ' days cannabis-free</span>';
+   
+    const alcoholDays = getAlcoholDays();
+    html += '<span class="badge badge-cannabis" style="background:#e8f0fe;border-color:#b8d0f5;color:#0c447c;">🍺 ' + alcoholDays + ' days alcohol-free</span>';
+   
     if (data.streaks && data.streaks.length > 0) {
       data.streaks.forEach(function(s) {
         html += '<span class="badge badge-streak">' + formatStreakBadge(s) + '</span>';
