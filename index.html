@@ -89,7 +89,7 @@
   .int-btn.selected { border-color: #ff3b30; background: #fff0ef; color: #ff3b30; }
 
   /* Strategy cards */
-  .strategy-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 120px; }
+  .strategy-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 20px; }
   .strategy-card { background: #fff; border: 1px solid #e5e5ea; border-radius: 14px; padding: 1rem 1.25rem; cursor: pointer; transition: all 0.15s; }
   .strategy-card:active { transform: scale(0.98); }
   .strategy-card.pinned { border-color: #007aff; background: #f0f6ff; }
@@ -198,7 +198,7 @@
     <div class="greeting-sub" style="margin-bottom:1.25rem;">Tap a strategy to walk through it.</div>
     <div class="strategy-list" id="fstw-strategy-list"></div>
     <div class="see-all-card" onclick="showAllStrategies()">See all strategies →</div>
-    <div class="sticky-bottom">
+   <div class="sticky-bottom">
       <button class="btn-primary" onclick="showFSTWBetter()">😌 I'm better now</button>
       <button class="btn-secondary" onclick="showStillInIt()">Still going through it</button>
     </div>
@@ -292,7 +292,7 @@
     <div class="greeting-sub" id="fstw-craving-sub" style="margin-bottom:1.25rem;"></div>
     <div class="strategy-list" id="fstw-craving-strategy-list"></div>
     <div class="see-all-link"><a onclick="showAllStrategies()">See all strategies →</a></div>
-    <div class="sticky-bottom">
+    <div style="padding-bottom:1rem;">
       <button class="btn-primary" onclick="setCravingOutcome('resisted'); showScreen('screen-fstw-craving-outcome');">I resisted ✓</button>
       <button class="btn-secondary" onclick="setCravingOutcome('gave_in'); showScreen('screen-fstw-craving-outcome');">I gave in</button>
       <button class="btn-danger" onclick="setCravingOutcome('still_going'); showScreen('screen-fstw-craving-outcome');">Still working through it</button>
