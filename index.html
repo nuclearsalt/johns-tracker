@@ -100,6 +100,9 @@
   .tap-hint { font-size: 11px; color: #007aff; margin-top: 6px; font-weight: 500; }
   .tap-hint.spite { color: #000; opacity: 0.7; }
 
+  .see-all-card { background: #ede8ff; border: 1px solid #c4b5fd; border-radius: 14px; padding: 1rem 1.25rem; text-align: center; font-size: 15px; font-weight: 600; color: #4a42c0; cursor: pointer; margin-bottom: 0.75rem; transition: all 0.15s; }
+  .see-all-card:active { background: #ddd4ff; transform: scale(0.98); }
+
   .see-all-link { text-align: center; padding: 1rem 0 0.5rem; }
   .see-all-link a { font-size: 14px; color: #007aff; font-weight: 600; cursor: pointer; text-decoration: none; }
 
@@ -194,7 +197,7 @@
     <div class="greeting" style="margin-bottom:0.25rem;">You've got this.</div>
     <div class="greeting-sub" style="margin-bottom:1.25rem;">Tap a strategy to walk through it.</div>
     <div class="strategy-list" id="fstw-strategy-list"></div>
-    <div class="see-all-link"><a onclick="showAllStrategies()">See all strategies →</a></div>
+    <div class="see-all-card" onclick="showAllStrategies()">See all strategies →</div>
     <div class="sticky-bottom">
       <button class="btn-primary" onclick="showFSTWBetter()">😌 I'm better now</button>
       <button class="btn-secondary" onclick="showStillInIt()">Still going through it</button>
