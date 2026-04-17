@@ -19,15 +19,14 @@
   .streak-badge { display: inline-flex; align-items: center; gap: 6px; background: #fff3cd; border: 1px solid #ffc107; color: #856404; border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 600; margin-bottom: 1.25rem; }
   .cannabis-badge { display: inline-flex; align-items: center; gap: 6px; background: #d1e7dd; border: 1px solid #a3cfbb; color: #0a3622; border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 600; margin-bottom: 1.25rem; margin-left: 8px; }
   .alcohol-badge { display: inline-flex; align-items: center; gap: 6px; background: #e8f0fe; border: 1px solid #b8d0f5; color: #0c447c; border-radius: 999px; padding: 5px 14px; font-size: 13px; font-weight: 600; margin-bottom: 1.25rem; margin-left: 8px; }
-  .insight-card { background: #d1e7dd; border: 1px solid #a3cfbb; border-radius: 14px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; }
-  .insight-text { font-size: 14px; color: #0a3622; line-height: 1.6; }
+
   .type-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; margin-bottom: 0.6rem; }
   .type-pill { padding: 9px 4px; border: 1px solid #c7c7cc; border-radius: 999px; background: #fff; color: #8e8e93; font-size: 12px; font-weight: 600; cursor: pointer; text-align: center; transition: all 0.15s; }
   .type-pill.selected { background: #1c1c1e; color: #fff; border-color: #1c1c1e; }
   .type-desc { font-size: 12px; color: #8e8e93; margin-bottom: 1rem; min-height: 2em; line-height: 1.5; }
 
-  .fstw-btn { width: 100%; padding: 16px; border: 2px solid #7f77dd; border-radius: 14px; background: linear-gradient(135deg, #f0efff, #e8e6ff); color: #4a42c0; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 0.75rem; transition: all 0.15s; text-align: center; letter-spacing: 0.01em; }
-  .fstw-btn:active { transform: scale(0.98); background: #e0deff; }
+  .fstw-btn { width: 100%; padding: 16px; border: 2px solid #7f77dd; border-radius: 14px; background: linear-gradient(135deg, #f0efff, #e8e6ff); color: #4a42c0; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 0.75rem; transition: all 0.15s; text-align: center; }
+  .fstw-btn:active { transform: scale(0.98); }
 
   .progress-bar { height: 3px; background: #e5e5ea; border-radius: 2px; margin-bottom: 1.5rem; }
   .progress-fill { height: 100%; background: #007aff; border-radius: 2px; transition: width 0.3s ease; }
@@ -89,37 +88,44 @@
   .int-btn .int-num { font-size: 22px; font-weight: 700; line-height: 1; }
   .int-btn.selected { border-color: #ff3b30; background: #fff0ef; color: #ff3b30; }
 
-  .strategy-list { display: flex; flex-direction: column; gap: 10px; }
+  /* Strategy cards */
+  .strategy-list { display: flex; flex-direction: column; gap: 10px; padding-bottom: 120px; }
   .strategy-card { background: #fff; border: 1px solid #e5e5ea; border-radius: 14px; padding: 1rem 1.25rem; cursor: pointer; transition: all 0.15s; }
   .strategy-card:active { transform: scale(0.98); }
   .strategy-card.pinned { border-color: #007aff; background: #f0f6ff; }
-  .strategy-card.spite { border: none; background: #ff6a00; border-radius: 14px; }
+  .strategy-card.spite { border: none; background: #ff6600; border-radius: 14px; }
   .strategy-name { font-size: 16px; font-weight: 600; color: #1c1c1e; margin-bottom: 4px; }
   .strategy-name.spite { color: #000; font-size: 18px; font-weight: 900; }
-  .strategy-note { font-size: 13px; color: #8e8e93; line-height: 1.5; }
   .strategy-pin { font-size: 11px; color: #007aff; font-weight: 600; margin-bottom: 4px; }
   .tap-hint { font-size: 11px; color: #007aff; margin-top: 6px; font-weight: 500; }
   .tap-hint.spite { color: #000; opacity: 0.7; }
 
-  /* Guided walkthrough screen */
+  .see-all-link { text-align: center; padding: 1rem 0 0.5rem; }
+  .see-all-link a { font-size: 14px; color: #007aff; font-weight: 600; cursor: pointer; text-decoration: none; }
+
+  /* Sticky bottom bar */
+  .sticky-bottom { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 390px; background: #f2f2f7; border-top: 1px solid #e5e5ea; padding: 12px 1rem; display: flex; flex-direction: column; gap: 8px; z-index: 100; }
+  .sticky-bottom .btn-primary { margin-top: 0; }
+  .sticky-bottom .btn-secondary { margin-top: 0; }
+  .sticky-bottom .btn-danger { margin-top: 0; }
+
+  /* Walkthrough */
   .walkthrough-header { margin-bottom: 1.5rem; }
   .walkthrough-name { font-size: 22px; font-weight: 700; color: #1c1c1e; margin-bottom: 4px; line-height: 1.3; }
   .walkthrough-progress { font-size: 13px; color: #8e8e93; }
-  .walkthrough-card { border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; min-height: 180px; display: flex; align-items: center; justify-content: center; }
+  .walkthrough-card { border-radius: 16px; padding: 1.5rem; margin-bottom: 1.25rem; min-height: 200px; display: flex; align-items: center; justify-content: center; }
   .walkthrough-card.normal { background: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-  .walkthrough-card.spite { background: #ff6a00; }
-  .walkthrough-step { font-size: 18px; color: #1c1c1e; line-height: 1.7; text-align: left; width: 100%; }
+  .walkthrough-card.spite { background: #ff6600; }
+  .walkthrough-step { font-size: 18px; color: #1c1c1e; line-height: 1.75; text-align: left; width: 100%; white-space: pre-wrap; }
   .walkthrough-step.spite { color: #000; font-weight: 900; font-size: 20px; text-transform: uppercase; line-height: 1.5; }
-  .walkthrough-step.spite .spite-final { font-size: 24px; display: block; margin-top: 1rem; }
-  .walkthrough-step em { font-style: italic; color: #636366; }
-  .walkthrough-nav { display: flex; gap: 10px; }
-  .btn-walkthrough-next { flex: 1; height: 52px; border: none; border-radius: 14px; background: #007aff; color: #fff; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
-  .btn-walkthrough-next:active { transform: scale(0.98); background: #0062cc; }
-  .btn-walkthrough-next.spite { background: #000; color: #ff6a00; }
-  .btn-walkthrough-done { flex: 1; height: 52px; border: none; border-radius: 14px; background: #34c759; color: #fff; font-size: 17px; font-weight: 600; cursor: pointer; }
-  .btn-walkthrough-done.spite { background: #000; color: #ff6a00; }
+  .walkthrough-step .spite-final { font-size: 24px; display: block; margin-top: 1rem; }
+  .btn-walkthrough-next { width: 100%; height: 52px; border: none; border-radius: 14px; background: #007aff; color: #fff; font-size: 17px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-walkthrough-next:active { transform: scale(0.98); }
+  .btn-walkthrough-next.spite { background: #000; color: #ff6600; }
+  .btn-walkthrough-done { width: 100%; height: 52px; border: none; border-radius: 14px; background: #34c759; color: #fff; font-size: 17px; font-weight: 600; cursor: pointer; }
+  .btn-walkthrough-done.spite { background: #000; color: #ff6600; }
 
-  /* FSTW screens */
+  /* FSTW */
   .fstw-option { width: 100%; padding: 18px; border: 1.5px solid #e5e5ea; border-radius: 16px; background: #fff; color: #1c1c1e; font-size: 17px; font-weight: 600; cursor: pointer; margin-bottom: 10px; text-align: left; transition: all 0.15s; display: flex; align-items: center; gap: 12px; }
   .fstw-option:active { transform: scale(0.98); }
   .fstw-option.not-great { border-color: #ff3b30; background: #fff8f8; color: #c0392b; }
@@ -127,9 +133,8 @@
   .fstw-option.craving { border-color: #ff9500; background: #fffbf0; color: #8a5000; }
   .fstw-emoji { font-size: 24px; }
 
-  .still-in-it-card { background: #f0f6ff; border: 1px solid #c5d9f7; border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; text-align: center; }
+  .still-in-it-card { background: #f0f6ff; border: 1px solid #c5d9f7; border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; }
   .still-in-it-text { font-size: 16px; color: #185fa5; line-height: 1.8; }
-  .still-in-it-name { font-weight: 700; }
 
   .status-msg { font-size: 13px; color: #8e8e93; text-align: center; margin-top: 0.75rem; min-height: 20px; }
   .status-msg.error { color: #dc3545; }
@@ -138,7 +143,7 @@
   .btn-primary { width: 100%; height: 48px; border: none; border-radius: 12px; background: #007aff; color: #fff; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; transition: all 0.15s; }
   .btn-primary:active { transform: scale(0.98); background: #0062cc; }
   .btn-secondary { width: 100%; height: 48px; border: 1px solid #e5e5ea; border-radius: 12px; background: #fff; color: #1c1c1e; font-size: 15px; font-weight: 500; cursor: pointer; margin-top: 0.5rem; }
-  .btn-danger { width: 100%; height: 48px; border: 1px solid #ff3b30; border-radius: 12px; background: #fff; color: #ff3b30; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; }
+  .btn-danger { width: 100%; height: 48px; border: 1px solid #ff9500; border-radius: 12px; background: #fff; color: #ff9500; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 0.5rem; }
 
   .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid #e5e5ea; border-top-color: #007aff; border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px; }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -156,10 +161,7 @@
     <div class="streak-badge" id="streak-badge">&#128293; 0 days streak</div>
     <div class="cannabis-badge">&#127807; <span id="cannabis-count">0</span> days cannabis-free</div>
     <div class="alcohol-badge">&#127867; <span id="alcohol-count">0</span> days alcohol-free</div>
-    <div class="insight-card" id="insight-card" style="display:none;">
-      <div class="insight-text" id="insight-text"></div>
-    </div>
-    <p style="font-size:13px;color:#8e8e93;margin-bottom:0.6rem;">Which check-in?</p>
+    <p style="font-size:13px;color:#8e8e93;margin-bottom:0.6rem;margin-top:0.5rem;">Which check-in?</p>
     <div class="type-row">
       <div class="type-pill selected" onclick="selType(this,'quick')">Quick</div>
       <div class="type-pill" onclick="selType(this,'morning')">Morning</div>
@@ -178,7 +180,7 @@
     <button class="fstw-option not-great" onclick="showFSTWNotGreat()">
       <span class="fstw-emoji">😔</span> Really not great
     </button>
-    <button class="fstw-option better-now" onclick="showScreen('screen-fstw-better')">
+    <button class="fstw-option better-now" onclick="showFSTWBetter()">
       <span class="fstw-emoji">😌</span> Better now
     </button>
     <button class="fstw-option craving" onclick="showFSTWCraving()">
@@ -190,29 +192,38 @@
   <!-- FSTW: NOT GREAT → STRATEGIES -->
   <div id="screen-fstw-notgreat" class="screen">
     <div class="greeting" style="margin-bottom:0.25rem;">You've got this.</div>
-    <div class="greeting-sub" id="fstw-strategy-sub" style="margin-bottom:1.25rem;">Try one of these.</div>
+    <div class="greeting-sub" style="margin-bottom:1.25rem;">Tap a strategy to walk through it.</div>
     <div class="strategy-list" id="fstw-strategy-list"></div>
-    <div style="margin-top:1.25rem;">
-      <button class="btn-primary" onclick="showScreen('screen-fstw-better')">😌 I'm better now</button>
-      <button class="btn-secondary" onclick="showStillInIt()">Still in it</button>
+    <div class="see-all-link"><a onclick="showAllStrategies()">See all strategies →</a></div>
+    <div class="sticky-bottom">
+      <button class="btn-primary" onclick="showFSTWBetter()">😌 I'm better now</button>
+      <button class="btn-secondary" onclick="showStillInIt()">Still going through it</button>
     </div>
   </div>
 
-  <!-- FSTW: STILL IN IT -->
+  <!-- FSTW: ALL STRATEGIES -->
+  <div id="screen-all-strategies" class="screen">
+    <div class="greeting" style="margin-bottom:0.25rem;">All strategies</div>
+    <div class="greeting-sub" style="margin-bottom:1.25rem;">Tap any to walk through it.</div>
+    <div class="strategy-list" id="all-strategy-list" style="padding-bottom:20px;"></div>
+    <button class="btn-secondary" onclick="showScreen('screen-fstw-notgreat')" style="margin-bottom:1rem;">← Back</button>
+  </div>
+
+  <!-- FSTW: STILL GOING THROUGH IT -->
   <div id="screen-still-in-it" class="screen">
     <div class="still-in-it-card">
       <div class="still-in-it-text">
-        <span class="still-in-it-name">John.</span><br><br>
-        You set this reminder because you were looking for a way through.<br><br>
+        <strong>John.</strong><br><br>
+        You're still going through it — and you're still here.<br><br>
         That took courage. You have agency.<br><br>
-        When you're ready — come back here. We'll be here.
+        When you're ready, come back. We'll be here.
       </div>
     </div>
-    <button class="btn-primary" onclick="showScreen('screen-fstw-better')">😌 I'm better now</button>
+    <button class="btn-primary" onclick="showFSTWBetter()">😌 I'm better now</button>
     <button class="btn-secondary" onclick="goHome()">Not yet — go home</button>
   </div>
 
-  <!-- FSTW: STRATEGY WALKTHROUGH -->
+  <!-- WALKTHROUGH -->
   <div id="screen-walkthrough" class="screen">
     <div class="walkthrough-header">
       <div class="walkthrough-name" id="walkthrough-name"></div>
@@ -221,9 +232,9 @@
     <div class="walkthrough-card" id="walkthrough-card">
       <div class="walkthrough-step" id="walkthrough-step"></div>
     </div>
-    <div class="walkthrough-nav">
-      <button class="btn-back" onclick="walkthroughBack()">&#8592;</button>
-      <button class="btn-walkthrough-next" id="walkthrough-btn" onclick="walkthroughNext()">Next</button>
+    <div id="walkthrough-btn-wrap"></div>
+    <div style="margin-top:0.5rem;">
+      <button class="btn-secondary" onclick="walkthroughBack()">← Back</button>
     </div>
   </div>
 
@@ -255,7 +266,7 @@
     <button class="btn-secondary" onclick="goHome()">Skip &amp; finish</button>
   </div>
 
-  <!-- FSTW: CRAVING INTENSITY -->
+  <!-- FSTW: CRAVING -->
   <div id="screen-fstw-craving" class="screen">
     <div class="greeting" style="margin-bottom:0.25rem;">Log a craving</div>
     <div class="greeting-sub" style="margin-bottom:1.25rem;">What are you craving?</div>
@@ -272,15 +283,16 @@
     </div>
   </div>
 
-  <!-- FSTW: CRAVING STRATEGIES (high intensity) -->
+  <!-- FSTW: CRAVING STRATEGIES -->
   <div id="screen-fstw-craving-strategies" class="screen">
     <div class="greeting" style="margin-bottom:0.25rem;">You've got this.</div>
     <div class="greeting-sub" id="fstw-craving-sub" style="margin-bottom:1.25rem;"></div>
     <div class="strategy-list" id="fstw-craving-strategy-list"></div>
-    <div style="margin-top:1.25rem;">
-      <button class="btn-primary" onclick="showScreen('screen-fstw-craving-outcome')">I resisted ✓</button>
-      <button class="btn-secondary" onclick="showScreen('screen-fstw-craving-outcome')">I gave in</button>
-      <button class="btn-secondary" onclick="showScreen('screen-fstw-craving-outcome')">Still working through it</button>
+    <div class="see-all-link"><a onclick="showAllStrategies()">See all strategies →</a></div>
+    <div class="sticky-bottom">
+      <button class="btn-primary" onclick="setCravingOutcome('resisted'); showScreen('screen-fstw-craving-outcome');">I resisted ✓</button>
+      <button class="btn-secondary" onclick="setCravingOutcome('gave_in'); showScreen('screen-fstw-craving-outcome');">I gave in</button>
+      <button class="btn-danger" onclick="setCravingOutcome('still_going'); showScreen('screen-fstw-craving-outcome');">Still working through it</button>
     </div>
   </div>
 
@@ -331,179 +343,124 @@ const JOURNAL_URL = 'https://docs.google.com/document/d/1H-8FecEckHq5jLytUNLPpyj
 
 // ── Strategy data ─────────────────────────────────────────────
 const STRATEGIES = [
-  {
-    id: 1, name: 'Box Breathing', pinned: true, spite: false,
-    steps: [
-      'Find a comfortable position — sitting or lying down.',
-      'Breathe in slowly through your nose for 4 counts.',
-      'Hold your breath gently for 3 counts.',
-      'Exhale slowly through your mouth for 4 counts.',
-      'Repeat 3–5 times. Count slowly — there\'s no rush.'
-    ]
-  },
-  {
-    id: 2, name: '5-4-3-2-1 Grounding', pinned: true, spite: false,
-    steps: [
-      'Name 5 things you can see right now.',
-      'Name 4 things you can physically feel.',
-      'Name 3 things you can hear.',
-      'Name 2 things you can smell.',
-      'Name 1 thing you can taste.'
-    ]
-  },
-  {
-    id: 3, name: 'Temperature Change', pinned: true, spite: false,
-    steps: [
-      'Go to the sink or find something cold.',
-      'Run cold water over your wrists and hands.',
-      'Or splash cold water on your face.',
-      'Focus entirely on the sensation — cold, sharp, real.',
-      'Stay with it for 30–60 seconds.'
-    ]
-  },
-  {
-    id: 4, name: 'Surf the Urge', pinned: false, spite: false,
-    steps: [
-      'Notice the craving without acting on it.',
-      'Observe where you feel it in your body.',
-      'Breathe into that feeling — don\'t fight it.',
-      'Watch it rise, peak, and fall like a wave.',
-      'Remind yourself: the wave always passes.'
-    ]
-  },
-  {
-    id: 5, name: 'Hold Your Own Hand', pinned: false, spite: false,
-    steps: [
-      'Bring both hands together in your lap.',
-      'Hold one hand gently with the other.',
-      'Feel the warmth and pressure.',
-      'Breathe slowly — in through the nose, out through the mouth.',
-      'Stay here as long as you need — this is you caring for yourself.'
-    ]
-  },
-  {
-    id: 6, name: 'Take a Refresh Break', pinned: false, spite: false,
-    steps: [
-      'Get up and go to the sink.',
-      'Run cold water and splash it on your face.',
-      'Feel the water — cold, real, present.',
-      'Look at yourself in the mirror.',
-      'John, you\'ve survived every hard moment that came before this one. This one is no different. You\'ve got this.'
-    ]
-  },
-  {
-    id: 7, name: 'SURVIVE OUT OF SPITE 🖕🏼', pinned: false, spite: true,
-    steps: [
-      'MAYBE PEOPLE ARE ANNOYED WITH YOU. MAYBE YOU RUBBED SOMEONE THE WRONG WAY. MAYBE THE WORLD IS COMPLETELY FUCKED UP AND THE WORST PEOPLE RUN EVERYTHING. GREAT. FUCK \'EM. WE\'RE SURVIVING OUT OF SPITE.',
-      'I\'M STILL HERE MOTHERFUCKERS. ✊🏼'
-    ]
-  },
-  {
-    id: 8, name: 'Defer to Later', pinned: false, spite: false,
-    steps: [
-      'Is this actually urgent? Does it need to happen right now — or does it just feel that way?',
-      'Most things can wait.',
-      'Not never — just not now.',
-      'Put it down.'
-    ]
-  },
-  {
-    id: 9, name: 'Vivid Visualization', pinned: false, spite: false,
-    steps: [
-      '...loading your data...',
-    ],
-    dynamic: true
-  },
-  {
-    id: 10, name: 'Remember Why', pinned: false, spite: false,
-    steps: [
-      'Think of Wednesday, April 15th, 2026 — the day you gave your last fuck.',
-      'The day you listened to your body when it said NO. The day you walked out of your final technical support interview, ever.',
-      'You honored yourself. You respected yourself.\n\nGuess what? You still do.',
-      'That\'s why you\'re looking at this right now. You\'re not giving up — you\'re looking for a way through. You have agency.',
-      'Close your eyes for ten seconds. Picture the app in the hands of someone it helped. Picture yourself on a stage, or behind a mic, doing the thing you were made to do.\n\nYou\'re building toward something real. Keep going.'
-    ]
-  },
-  {
-    id: 11, name: 'Do It Tired', pinned: false, spite: false,
-    steps: [
-      'You don\'t have to be on.',
-      'People don\'t know or care if you\'re tired or less social — the ones who want you there just want you there.',
-      'Come as you are. Your presence matters, even on an off day.',
-      'You still love the people in your life when they\'re having a bad day. The same goes in reverse.',
-      'Show up. You\'ll be glad you did.'
-    ]
-  },
-  {
-    id: 12, name: 'So What, I Am Who I Am', pinned: false, spite: false,
-    steps: [
-      'The world will keep turning.',
-      'You are not defined by your mistakes. If the bad stuff counts, the good stuff counts too.',
-      'YOU DON\'T GET TO CANCEL YOURSELF.',
-      'You have self-respect. You\'ve earned it.',
-      'Take a breath — history shows you\'ve got this. Go get it.'
-    ]
-  },
-  {
-    id: 13, name: 'If Leaving Is Best, Leave 🚪', pinned: false, spite: false,
-    steps: [
-      'You are allowed to leave. 🙌🏼',
-      'You don\'t owe anyone your presence when you\'re struggling.',
-      'Find an exit — bathroom, outside, anywhere. 🌬️',
-      'Give yourself permission: "I\'m taking care of myself." 💪🏼',
-      'Leave. No explanation needed. ✌🏼'
-    ]
-  },
-  {
-    id: 14, name: 'Art or Music', pinned: false, spite: false,
-    steps: [
-      'Pick up whatever is closest — phone, pencil, instrument.',
-      'This energy needs to go somewhere.',
-      'Just start. Is it shitty? Is it ugly? Who cares?',
-      'Get it into the air, onto the paper, into the DAW.',
-      'Share with no one or everyone.'
-    ]
-  },
-  {
-    id: 15, name: 'Journal About It', pinned: false, spite: false,
-    steps: [
-      'Vomit the feelings onto the page.',
-      'Every last one.',
-      'Don\'t edit, don\'t fix it — just get it out of your body and into words.',
-      'Nobody has to read it but you.',
-      'journal_link'
-    ]
-  },
-  {
-    id: 16, name: 'Meditate', pinned: false, spite: false,
-    steps: [
-      'Find somewhere you can sit or stand for a minute.',
-      'Close your eyes or soften your gaze.',
-      'Notice your breath — don\'t change it, just notice.',
-      'When a thought comes, let it flow past like a leaf on a stream — it can wait until this moment passes.',
-      'You\'re not trying to clear your mind. Just be here.'
-    ]
-  },
-  {
-    id: 17, name: 'Safe Space Visualization', pinned: false, spite: false,
-    steps: [
-      'Close your eyes if you can.',
-      'Picture 13 Falls — the sound of the water, the air, the light through the trees.',
-      'Or Otto curled up next to you, warm and heavy, that specific kind of calm.',
-      'Or a park bench — warm sun on your face, cool breeze across your skin.',
-      'You can come back to any of these any time. They\'re yours.'
-    ]
-  },
-  {
-    id: 18, name: 'Picture the Goal', pinned: false, spite: false,
-    steps: [
-      'Think of Wednesday, April 15th, 2026 — the day you gave your last fuck. The day you listened to your body when it said NO.',
-      'The day you walked out of your final technical support interview, ever. You honored yourself. You respected yourself.',
-      'Guess what? You still do.\n\nThat\'s why you\'re looking at this right now. You\'re not giving up — you\'re looking for a way through.',
-      'You have agency.',
-      'Close your eyes for ten seconds. Picture the app in the hands of someone it helped. Picture yourself on a stage, or behind a mic.\n\nYou\'re building toward something real. Keep going.'
-    ]
-  }
+  { id:1, name:'Box Breathing', pinned:true, spite:false, steps:[
+    'Find a comfortable position — sitting or lying down.',
+    'Breathe in slowly through your nose for 4 counts.',
+    'Hold your breath gently for 3 counts.',
+    'Exhale slowly through your mouth for 4 counts.',
+    'Repeat 3–5 times. Count slowly — there\'s no rush.'
+  ]},
+  { id:2, name:'5-4-3-2-1 Grounding', pinned:true, spite:false, steps:[
+    'Name 5 things you can see right now.',
+    'Name 4 things you can physically feel.',
+    'Name 3 things you can hear.',
+    'Name 2 things you can smell.',
+    'Name 1 thing you can taste.'
+  ]},
+  { id:3, name:'Temperature Change', pinned:true, spite:false, steps:[
+    'Go to the sink.',
+    'Run cold water over your wrists and hands.',
+    'Focus on the sensation — cold, sharp, real.',
+    'Let your nervous system register it. Stay with it for 30–60 seconds.',
+    'Notice the shift. That\'s your body responding to you.'
+  ]},
+  { id:4, name:'Surf the Urge', pinned:false, spite:false, steps:[
+    'Notice the craving without acting on it.',
+    'Observe where you feel it in your body.',
+    'Breathe into that feeling — don\'t fight it.',
+    'Watch it rise, peak, and fall like a wave.',
+    'Remind yourself: the wave always passes.'
+  ]},
+  { id:5, name:'Hold Your Own Hand', pinned:false, spite:false, steps:[
+    'Bring both hands together in your lap.',
+    'Hold one hand gently with the other.',
+    'Feel the warmth and pressure.',
+    'Breathe slowly — in through the nose, out through the mouth.',
+    'Stay here as long as you need — this is you caring for yourself.'
+  ]},
+  { id:6, name:'Take a Refresh Break', pinned:false, spite:false, steps:[
+    'Get up. Change your location.',
+    'Splash water on your face if you want, or just stand somewhere different.',
+    'Take three slow breaths.',
+    'Look at yourself in the mirror.',
+    'John, you\'ve survived every hard moment that came before this one. This one is no different. You\'ve got this.'
+  ]},
+  { id:7, name:'SURVIVE OUT OF SPITE 🖕🏼', pinned:false, spite:true, steps:[
+    'MAYBE PEOPLE ARE ANNOYED WITH YOU. MAYBE YOU RUBBED SOMEONE THE WRONG WAY. MAYBE THE WORLD IS COMPLETELY FUCKED UP AND THE WORST PEOPLE RUN EVERYTHING. GREAT. FUCK \'EM. WE\'RE SURVIVING OUT OF SPITE.',
+    'I\'M STILL HERE MOTHERFUCKERS. ✊🏼'
+  ]},
+  { id:8, name:'Defer to Later', pinned:false, spite:false, steps:[
+    'Is this actually urgent? Does it need to happen right now — or does it just feel that way?',
+    'Most things can wait.',
+    'Not never — just not now.',
+    'Put it down.'
+  ]},
+  { id:9, name:'Vivid Visualization', pinned:false, spite:false, dynamic:true, steps:[
+    'Loading your data...'
+  ]},
+  { id:10, name:'Remember Why', pinned:false, spite:false, steps:[
+    'Think of Wednesday, April 15th, 2026 — the day you gave your last fuck.',
+    'The day you listened to your body when it said NO. The day you walked out of your final technical support interview, ever.',
+    'You honored yourself. You respected yourself.\n\nGuess what? You still do.',
+    'That\'s why you\'re looking at this right now. You\'re not giving up — you\'re looking for a way through. You have agency.',
+    'Close your eyes for ten seconds. Picture the app in the hands of someone it helped. Picture yourself on a stage, or behind a mic, doing the thing you were made to do.\n\nYou\'re building toward something real. Keep going.'
+  ]},
+  { id:11, name:'Do It Tired', pinned:false, spite:false, steps:[
+    'You don\'t have to be on.',
+    'People don\'t know or care if you\'re tired or less social — the ones who want you there just want you there.',
+    'Come as you are. Your presence matters, even on an off day.',
+    'You still love the people in your life when they\'re having a bad day. The same goes in reverse.',
+    'Show up. You\'ll be glad you did.'
+  ]},
+  { id:12, name:'So What, I Am Who I Am', pinned:false, spite:false, steps:[
+    'The world will keep turning.',
+    'You are not defined by your mistakes. If the bad stuff counts, the good stuff counts too.',
+    'YOU DON\'T GET TO CANCEL YOURSELF.',
+    'You have self-respect. You\'ve earned it.',
+    'Take a breath — history shows you\'ve got this. Go get it.'
+  ]},
+  { id:13, name:'If Leaving Is Best, Leave 🚪', pinned:false, spite:false, steps:[
+    'You are allowed to leave. 🙌🏼',
+    'You don\'t owe anyone your presence when you\'re struggling.',
+    'Find an exit — bathroom, outside, anywhere. 🌬️',
+    'Give yourself permission: "I\'m taking care of myself." 💪🏼',
+    'Leave. No explanation needed. ✌🏼'
+  ]},
+  { id:14, name:'Art or Music', pinned:false, spite:false, steps:[
+    'Pick up whatever is closest — phone, pencil, instrument.',
+    'This energy needs to go somewhere.',
+    'Just start. Is it shitty? Is it ugly? Who cares?',
+    'Get it into the air, onto the paper, into the DAW.',
+    'Share with no one or everyone.'
+  ]},
+  { id:15, name:'Journal About It', pinned:false, spite:false, steps:[
+    'Vomit the feelings onto the page.',
+    'Every last one.',
+    'Don\'t edit, don\'t fix it — just get it out of your body and into words.',
+    'Nobody has to read it but you.',
+    'journal_link'
+  ]},
+  { id:16, name:'Meditate', pinned:false, spite:false, steps:[
+    'Find somewhere you can sit or stand for a minute.',
+    'Close your eyes or soften your gaze.',
+    'Notice your breath — don\'t change it, just notice.',
+    'When a thought comes, let it flow past like a leaf on a stream — it can wait until this moment passes.',
+    'You\'re not trying to clear your mind. Just be here.'
+  ]},
+  { id:17, name:'Safe Space Visualization', pinned:false, spite:false, steps:[
+    'Close your eyes if you can.',
+    'Picture 13 Falls — the sound of the water, the air, the light through the trees.',
+    'Or Otto curled up next to you, warm and heavy, that specific kind of calm.',
+    'Or a park bench — warm sun on your face, cool breeze across your skin.',
+    'You can come back to any of these any time. They\'re yours.'
+  ]},
+  { id:18, name:'Picture the Goal', pinned:false, spite:false, steps:[
+    'Think of Wednesday, April 15th, 2026 — the day you gave your last fuck. The day you listened to your body when it said NO.',
+    'The day you walked out of your final technical support interview, ever. You honored yourself. You respected yourself.',
+    'Guess what? You still do.\n\nThat\'s why you\'re looking at this right now. You\'re not giving up — you\'re looking for a way through.',
+    'You have agency.',
+    'Close your eyes for ten seconds. Picture the app in the hands of someone it helped. Picture yourself on a stage, or behind a mic.\n\nYou\'re building toward something real. Keep going.'
+  ]}
 ];
 
 const EPISODE_TRIGGERS = [
@@ -524,12 +481,6 @@ const EPISODE_TYPES = [
 
 const SUBSTANCES = ['Cannabis','Alcohol','Sugar','Social media','Other'];
 
-const TRIGGERS = [
-  'Nice weather','Social anxiety','Low energy','Low mood',
-  'Withdrawal feelings','Nothing feels good','Peer pressure',
-  'Maximizing good feelings','Financial anxiety','Other'
-];
-
 const DESCS = {
   quick:   'Mood, energy, anxiety — 30 seconds',
   morning: 'Morning vitals + sleep + meds',
@@ -542,15 +493,15 @@ const MOOD_BLOCK = [
   { label:'Energy',  q:'Energy level?',                  sub:'1 = exhausted, 10 = buzzing', type:'scale', key:'energy' },
   { label:'Anxiety', q:'Anxiety level?',                 sub:'1 = calm, 10 = very anxious', type:'scale', key:'anxiety' },
 ];
-const SLEEP_Q       = { label:'Sleep',    q:'Hours of sleep last night?',     sub:'Check your CPAP reading',           type:'stepper', unit:'hrs', step:0.5,  min:0, max:14, def:7,    key:'sleep' };
-const FOCUS_Q       = { label:'Focus',    q:'How is your focus right now?',   sub:'1 = scattered, 10 = locked in',     type:'scale',   key:'focus' };
-const FLUOX_Q       = { label:'Meds',     q:'Took Fluoxetine (40mg)?',        hint:"Take it now if you haven't yet!",  type:'yesno', polarity:'good', key:'fluoxetine' };
-const RITALIN_Q     = { label:'Meds',     q:'Took Ritalin this morning?',     sub:'As needed — skip if not applicable',type:'yesno', polarity:'neutral', key:'ritalin',
+const SLEEP_Q       = { label:'Sleep',    q:'Hours of sleep last night?', sub:'Check your CPAP reading', type:'stepper', unit:'hrs', step:0.5, min:0, max:14, def:7, key:'sleep' };
+const FOCUS_Q       = { label:'Focus',    q:'How is your focus right now?', sub:'1 = scattered, 10 = locked in', type:'scale', key:'focus' };
+const FLUOX_Q       = { label:'Meds',     q:'Took Fluoxetine (40mg)?', hint:"Take it now if you haven't yet!", type:'yesno', polarity:'good', key:'fluoxetine' };
+const RITALIN_Q     = { label:'Meds',     q:'Took Ritalin this morning?', sub:'As needed — skip if not applicable', type:'yesno', polarity:'neutral', key:'ritalin',
   followup: { label:'Meds', q:'How many mg?', sub:'One quarter tab = 1.25mg', type:'stepper', unit:'mg', step:1.25, min:1.25, max:20, def:1.25, key:'ritalin_mg' } };
-const RITALIN_TOPUP = { label:'Meds',     q:'Took a second Ritalin dose?',    sub:'As needed', type:'yesno', polarity:'neutral', key:'ritalin_midday',
+const RITALIN_TOPUP = { label:'Meds', q:'Took a second Ritalin dose?', sub:'As needed', type:'yesno', polarity:'neutral', key:'ritalin_midday',
   followup: { label:'Meds', q:'How many mg?', sub:'One quarter tab = 1.25mg', type:'stepper', unit:'mg', step:1.25, min:1.25, max:20, def:1.25, key:'ritalin_midday_mg' } };
 const EXERCISE_AM_Q = { label:'Activity', q:'Did you exercise this morning?', sub:'At least 15 min, intense', type:'yesno', polarity:'good', key:'exercise_morning' };
-const NOTES_Q       = { label:'Notes',    q:'Anything else worth noting today?', sub:'Optional — mood context, events, how you\'re feeling overall', type:'notes', key:'notes' };
+const NOTES_Q       = { label:'Notes', q:'Anything else worth noting today?', sub:'Optional — mood context, events, how you\'re feeling overall', type:'notes', key:'notes' };
 
 const Q_QUICK   = [...MOOD_BLOCK, NOTES_Q];
 const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q,
@@ -559,7 +510,7 @@ const Q_MORNING = [...MOOD_BLOCK, SLEEP_Q,
       followup2: { label:'Sleep aid', q:'How many mg total?', sub:'Seroquel: 6.25mg steps · Benadryl: 12.5mg steps', type:'stepper', unit:'mg', step:6.25, min:6.25, max:150, def:6.25, key:'sleep_aid_mg' }
     }
   },
-  { label:'Screen time', q:'Hours of video games yesterday?',  type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
+  { label:'Screen time', q:'Hours of video games yesterday?', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'videogames' },
   { label:'Screen time', q:'Hours on social media yesterday?', hint:'Check Settings → Screen Time on your iPhone for the accurate number.', type:'stepper', unit:'hrs', step:0.5, min:0, max:12, def:0, key:'socialmedia' },
   FLUOX_Q, RITALIN_Q, NOTES_Q
 ];
@@ -584,8 +535,8 @@ const Q_EVENING = [
 ];
 
 let questions=[], qIdx=0, answers={}, stepVals={}, checkinType='quick', inFollowup=false, followupQ=null;
-let walkthroughStrategy=null, walkthroughStepIdx=0;
-let fstWCravingData = { substance:'', intensity:0, session_id:'' };
+let walkthroughStrategy=null, walkthroughStepIdx=0, walkthroughOrigin='screen-fstw-notgreat';
+let fstWCravingData = { substance:'', intensity:0, outcome:'', session_id:'' };
 let fstWEpisodeData = { episode_type:'', duration_min:0, trigger:'', trigger_notes:'', what_helped:'', session_id:'' };
 let fstWDurationHours=0, fstWDurationMins=0;
 let fstWShownStrategyIds=[];
@@ -597,254 +548,209 @@ function formatDateTime() {
   const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   let h = now.getHours(), m = now.getMinutes().toString().padStart(2,'0');
-  const ampm = h >= 12 ? 'PM' : 'AM'; h = h % 12 || 12;
-  return days[now.getDay()] + ', ' + months[now.getMonth()] + ' ' + now.getDate() + ' · ' + h + ':' + m + ' ' + ampm;
+  const ampm = h>=12?'PM':'AM'; h=h%12||12;
+  return days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+' · '+h+':'+m+' '+ampm;
 }
 
 function greetingText() {
   const h = new Date().getHours();
-  return h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  return h<12?'Good morning':h<17?'Good afternoon':'Good evening';
 }
 
-// ── Counters ─────────────────────────────────────────────────
+// ── Counters ──────────────────────────────────────────────────
 function loadCannabisDays() {
-  const s = localStorage.getItem('jt_cannabis_quit_date') || '2026-04-03';
-  const p = s.split('-').map(Number);
-  const quit = new Date(p[0],p[1]-1,p[2]);
-  const today = new Date(); today.setHours(0,0,0,0);
-  document.getElementById('cannabis-count').textContent = Math.max(0, Math.floor((today-quit)/86400000));
+  const s=localStorage.getItem('jt_cannabis_quit_date')||'2026-04-03';
+  const p=s.split('-').map(Number);
+  const quit=new Date(p[0],p[1]-1,p[2]);
+  const today=new Date(); today.setHours(0,0,0,0);
+  document.getElementById('cannabis-count').textContent=Math.max(0,Math.floor((today-quit)/86400000));
 }
 
 function loadAlcoholDays() {
-  const s = localStorage.getItem('jt_alcohol_quit_date') || '2022-06-13';
-  const p = s.split('-').map(Number);
-  const quit = new Date(p[0],p[1]-1,p[2]);
-  const today = new Date(); today.setHours(0,0,0,0);
-  const el = document.getElementById('alcohol-count');
-  if (el) el.textContent = Math.max(0, Math.floor((today-quit)/86400000));
+  const s=localStorage.getItem('jt_alcohol_quit_date')||'2022-06-13';
+  const p=s.split('-').map(Number);
+  const quit=new Date(p[0],p[1]-1,p[2]);
+  const today=new Date(); today.setHours(0,0,0,0);
+  const el=document.getElementById('alcohol-count');
+  if(el) el.textContent=Math.max(0,Math.floor((today-quit)/86400000));
 }
 
 function loadStreak() {
-  const streak = parseInt(localStorage.getItem('jt_streak') || '0');
-  const badge = document.getElementById('streak-badge');
-  if (badge) badge.innerHTML = '🔥 ' + streak + ' ' + (streak===1?'day':'days') + ' streak';
+  const streak=parseInt(localStorage.getItem('jt_streak')||'0');
+  const badge=document.getElementById('streak-badge');
+  if(badge) badge.innerHTML='🔥 '+streak+' '+(streak===1?'day':'days')+' streak';
 }
 
 function updateStreak() {
-  const today = new Date().toDateString();
-  const last = localStorage.getItem('jt_last_checkin');
-  let streak = parseInt(localStorage.getItem('jt_streak') || '0');
-  if (last !== today) {
-    const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
-    streak = (last === yesterday.toDateString()) ? streak+1 : 1;
-    localStorage.setItem('jt_streak', streak);
-    localStorage.setItem('jt_last_checkin', today);
+  const today=new Date().toDateString();
+  const last=localStorage.getItem('jt_last_checkin');
+  let streak=parseInt(localStorage.getItem('jt_streak')||'0');
+  if(last!==today){
+    const yesterday=new Date(); yesterday.setDate(yesterday.getDate()-1);
+    streak=(last===yesterday.toDateString())?streak+1:1;
+    localStorage.setItem('jt_streak',streak);
+    localStorage.setItem('jt_last_checkin',today);
   }
   loadStreak();
 }
 
 function resetCannabisCounter() {
-  const today = new Date();
-  const str = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-  localStorage.setItem('jt_cannabis_quit_date', str);
-  document.getElementById('cannabis-count').textContent = '0';
+  const today=new Date();
+  const str=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  localStorage.setItem('jt_cannabis_quit_date',str);
+  document.getElementById('cannabis-count').textContent='0';
 }
 
 function resetAlcoholCounter() {
-  const today = new Date();
-  const str = today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-  localStorage.setItem('jt_alcohol_quit_date', str);
-  const el = document.getElementById('alcohol-count');
-  if (el) el.textContent = '0';
+  const today=new Date();
+  const str=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+  localStorage.setItem('jt_alcohol_quit_date',str);
+  const el=document.getElementById('alcohol-count');
+  if(el) el.textContent='0';
 }
 
-// ── Insight card ─────────────────────────────────────────────
-function loadInsightCard() {
-  const existing = document.getElementById('briefing-script');
-  if (existing) existing.remove();
-  const script = document.createElement('script');
-  script.id = 'briefing-script';
-  script.src = ENDPOINT + '?action=getBriefingData&callback=handleInsightCard&t=' + Date.now();
-  document.body.appendChild(script);
-}
-
-function handleInsightCard(data) {
-  const card = document.getElementById('insight-card');
-  const text = document.getElementById('insight-text');
-  if (!card || !text) return;
-  const lines = [];
-  if (data.streaks && data.streaks.length > 0) {
-    data.streaks.forEach(function(s) {
-      lines.push(s.emoji + ' ' + s.streak + ' ' + (s.streak===1?'day':'days') + ' ' + s.label.toLowerCase() + ' — keep it going!');
-    });
-  }
-  if (data.correlations && data.correlations.length > 0) {
-    const c = data.correlations[0];
-    const diff = (parseFloat(c.avg_did) - parseFloat(c.avg_didnt)).toFixed(1);
-    lines.push(c.emoji + ' Your mood is +' + diff + ' pts higher on ' + c.label.toLowerCase() + ' days (' + c.avg_did + ' vs ' + c.avg_didnt + ').');
-  }
-  if (data.encouraging_line && lines.length === 0) lines.push(data.encouraging_line);
-  if (lines.length > 0) {
-    text.innerHTML = lines.join('<br>');
-    card.style.display = 'block';
-  }
-}
-
-// ── Init ─────────────────────────────────────────────────────
+// ── Init ──────────────────────────────────────────────────────
 function initHome() {
-  if (!localStorage.getItem('jt_cannabis_quit_date')) localStorage.setItem('jt_cannabis_quit_date', '2026-04-03');
-  if (!localStorage.getItem('jt_alcohol_quit_date'))  localStorage.setItem('jt_alcohol_quit_date',  '2022-06-13');
-  document.getElementById('greeting-text').textContent = greetingText();
-  document.getElementById('greeting-date').textContent = formatDateTime();
+  if(!localStorage.getItem('jt_cannabis_quit_date')) localStorage.setItem('jt_cannabis_quit_date','2026-04-03');
+  if(!localStorage.getItem('jt_alcohol_quit_date'))  localStorage.setItem('jt_alcohol_quit_date','2022-06-13');
+  document.getElementById('greeting-text').textContent=greetingText();
+  document.getElementById('greeting-date').textContent=formatDateTime();
   loadStreak();
   loadCannabisDays();
   loadAlcoholDays();
-  loadInsightCard();
 }
 
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
 }
 
 function goHome() { showScreen('screen-start'); initHome(); }
 
-// ── FSTW Flow ─────────────────────────────────────────────────
-
-function getStrategiesForMoment() {
-  const pinned = STRATEGIES.filter(function(s) { return s.pinned; });
-  const others = STRATEGIES.filter(function(s) { return !s.pinned && !s.spite; });
-  const shuffled = others.sort(function() { return Math.random()-0.5; }).slice(0,3);
-  const spite = STRATEGIES.find(function(s) { return s.spite; });
-  return [...pinned, shuffled[0], spite].filter(Boolean);
+// ── Strategy helpers ──────────────────────────────────────────
+function getRandomStrategies(count) {
+  const nonPinned = STRATEGIES.filter(function(s){ return !s.pinned && !s.spite; });
+  const shuffled  = nonPinned.sort(function(){ return Math.random()-0.5; });
+  return shuffled.slice(0, count);
 }
 
-function renderStrategyCard(s, listEl, afterClick) {
+function renderStrategyCard(s, listEl, originScreen) {
   const card = document.createElement('div');
-  card.className = 'strategy-card' + (s.pinned ? ' pinned' : '') + (s.spite ? ' spite' : '');
-
-  if (s.spite) {
-    card.innerHTML = '<div class="strategy-name spite">' + s.name + '</div>' +
-      '<div class="tap-hint spite">Tap to read</div>';
+  card.className = 'strategy-card'+(s.pinned?' pinned':'')+(s.spite?' spite':'');
+  if(s.spite){
+    card.innerHTML='<div class="strategy-name spite">'+s.name+'</div><div class="tap-hint spite">Tap to read</div>';
   } else {
-    const pin = s.pinned ? '<div class="strategy-pin">Try this first</div>' : '';
-    card.innerHTML = pin + '<div class="strategy-name">' + s.name + '</div>' +
+    card.innerHTML=(s.pinned?'<div class="strategy-pin">Try this first</div>':'')+
+      '<div class="strategy-name">'+s.name+'</div>'+
       '<div class="tap-hint">Tap to walk through it</div>';
   }
-
-  card.onclick = function() {
-    if (afterClick) afterClick();
-    openWalkthrough(s);
-  };
+  card.onclick=function(){ walkthroughOrigin=originScreen||'screen-fstw-notgreat'; openWalkthrough(s); };
   listEl.appendChild(card);
 }
 
-function showFSTWNotGreat() {
-  const list = document.getElementById('fstw-strategy-list');
-  list.innerHTML = '';
-  fstWShownStrategyIds = [];
-  const shown = getStrategiesForMoment();
-  shown.forEach(function(s) {
+function buildStrategyList(listEl, originScreen) {
+  listEl.innerHTML='';
+  fstWShownStrategyIds=[];
+  const pinned   = STRATEGIES.filter(function(s){ return s.pinned; });
+  const random   = getRandomStrategies(3);
+  const spite    = STRATEGIES.find(function(s){ return s.spite; });
+  const shown    = [...pinned, ...random, spite].filter(Boolean);
+  shown.forEach(function(s){
     fstWShownStrategyIds.push(s.id);
-    renderStrategyCard(s, list, null);
+    renderStrategyCard(s, listEl, originScreen);
   });
+}
+
+function showFSTWNotGreat() {
+  buildStrategyList(document.getElementById('fstw-strategy-list'), 'screen-fstw-notgreat');
   showScreen('screen-fstw-notgreat');
 }
 
-function showStillInIt() {
-  showScreen('screen-still-in-it');
+function showAllStrategies() {
+  const listEl = document.getElementById('all-strategy-list');
+  listEl.innerHTML='';
+  STRATEGIES.forEach(function(s){ renderStrategyCard(s, listEl, 'screen-all-strategies'); });
+  showScreen('screen-all-strategies');
 }
 
-// ── Walkthrough ───────────────────────────────────────────────
+function showStillInIt() { showScreen('screen-still-in-it'); }
 
+// ── Walkthrough ───────────────────────────────────────────────
 function openWalkthrough(strategy) {
   walkthroughStrategy = strategy;
   walkthroughStepIdx  = 0;
-
-  if (strategy.dynamic) {
-    loadVividVisualization();
-  } else {
-    renderWalkthroughStep();
-  }
+  if(strategy.dynamic){ loadVividVisualization(); }
+  else { renderWalkthroughStep(); }
   showScreen('screen-walkthrough');
 }
 
 function loadVividVisualization() {
-  walkthroughStrategy = Object.assign({}, walkthroughStrategy, {
-    steps: ['Loading your data...']
-  });
+  walkthroughStrategy = Object.assign({}, walkthroughStrategy, { steps:['Loading your data...'] });
   renderWalkthroughStep();
-
-  const existing = document.getElementById('vv-script');
-  if (existing) existing.remove();
-  const script = document.createElement('script');
-  script.id = 'vv-script';
-  script.src = ENDPOINT + '?action=getLastEpisode&callback=handleVividViz&t=' + Date.now();
+  const existing=document.getElementById('vv-script');
+  if(existing) existing.remove();
+  const script=document.createElement('script');
+  script.id='vv-script';
+  script.src=ENDPOINT+'?action=getLastEpisode&callback=handleVividViz&t='+Date.now();
   document.body.appendChild(script);
 }
 
 function handleVividViz(data) {
   let steps;
-  if (data && data.date && data.episode_type) {
-    const typeLabel = data.episode_type.replace(/_/g,' ');
-    steps = [
-      'Remember ' + data.date + '.',
-      'You logged a ' + typeLabel + ' that day.',
+  if(data && data.date && data.episode_type){
+    const typeLabel=data.episode_type.replace(/_/g,' ');
+    steps=[
+      'Remember '+data.date+'.',
+      'You logged a '+typeLabel+' that day.',
       'You got through that one.',
       'You\'re going to get through this one too. 😎'
     ];
   } else {
-    steps = [
+    steps=[
       'Remember the last time you had a moment?',
       'You got through it.',
       'You\'ve got this too.',
       'Just take your time. You don\'t owe anybody perfection. You are human. 😎'
     ];
   }
-  walkthroughStrategy = Object.assign({}, walkthroughStrategy, { steps: steps });
+  walkthroughStrategy=Object.assign({}, walkthroughStrategy, { steps:steps });
   renderWalkthroughStep();
 }
 
 function renderWalkthroughStep() {
-  const s    = walkthroughStrategy;
-  const step = s.steps[walkthroughStepIdx];
+  const s     = walkthroughStrategy;
+  const step  = s.steps[walkthroughStepIdx];
   const total = s.steps.length;
-  const isLast = walkthroughStepIdx === total - 1;
-  const isSpite = s.spite;
+  const isLast= walkthroughStepIdx===total-1;
+  const isSpite=s.spite;
 
-  document.getElementById('walkthrough-name').textContent = s.name;
-  document.getElementById('walkthrough-progress').textContent = (walkthroughStepIdx+1) + ' of ' + total;
+  document.getElementById('walkthrough-name').textContent=s.name;
+  document.getElementById('walkthrough-progress').textContent=(walkthroughStepIdx+1)+' of '+total;
 
-  const card = document.getElementById('walkthrough-card');
-  const stepEl = document.getElementById('walkthrough-step');
-  const btn = document.getElementById('walkthrough-btn');
+  const card=document.getElementById('walkthrough-card');
+  const stepEl=document.getElementById('walkthrough-step');
+  card.className='walkthrough-card '+(isSpite?'spite':'normal');
+  stepEl.className='walkthrough-step'+(isSpite?' spite':'');
 
-  card.className = 'walkthrough-card ' + (isSpite ? 'spite' : 'normal');
-  stepEl.className = 'walkthrough-step' + (isSpite ? ' spite' : '');
-
-  if (isSpite && walkthroughStepIdx === 1) {
-    stepEl.innerHTML = '<span class="spite-final">' + step + '</span>';
-  } else if (step === 'journal_link') {
-    stepEl.innerHTML = 'Open your journal and get it all out.' +
-      '<br><br><a href="' + JOURNAL_URL + '" target="_blank" class="journal-link">Open Journal 📓</a>';
+  if(isSpite && walkthroughStepIdx===1){
+    stepEl.innerHTML='<span class="spite-final">'+step+'</span>';
+  } else if(step==='journal_link'){
+    stepEl.innerHTML='Open your journal and get it all out.<br><br><a href="'+JOURNAL_URL+'" target="_blank" class="journal-link">Open Journal 📓</a>';
   } else {
-    stepEl.textContent = step;
+    stepEl.textContent=step;
   }
 
-  if (isLast) {
-    btn.textContent = 'Done ✓';
-    btn.className = 'btn-walkthrough-done' + (isSpite ? ' spite' : '');
-    btn.onclick = function() { history.back(); showScreen('screen-fstw-notgreat'); };
+  const wrap=document.getElementById('walkthrough-btn-wrap');
+  if(isLast){
+    wrap.innerHTML='<button class="btn-walkthrough-done'+(isSpite?' spite':'')+'" onclick="showScreen(\''+walkthroughOrigin+'\')">Done ✓</button>';
   } else {
-    btn.textContent = 'Next →';
-    btn.className = 'btn-walkthrough-next' + (isSpite ? ' spite' : '');
-    btn.onclick = walkthroughNext;
+    wrap.innerHTML='<button class="btn-walkthrough-next'+(isSpite?' spite':'')+'" onclick="walkthroughNext()">Next →</button>';
   }
 }
 
 function walkthroughNext() {
-  if (walkthroughStepIdx < walkthroughStrategy.steps.length - 1) {
+  if(walkthroughStepIdx<walkthroughStrategy.steps.length-1){
     walkthroughStepIdx++;
     renderWalkthroughStep();
     window.scrollTo(0,0);
@@ -852,240 +758,226 @@ function walkthroughNext() {
 }
 
 function walkthroughBack() {
-  if (walkthroughStepIdx > 0) {
-    walkthroughStepIdx--;
-    renderWalkthroughStep();
-  } else {
-    showScreen('screen-fstw-notgreat');
-  }
+  if(walkthroughStepIdx>0){ walkthroughStepIdx--; renderWalkthroughStep(); }
+  else { showScreen(walkthroughOrigin); }
 }
 
-// ── Better Now: data collection ───────────────────────────────
-
+// ── Better Now ────────────────────────────────────────────────
 function showFSTWBetter() {
-  fstWEpisodeData = { episode_type:'', duration_min:0, trigger:'', trigger_notes:'', what_helped:'', session_id:genSessionId() };
-  fstWDurationHours = 0; fstWDurationMins = 0;
+  fstWEpisodeData={ episode_type:'', duration_min:0, trigger:'', trigger_notes:'', what_helped:'', session_id:genSessionId() };
+  fstWDurationHours=0; fstWDurationMins=0;
 
-  const typeList = document.getElementById('fstw-episode-type-list'); typeList.innerHTML = '';
-  EPISODE_TYPES.forEach(function(ep) {
-    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = ep.label;
-    b.onclick = function() {
-      fstWEpisodeData.episode_type = ep.key;
+  const typeList=document.getElementById('fstw-episode-type-list'); typeList.innerHTML='';
+  EPISODE_TYPES.forEach(function(ep){
+    const b=document.createElement('button'); b.className='mc-btn'; b.textContent=ep.label;
+    b.onclick=function(){
+      fstWEpisodeData.episode_type=ep.key;
       document.querySelectorAll('#fstw-episode-type-list .mc-btn').forEach(function(x){x.classList.remove('selected');});
       b.classList.add('selected');
     };
     typeList.appendChild(b);
   });
 
-  const durRow = document.getElementById('fstw-duration-row'); durRow.innerHTML = '';
-  const minusH = document.createElement('button'); minusH.className='stepper-btn'; minusH.textContent='−';
-  const valH   = document.createElement('div');    valH.className='stepper-val'; valH.style.fontSize='24px'; valH.textContent='0';
-  const plusH  = document.createElement('button'); plusH.className='stepper-btn'; plusH.textContent='+';
-  const unitH  = document.createElement('div');    unitH.className='stepper-unit'; unitH.textContent='hrs';
-  const minusM = document.createElement('button'); minusM.className='stepper-btn'; minusM.textContent='−';
-  const valM   = document.createElement('div');    valM.className='stepper-val'; valM.style.fontSize='24px'; valM.textContent='0';
-  const plusM  = document.createElement('button'); plusM.className='stepper-btn'; plusM.textContent='+';
-  const unitM  = document.createElement('div');    unitM.className='stepper-unit'; unitM.textContent='min';
+  // Duration stepper — hours + 15min increments
+  const durRow=document.getElementById('fstw-duration-row'); durRow.innerHTML='';
+  const minusH=document.createElement('button'); minusH.className='stepper-btn'; minusH.textContent='−';
+  const valH  =document.createElement('div');    valH.className='stepper-val'; valH.style.fontSize='24px'; valH.textContent='0';
+  const plusH =document.createElement('button'); plusH.className='stepper-btn'; plusH.textContent='+';
+  const unitH =document.createElement('div');    unitH.className='stepper-unit'; unitH.textContent='hrs';
+  const minusM=document.createElement('button'); minusM.className='stepper-btn'; minusM.textContent='−';
+  const valM  =document.createElement('div');    valM.className='stepper-val'; valM.style.fontSize='24px'; valM.textContent='0';
+  const plusM =document.createElement('button'); plusM.className='stepper-btn'; plusM.textContent='+';
+  const unitM =document.createElement('div');    unitM.className='stepper-unit'; unitM.textContent='min';
   minusH.onclick=function(){fstWDurationHours=Math.max(0,fstWDurationHours-1);valH.textContent=fstWDurationHours;fstWEpisodeData.duration_min=fstWDurationHours*60+fstWDurationMins;};
   plusH.onclick =function(){fstWDurationHours=Math.min(12,fstWDurationHours+1);valH.textContent=fstWDurationHours;fstWEpisodeData.duration_min=fstWDurationHours*60+fstWDurationMins;};
-  minusM.onclick=function(){fstWDurationMins=Math.max(0,fstWDurationMins-5);valM.textContent=fstWDurationMins;fstWEpisodeData.duration_min=fstWDurationHours*60+fstWDurationMins;};
-  plusM.onclick =function(){fstWDurationMins=Math.min(55,fstWDurationMins+5);valM.textContent=fstWDurationMins;fstWEpisodeData.duration_min=fstWDurationHours*60+fstWDurationMins;};
+  minusM.onclick=function(){fstWDurationMins=Math.max(0,fstWDurationMins-15);valM.textContent=fstWDurationMins;fstWEpisodeData.duration_min=fstWDurationHours*60+fstWDurationMins;};
+  plusM.onclick =function(){fstWDurationMins=Math.min(45,fstWDurationMins+15);valM.textContent=fstWDurationMins;fstWEpisodeData.duration_min=fstWDurationHours*60+fstWDurationMins;};
   const hrsGroup=document.createElement('div'); hrsGroup.style.cssText='display:flex;align-items:center;gap:8px;';
-  hrsGroup.appendChild(minusH);hrsGroup.appendChild(plusH);hrsGroup.appendChild(valH);hrsGroup.appendChild(unitH);
+  hrsGroup.appendChild(minusH); hrsGroup.appendChild(plusH); hrsGroup.appendChild(valH); hrsGroup.appendChild(unitH);
   const minsGroup=document.createElement('div'); minsGroup.style.cssText='display:flex;align-items:center;gap:8px;';
-  minsGroup.appendChild(minusM);minsGroup.appendChild(plusM);minsGroup.appendChild(valM);minsGroup.appendChild(unitM);
+  minsGroup.appendChild(minusM); minsGroup.appendChild(plusM); minsGroup.appendChild(valM); minsGroup.appendChild(unitM);
   durRow.appendChild(hrsGroup); durRow.appendChild(minsGroup);
 
-  const tList = document.getElementById('fstw-trigger-list'); tList.innerHTML = '';
-  EPISODE_TRIGGERS.forEach(function(t) {
-    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = t;
-    b.onclick = function() {
-      fstWEpisodeData.trigger = t;
+  const tList=document.getElementById('fstw-trigger-list'); tList.innerHTML='';
+  EPISODE_TRIGGERS.forEach(function(t){
+    const b=document.createElement('button'); b.className='mc-btn'; b.textContent=t;
+    b.onclick=function(){
+      fstWEpisodeData.trigger=t;
       document.querySelectorAll('#fstw-trigger-list .mc-btn').forEach(function(x){x.classList.remove('selected');});
       b.classList.add('selected');
-      document.getElementById('fstw-trigger-other-card').style.display = t==='Other' ? 'block' : 'none';
+      document.getElementById('fstw-trigger-other-card').style.display=t==='Other'?'block':'none';
     };
     tList.appendChild(b);
   });
 
+  document.getElementById('fstw-trigger-other-card').style.display='none';
+  document.getElementById('fstw-trigger-other-text').value='';
+  document.getElementById('fstw-what-helped').value='';
   showScreen('screen-fstw-better');
 }
 
 async function saveFSTWEpisode() {
-  const status = document.getElementById('fstw-save-status');
-  status.innerHTML = '<span class="spinner"></span> Saving...'; status.className = 'status-msg';
-  fstWEpisodeData.trigger_notes = document.getElementById('fstw-trigger-other-text').value;
-  fstWEpisodeData.what_helped   = document.getElementById('fstw-what-helped').value;
+  const status=document.getElementById('fstw-save-status');
+  status.innerHTML='<span class="spinner"></span> Saving...'; status.className='status-msg';
+  fstWEpisodeData.trigger_notes=document.getElementById('fstw-trigger-other-text').value;
+  fstWEpisodeData.what_helped  =document.getElementById('fstw-what-helped').value;
   try {
-    await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
-      type:'episode',
-      session_id:    fstWEpisodeData.session_id,
-      episode_type:  fstWEpisodeData.episode_type || 'general',
-      intensity:     0,
-      duration_min:  fstWEpisodeData.duration_min,
-      trigger:       fstWEpisodeData.trigger,
-      trigger_notes: fstWEpisodeData.trigger_notes,
-      strategies_shown: fstWShownStrategyIds,
-      post_mood:     '',
-      notes:         fstWEpisodeData.what_helped
+    await fetch(ENDPOINT,{method:'POST',body:JSON.stringify({
+      type:'episode', session_id:fstWEpisodeData.session_id,
+      episode_type:fstWEpisodeData.episode_type||'general',
+      intensity:0, duration_min:fstWEpisodeData.duration_min,
+      trigger:fstWEpisodeData.trigger, trigger_notes:fstWEpisodeData.trigger_notes,
+      strategies_shown:fstWShownStrategyIds, post_mood:'',
+      notes:fstWEpisodeData.what_helped
     })});
-    status.textContent = 'Saved ✓'; status.className = 'status-msg success';
-    setTimeout(goHome, 1000);
-  } catch(err) {
-    status.textContent = 'Could not save — check your connection'; status.className = 'status-msg error';
+    status.textContent='Saved ✓'; status.className='status-msg success';
+    setTimeout(goHome,1000);
+  } catch(err){
+    status.textContent='Could not save — check your connection'; status.className='status-msg error';
   }
 }
 
-// ── FSTW: Craving ─────────────────────────────────────────────
-
+// ── Craving ───────────────────────────────────────────────────
 function showFSTWCraving() {
-  fstWCravingData = { substance:'', intensity:0, session_id:genSessionId() };
-  const subList = document.getElementById('fstw-substance-list'); subList.innerHTML = '';
-  SUBSTANCES.forEach(function(s) {
-    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = s;
-    b.onclick = function() {
-      fstWCravingData.substance = s;
+  fstWCravingData={ substance:'', intensity:0, outcome:'', session_id:genSessionId() };
+  const subList=document.getElementById('fstw-substance-list'); subList.innerHTML='';
+  SUBSTANCES.forEach(function(s){
+    const b=document.createElement('button'); b.className='mc-btn'; b.textContent=s;
+    b.onclick=function(){
+      fstWCravingData.substance=s;
       document.querySelectorAll('#fstw-substance-list .mc-btn').forEach(function(x){x.classList.remove('selected');});
       b.classList.add('selected');
-      document.getElementById('fstw-intensity-card').style.display = 'block';
+      document.getElementById('fstw-intensity-card').style.display='block';
     };
     subList.appendChild(b);
   });
-  const intRow = document.getElementById('fstw-intensity-row'); intRow.innerHTML = '';
-  const intLabels = ['','Passing thought','Noticeable','Real pull','Strong urge','Full body'];
-  for (let i=1;i<=5;i++) {
-    const b = document.createElement('button'); b.className = 'int-btn';
-    b.innerHTML = '<span class="int-num">'+i+'</span><span style="font-size:10px;text-align:center;line-height:1.3;">'+intLabels[i]+'</span>';
-    b.onclick = function() { fstWCravingData.intensity=i; document.querySelectorAll('#fstw-intensity-row .int-btn').forEach(function(x){x.classList.remove('selected');}); b.classList.add('selected'); };
+  const intRow=document.getElementById('fstw-intensity-row'); intRow.innerHTML='';
+  const intLabels=['','Passing thought','Noticeable','Real pull','Strong urge','Full body'];
+  for(let i=1;i<=5;i++){
+    const b=document.createElement('button'); b.className='int-btn';
+    b.innerHTML='<span class="int-num">'+i+'</span><span style="font-size:10px;text-align:center;line-height:1.3;">'+intLabels[i]+'</span>';
+    b.onclick=function(){fstWCravingData.intensity=i;document.querySelectorAll('#fstw-intensity-row .int-btn').forEach(function(x){x.classList.remove('selected');});b.classList.add('selected');};
     intRow.appendChild(b);
   }
-  document.getElementById('fstw-intensity-card').style.display = 'none';
+  document.getElementById('fstw-intensity-card').style.display='none';
   showScreen('screen-fstw-craving');
 }
 
 function handleCravingIntensity() {
-  if (!fstWCravingData.substance || !fstWCravingData.intensity) {
-    alert('Please select what you\'re craving and an intensity level.');
-    return;
-  }
-  if (fstWCravingData.intensity <= 2) {
-    saveFSTWLowCraving();
-  } else {
-    showFSTWCravingStrategies();
-  }
+  if(!fstWCravingData.substance||!fstWCravingData.intensity){ alert('Please select what you\'re craving and an intensity level.'); return; }
+  if(fstWCravingData.intensity<=2){ saveFSTWLowCraving(); }
+  else { showFSTWCravingStrategies(); }
 }
 
 async function saveFSTWLowCraving() {
   try {
-    await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
+    await fetch(ENDPOINT,{method:'POST',body:JSON.stringify({
       type:'craving', session_id:fstWCravingData.session_id,
       substance:fstWCravingData.substance, intensity:fstWCravingData.intensity,
       trigger:'', trigger_notes:'', outcome:'logged', strategies_shown:[]
     })});
-  } catch(e) {}
+  } catch(e){}
   goHome();
 }
 
 function showFSTWCravingStrategies() {
-  const list = document.getElementById('fstw-craving-strategy-list'); list.innerHTML = '';
-  fstWShownStrategyIds = [];
-  const shown = getStrategiesForMoment();
-  shown.forEach(function(s) {
-    fstWShownStrategyIds.push(s.id);
-    renderStrategyCard(s, list, null);
-  });
-  document.getElementById('fstw-craving-sub').textContent = fstWCravingData.intensity >= 4
+  buildStrategyList(document.getElementById('fstw-craving-strategy-list'), 'screen-fstw-craving-strategies');
+  document.getElementById('fstw-craving-sub').textContent = fstWCravingData.intensity>=4
     ? 'High intensity — start with breathing or grounding'
     : 'Pick whatever feels accessible right now';
 
-  const helpList = document.getElementById('fstw-craving-helpful-list'); helpList.innerHTML = '';
-  shown.forEach(function(s) {
-    const b = document.createElement('button'); b.className = 'mc-btn'; b.textContent = s.name;
-    b.onclick = function() {
+  const helpList=document.getElementById('fstw-craving-helpful-list'); helpList.innerHTML='';
+  fstWShownStrategyIds.forEach(function(id){
+    const s=STRATEGIES.find(function(x){return x.id===id;});
+    if(!s) return;
+    const b=document.createElement('button'); b.className='mc-btn'; b.textContent=s.name;
+    b.onclick=function(){
       document.querySelectorAll('#fstw-craving-helpful-list .mc-btn').forEach(function(x){x.classList.remove('selected');});
-      b.classList.add('selected'); fstWCravingData.helpful_strategy = s;
+      b.classList.add('selected'); fstWCravingData.helpful_strategy=s;
     };
     helpList.appendChild(b);
   });
-  const none = document.createElement('button'); none.className = 'mc-btn'; none.textContent = 'None of them';
-  none.onclick = function() {
+  const none=document.createElement('button'); none.className='mc-btn'; none.textContent='None of them';
+  none.onclick=function(){
     document.querySelectorAll('#fstw-craving-helpful-list .mc-btn').forEach(function(x){x.classList.remove('selected');});
-    none.classList.add('selected'); fstWCravingData.helpful_strategy = null;
+    none.classList.add('selected'); fstWCravingData.helpful_strategy=null;
   };
   helpList.appendChild(none);
 
   showScreen('screen-fstw-craving-strategies');
 }
 
+function setCravingOutcome(outcome) { fstWCravingData.outcome=outcome; }
+
 async function saveFSTWCraving() {
-  const status = document.getElementById('fstw-craving-save-status');
-  status.innerHTML = '<span class="spinner"></span> Saving...'; status.className = 'status-msg';
+  const status=document.getElementById('fstw-craving-save-status');
+  status.innerHTML='<span class="spinner"></span> Saving...'; status.className='status-msg';
   try {
-    await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
+    await fetch(ENDPOINT,{method:'POST',body:JSON.stringify({
       type:'craving', session_id:fstWCravingData.session_id,
       substance:fstWCravingData.substance, intensity:fstWCravingData.intensity,
-      trigger:'', trigger_notes:'', outcome:'logged',
+      trigger:'', trigger_notes:'', outcome:fstWCravingData.outcome||'logged',
       strategies_shown:fstWShownStrategyIds
     })});
-    if (fstWCravingData.helpful_strategy !== undefined) {
-      const s = fstWCravingData.helpful_strategy;
-      await fetch(ENDPOINT, { method:'POST', body:JSON.stringify({
+    if(fstWCravingData.helpful_strategy!==undefined){
+      const s=fstWCravingData.helpful_strategy;
+      await fetch(ENDPOINT,{method:'POST',body:JSON.stringify({
         type:'strategy_outcome', craving_session_id:fstWCravingData.session_id,
         strategy_id:s?s.id:'none', strategy_name:s?s.name:'none',
         craving_type:fstWCravingData.substance, craving_intensity:fstWCravingData.intensity,
         helpful:s?'Yes':'No'
       })});
     }
-    status.textContent = 'Saved ✓'; status.className = 'status-msg success';
-    setTimeout(goHome, 1000);
-  } catch(err) {
-    status.textContent = 'Could not save — check your connection'; status.className = 'status-msg error';
+    status.textContent='Saved ✓'; status.className='status-msg success';
+    setTimeout(goHome,1000);
+  } catch(err){
+    status.textContent='Could not save — check your connection'; status.className='status-msg error';
   }
 }
 
 // ── Check-in flow ─────────────────────────────────────────────
-function selType(el, type) {
+function selType(el,type){
   document.querySelectorAll('.type-pill').forEach(function(p){p.classList.remove('selected');});
-  el.classList.add('selected'); checkinType = type;
-  document.getElementById('tdesc').textContent = DESCS[type];
+  el.classList.add('selected'); checkinType=type;
+  document.getElementById('tdesc').textContent=DESCS[type];
 }
 
-function startCheckin() {
-  const map = { quick:Q_QUICK, morning:Q_MORNING, midday:Q_MIDDAY, evening:Q_EVENING };
-  questions = map[checkinType]; qIdx=0; answers={}; inFollowup=false;
+function startCheckin(){
+  const map={quick:Q_QUICK,morning:Q_MORNING,midday:Q_MIDDAY,evening:Q_EVENING};
+  questions=map[checkinType]; qIdx=0; answers={}; inFollowup=false;
   showQ(); showScreen('screen-q');
 }
 
-function showQ() {
-  const q = inFollowup ? followupQ : questions[qIdx];
-  document.getElementById('prog').style.width = ((qIdx/questions.length)*100)+'%';
-  document.getElementById('qlabel').textContent = q.label||'';
-  document.getElementById('qtext').textContent  = q.q;
+function showQ(){
+  const q=inFollowup?followupQ:questions[qIdx];
+  document.getElementById('prog').style.width=((qIdx/questions.length)*100)+'%';
+  document.getElementById('qlabel').textContent=q.label||'';
+  document.getElementById('qtext').textContent=q.q;
   const sub=document.getElementById('qsub');   sub.textContent=q.sub||'';   sub.style.display=q.sub?'block':'none';
   const hint=document.getElementById('qhint'); hint.textContent=q.hint||''; hint.style.display=q.hint?'block':'none';
   renderInput(q); updateBtn(q);
 }
 
-function renderInput(q) {
+function renderInput(q){
   const el=document.getElementById('qinput'); el.innerHTML='';
-  if (q.type==='scale') {
+  if(q.type==='scale'){
     const row=document.createElement('div'); row.className='scale-row';
-    for (let i=1;i<=10;i++) {
+    for(let i=1;i<=10;i++){
       const b=document.createElement('button'); b.className='scale-btn'; b.textContent=i;
-      if (answers[q.key]===i) b.classList.add('selected');
+      if(answers[q.key]===i) b.classList.add('selected');
       b.onclick=function(){answers[q.key]=i;document.querySelectorAll('.scale-btn').forEach(function(x){x.classList.remove('selected');});b.classList.add('selected');updateBtn(q);};
       row.appendChild(b);
     }
     el.appendChild(row);
     const lbl=document.createElement('div'); lbl.className='scale-labels';
     lbl.innerHTML='<span>Low</span><span>High</span>'; el.appendChild(lbl);
-  } else if (q.type==='yesno') {
+  } else if(q.type==='yesno'){
     const row=document.createElement('div'); row.className='yesno-row';
     const isGood=q.polarity==='good';
     ['Yes','No'].forEach(function(opt){
       const b=document.createElement('button'); b.className='yn-btn';
       b.textContent=opt==='Yes'?'✓  Yes':'✗  No';
-      if (answers[q.key]===opt) b.classList.add(isGood?(opt==='Yes'?'yn-good-yes':'yn-good-no'):(opt==='Yes'?'yn-neu-yes':'yn-neu-no'));
+      if(answers[q.key]===opt) b.classList.add(isGood?(opt==='Yes'?'yn-good-yes':'yn-good-no'):(opt==='Yes'?'yn-neu-yes':'yn-neu-no'));
       b.onclick=function(){
         answers[q.key]=opt;
         document.querySelectorAll('.yn-btn').forEach(function(x){x.classList.remove('yn-good-yes','yn-good-no','yn-neu-yes','yn-neu-no');});
@@ -1095,29 +987,29 @@ function renderInput(q) {
       row.appendChild(b);
     });
     el.appendChild(row);
-  } else if (q.type==='stepper') {
-    if (stepVals[q.key]===undefined) stepVals[q.key]=q.def!==undefined?q.def:(q.min||0);
+  } else if(q.type==='stepper'){
+    if(stepVals[q.key]===undefined) stepVals[q.key]=q.def!==undefined?q.def:(q.min||0);
     const row=document.createElement('div'); row.className='number-input-row';
     const minus=document.createElement('button'); minus.className='stepper-btn'; minus.textContent='−';
-    const val=document.createElement('div');     val.className='stepper-val';   val.textContent=stepVals[q.key];
-    const plus=document.createElement('button');  plus.className='stepper-btn'; plus.textContent='+';
-    const unit=document.createElement('div');     unit.className='stepper-unit'; unit.textContent=q.unit||'';
+    const val  =document.createElement('div');    val.className='stepper-val';   val.textContent=stepVals[q.key];
+    const plus =document.createElement('button'); plus.className='stepper-btn';  plus.textContent='+';
+    const unit =document.createElement('div');    unit.className='stepper-unit'; unit.textContent=q.unit||'';
     minus.onclick=function(){stepVals[q.key]=Math.max(q.min||0,parseFloat((stepVals[q.key]-(q.step||1)).toFixed(2)));val.textContent=stepVals[q.key];answers[q.key]=stepVals[q.key];};
     plus.onclick =function(){stepVals[q.key]=Math.min(q.max||99,parseFloat((stepVals[q.key]+(q.step||1)).toFixed(2)));val.textContent=stepVals[q.key];answers[q.key]=stepVals[q.key];};
     row.appendChild(minus);row.appendChild(val);row.appendChild(plus);row.appendChild(unit);
     el.appendChild(row); answers[q.key]=stepVals[q.key];
-  } else if (q.type==='notes') {
+  } else if(q.type==='notes'){
     const ta=document.createElement('textarea');
     ta.placeholder='Write anything here...';
     ta.style.cssText='width:100%;height:100px;border:1px solid #e5e5ea;border-radius:10px;padding:10px;font-size:15px;font-family:inherit;resize:none;color:#1c1c1e;background:#fff;';
-    if (answers[q.key]) ta.value=answers[q.key];
+    if(answers[q.key]) ta.value=answers[q.key];
     ta.oninput=function(){answers[q.key]=ta.value;updateBtn(q);};
     el.appendChild(ta); answers[q.key]=answers[q.key]||'';
-  } else if (q.type==='multichoice') {
+  } else if(q.type==='multichoice'){
     const wrap=document.createElement('div'); wrap.className='mc-wrap';
     q.options.forEach(function(opt){
       const b=document.createElement('button'); b.className='mc-btn'; b.textContent=opt;
-      if (answers[q.key]===opt) b.classList.add('selected');
+      if(answers[q.key]===opt) b.classList.add('selected');
       b.onclick=function(){answers[q.key]=opt;document.querySelectorAll('.mc-btn').forEach(function(x){x.classList.remove('selected');});b.classList.add('selected');updateBtn(q);};
       wrap.appendChild(b);
     });
@@ -1125,7 +1017,7 @@ function renderInput(q) {
   }
 }
 
-function updateBtn(q) {
+function updateBtn(q){
   const btn=document.getElementById('btn-next');
   const has=answers[q.key]!==undefined||q.type==='notes';
   btn.classList.toggle('on',has);
@@ -1134,40 +1026,40 @@ function updateBtn(q) {
   btn.textContent=(isLast&&!willFollowup)?'Finish':'Continue';
 }
 
-function nextQ() {
+function nextQ(){
   const q=inFollowup?followupQ:questions[qIdx];
-  if (answers[q.key]===undefined) return;
-  if (inFollowup&&followupQ.followup2&&answers[followupQ.key]!==undefined){followupQ=followupQ.followup2;showQ();return;}
-  if (!inFollowup&&questions[qIdx].followup&&answers[questions[qIdx].key]==='Yes'){inFollowup=true;followupQ=questions[qIdx].followup;showQ();return;}
+  if(answers[q.key]===undefined) return;
+  if(inFollowup&&followupQ.followup2&&answers[followupQ.key]!==undefined){followupQ=followupQ.followup2;showQ();return;}
+  if(!inFollowup&&questions[qIdx].followup&&answers[questions[qIdx].key]==='Yes'){inFollowup=true;followupQ=questions[qIdx].followup;showQ();return;}
   inFollowup=false;followupQ=null;
-  if (qIdx<questions.length-1){qIdx++;showQ();}else{showSummary();}
+  if(qIdx<questions.length-1){qIdx++;showQ();}else{showSummary();}
 }
 
-function prevQ() {
-  if (inFollowup){inFollowup=false;followupQ=null;showQ();return;}
-  if (qIdx>0){qIdx--;showQ();}else showScreen('screen-start');
+function prevQ(){
+  if(inFollowup){inFollowup=false;followupQ=null;showQ();return;}
+  if(qIdx>0){qIdx--;showQ();}else showScreen('screen-start');
 }
 
-function skipQ() {
+function skipQ(){
   inFollowup=false;followupQ=null;
-  if (qIdx<questions.length-1){qIdx++;showQ();}else showSummary();
+  if(qIdx<questions.length-1){qIdx++;showQ();}else showSummary();
 }
 
-function showSummary() {
+function showSummary(){
   document.getElementById('done-date').textContent=formatDateTime();
   const moodKeys=[{k:'mood',l:'Mood'},{k:'energy',l:'Energy'},{k:'anxiety',l:'Anxiety'},{k:'focus',l:'Focus'}];
   const grid=document.getElementById('sum-mood'); grid.innerHTML='';
   moodKeys.forEach(function(item){
-    if (answers[item.k]!==undefined) grid.innerHTML+='<div class="sum-card"><div class="sum-label">'+item.l+'</div><div class="sum-val">'+answers[item.k]+'/10</div></div>';
+    if(answers[item.k]!==undefined) grid.innerHTML+='<div class="sum-card"><div class="sum-label">'+item.l+'</div><div class="sum-val">'+answers[item.k]+'/10</div></div>';
   });
   const secs=[
     {t:'Sleep',items:[{k:'sleep',l:'Sleep',fmt:function(v){return v+' hrs';},pol:'n'}]},
     {t:'Meds',items:[
-      {k:'fluoxetine',      l:'Fluoxetine 40mg',  fmt:function(v){return v;},pol:'good'},
-      {k:'ritalin',         l:'Ritalin (morning)', fmt:function(v){return v+(answers.ritalin_mg?' — '+answers.ritalin_mg+'mg':'');},pol:'n'},
-      {k:'ritalin_midday',  l:'Ritalin (midday)',  fmt:function(v){return v+(answers.ritalin_midday_mg?' — '+answers.ritalin_midday_mg+'mg':'');},pol:'n'},
-      {k:'sleep_aid',       l:'Sleep aid',         fmt:function(v){return v;},pol:'n'},
-      {k:'sleep_aid_detail',l:'Sleep aid detail',  fmt:function(v){return v;},pol:'n'},
+      {k:'fluoxetine',      l:'Fluoxetine 40mg', fmt:function(v){return v;},pol:'good'},
+      {k:'ritalin',         l:'Ritalin (morning)',fmt:function(v){return v+(answers.ritalin_mg?' — '+answers.ritalin_mg+'mg':'');},pol:'n'},
+      {k:'ritalin_midday',  l:'Ritalin (midday)', fmt:function(v){return v+(answers.ritalin_midday_mg?' — '+answers.ritalin_midday_mg+'mg':'');},pol:'n'},
+      {k:'sleep_aid',       l:'Sleep aid',        fmt:function(v){return v;},pol:'n'},
+      {k:'sleep_aid_detail',l:'Sleep aid detail', fmt:function(v){return v;},pol:'n'},
     ]},
     {t:'Activity & creativity',items:[
       {k:'exercise_morning',l:'Morning exercise',fmt:function(v){return v;},pol:'good'},
@@ -1178,8 +1070,8 @@ function showSummary() {
       {k:'music',           l:'Created music',   fmt:function(v){return v;},pol:'good'},
     ]},
     {t:'Commitments & social',items:[
-      {k:'attended_social', l:'Attended social event',      fmt:function(v){return v;},pol:'good'},
-      {k:'attended_class',  l:'Attended class/volunteering',fmt:function(v){return v;},pol:'good'},
+      {k:'attended_social',l:'Attended social event',       fmt:function(v){return v;},pol:'good'},
+      {k:'attended_class', l:'Attended class/volunteering', fmt:function(v){return v;},pol:'good'},
     ]},
     {t:'Habits',items:[
       {k:'avoided_alcohol', l:'Avoided alcohol', fmt:function(v){return v;},pol:'good'},
@@ -1195,11 +1087,11 @@ function showSummary() {
   let html='';
   secs.forEach(function(sec){
     const rows=sec.items.filter(function(i){return answers[i.k]!==undefined;});
-    if (!rows.length) return;
+    if(!rows.length) return;
     html+='<div class="sum-sec">'+sec.t+'</div>';
     rows.forEach(function(item){
       const v=answers[item.k]; let cls='c-n';
-      if (item.pol==='good') cls=v==='Yes'?'c-yes':'c-no';
+      if(item.pol==='good') cls=v==='Yes'?'c-yes':'c-no';
       html+='<div class="sum-row"><span class="sum-row-lbl">'+item.l+'</span><span class="'+cls+'">'+item.fmt(v)+'</span></div>';
     });
   });
@@ -1208,37 +1100,27 @@ function showSummary() {
   saveCheckin();
 }
 
-async function saveCheckin() {
+async function saveCheckin(){
   const status=document.getElementById('save-status');
   status.innerHTML='<span class="spinner"></span> Saving...'; status.className='status-msg';
   const notes=answers.notes||'';
   const metrics=Object.fromEntries(Object.entries(answers).filter(function(e){return e[0]!=='notes';}));
   const payload={type:'checkin',checkin_type:checkinType,session_id:genSessionId(),metrics,notes};
-  if (checkinType==='evening'&&answers.avoided_cannabis==='No') resetCannabisCounter();
-  if (checkinType==='evening'&&answers.avoided_alcohol==='No')  resetAlcoholCounter();
-  try {
+  if(checkinType==='evening'&&answers.avoided_cannabis==='No') resetCannabisCounter();
+  if(checkinType==='evening'&&answers.avoided_alcohol==='No')  resetAlcoholCounter();
+  try{
     await fetch(ENDPOINT,{method:'POST',body:JSON.stringify(payload)});
     updateStreak();
     status.textContent='Saved to Google Sheets ✓'; status.className='status-msg success';
-  } catch(err) {
+  } catch(err){
     status.textContent='Could not save — check your connection'; status.className='status-msg error';
   }
 }
 
 // ── Entry point ───────────────────────────────────────────────
 const urlParams=new URLSearchParams(window.location.search);
-if (urlParams.get('mode')==='craving') {
-  showFSTWCraving();
-} else {
-  initHome();
-}
-
-// Wire up better now screen to populate data
-document.getElementById('screen-fstw').addEventListener('click', function(){}, false);
-// Better now button wires
-document.querySelectorAll('[onclick="showScreen(\'screen-fstw-better\')"]').forEach(function(el){
-  el.onclick = showFSTWBetter;
-});
+if(urlParams.get('mode')==='craving'){ showFSTWCraving(); }
+else { initHome(); }
 </script>
 </body>
 </html>
